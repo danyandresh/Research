@@ -10,20 +10,24 @@
     <legend>BlogPost</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
+        @Html.DisplayNameFor(model => model.Title)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Title)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Content)
+        @Html.DisplayNameFor(model => model.Content)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Content)
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @if (@User.HasActionPermission(Request.RequestContext, "Edit")){
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        @:|       
+    }
+
     @Html.ActionLink("Back to List", "Index")
 </p>

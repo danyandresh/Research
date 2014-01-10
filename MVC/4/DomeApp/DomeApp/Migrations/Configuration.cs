@@ -1,12 +1,9 @@
 namespace DomeApp.Migrations
 {
     using DomeApp.Models;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DomeApp.Models.DomeAppContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DomeAppContext>
     {
         public Configuration()
         {
@@ -14,7 +11,7 @@ namespace DomeApp.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DomeApp.Models.DomeAppContext context)
+        protected override void Seed(DomeAppContext context)
         {
             context.BlogPosts.AddOrUpdate(r => r.Title,
                                 new BlogPost { Title = "Postul 34", Content = "Lorem impsum dolor sit a met" },
@@ -81,6 +78,9 @@ namespace DomeApp.Migrations
                 new BlogPost { Title = "Postul 47", Content = "Lorem impsum dolor sit a met" },
                 new BlogPost { Title = "Postul 53", Content = "Lorem impsum dolor sit a met" }
                 );
+
         }
+
+        
     }
 }

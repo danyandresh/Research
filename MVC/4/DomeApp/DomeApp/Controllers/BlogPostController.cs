@@ -29,7 +29,8 @@ namespace DomeApp.Controllers
             return Json(db.Query<BlogPost>().Where(searchPosts).Take(10).Select(p => new { label = p.Title }), JsonRequestBehavior.AllowGet);
         }
 
-        [OutputCache(CacheProfile = "reader")]
+        // TODO Implement caching depending on whether the user is logged in or not
+        //[OutputCache(CacheProfile = "reader")]
         public ActionResult Index(string search = null, int toPage = 1, int pageSize = 0)
         {
             if (pageSize == 0)
@@ -58,7 +59,8 @@ namespace DomeApp.Controllers
 
             return View(blogpost);
         }
-
+        
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
             return View();
@@ -66,6 +68,7 @@ namespace DomeApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create(BlogPost blogpost)
         {
             if (ModelState.IsValid)
@@ -77,7 +80,8 @@ namespace DomeApp.Controllers
 
             return View(blogpost);
         }
-
+        
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);
@@ -90,6 +94,7 @@ namespace DomeApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(BlogPost blogpost)
         {
             if (ModelState.IsValid)
@@ -102,6 +107,7 @@ namespace DomeApp.Controllers
             return View(blogpost);
         }
 
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);
@@ -115,6 +121,7 @@ namespace DomeApp.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);

@@ -37,8 +37,9 @@ namespace DomeApp
 
             if(!WebSecurity.Initialized)
             {
-                //WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfiles",)
+                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             }
+
         }
     }
 }
