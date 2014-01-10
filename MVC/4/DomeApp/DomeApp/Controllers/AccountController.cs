@@ -15,7 +15,7 @@ namespace DomeApp.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         //
         // GET: /Account/Login
@@ -54,7 +54,7 @@ namespace DomeApp.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectHome();
         }
 
         //
@@ -81,7 +81,7 @@ namespace DomeApp.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectHome();
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -337,7 +337,7 @@ namespace DomeApp.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectHome();
             }
         }
 

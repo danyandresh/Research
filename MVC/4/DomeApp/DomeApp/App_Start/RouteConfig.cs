@@ -14,13 +14,19 @@ namespace DomeApp
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Home",
-                url: "Home",
-                defaults: new { controller = "BlogPost", action = "Index"}
+                name: "About",
+                url: "about",
+                defaults: new { controller = "Home", action = "About"}
             );
 
             routes.MapRoute(
-                name: "Default",
+                name: "Contact",
+                url: "contact",
+                defaults: new { controller = "Home", action = "Contact", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "LandingPage",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "BlogPost", action = "Index", id = UrlParameter.Optional }
             );

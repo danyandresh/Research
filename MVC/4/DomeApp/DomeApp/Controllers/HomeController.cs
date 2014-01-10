@@ -2,13 +2,8 @@
 
 namespace DomeApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
-        public ActionResult Index()
-        {
-            return RedirectToAction("Index", "BlogPost");
-        }
-
         public ActionResult About()
         {
             ViewBag.Message = "This is a MVC4 research and study project.";
