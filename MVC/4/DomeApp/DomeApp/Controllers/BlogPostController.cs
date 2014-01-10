@@ -13,11 +13,13 @@ namespace DomeApp.Controllers
 {
     public class BlogPostController : ControllerBase
     {
-        public BlogPostController():base()
+        public BlogPostController()
+            : base()
         {
         }
 
-        public BlogPostController(IRepository repository):base(repository)
+        public BlogPostController(IRepository repository)
+            : base(repository)
         {
         }
 
@@ -35,31 +37,21 @@ namespace DomeApp.Controllers
             return Json(db.Query<BlogPost>().Where(searchPosts).Take(10).Select(p => new { label = p.Title }), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Pages(string search)
+        [OutputCache(CacheProfile = "reader")]
+        public ActionResult Index(string search = null, int toPage = 1, int pageSize = 0)
         {
-            var pageSize = 1;
-            Func<BlogPost, bool> searchPosts = (p) => true;
-            if (!string.IsNullOrEmpty(search))
+            if (pageSize == 0)
             {
-                searchPosts = (p) => p.Title.Contains(search);
+                pageSize = Properties.Settings.Default.PageSize;
             }
 
-            var posts = db.Query<BlogPost>().Where(searchPosts);
-            var pageCount = Math.Floor(1m + (decimal)(posts.Count() / pageSize));
-            return Json(new { previous = false, total = pageCount, next = true }, JsonRequestBehavior.AllowGet);
-        }
-
-        [OutputCache(CacheProfile = "reader")]
-        public ActionResult Index(string search = null, int page = 1)
-        {
-            int pageSize = 6;
             Func<BlogPost, bool> searchPosts = (p) => true;
             if (!string.IsNullOrEmpty(search))
             {
                 searchPosts = (p) => p.Title.Contains(search) || p.Content.Contains(search);
             }
 
-            var model = db.Query<BlogPost>().Where(searchPosts).AsQueryable().ToPagedList(page, pageSize).ToList();
+            var model = db.Query<BlogPost>().Where(searchPosts).AsQueryable().ToPagedList(pageSize, toPage);
 
             return Request.IsAjaxRequest() ? (ActionResult)PartialView("PostSummary", model) : (ActionResult)View(model);
         }

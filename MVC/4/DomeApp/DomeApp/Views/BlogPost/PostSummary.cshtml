@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DomeApp.Models.BlogPost>
+﻿@model PagedList<BlogPost>
 
 
 <div id="posts">
@@ -15,5 +15,6 @@
         </div>
     }
 
+    @Html.Partial("Pager", Model)
 </div>
 

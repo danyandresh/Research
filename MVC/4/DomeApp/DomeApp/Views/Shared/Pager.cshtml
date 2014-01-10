@@ -1,0 +1,15 @@
+﻿@model IPagedList
+
+<div class="pager" data-domeapp-target="#posts" data-domeapp-pager="@Url.Action("Index")">
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("Previous page", "Index", new { toPage = Model.CurrentPage - 1 }, new { @class = "pager" })
+    }
+
+    Page @Model.CurrentPage of @Model.TotalPages
+
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next page", "Index", new { toPage = Model.CurrentPage + 1 }, new { @class = "pager" })
+    }
+</div>
