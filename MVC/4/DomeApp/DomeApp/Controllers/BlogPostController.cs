@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using DomeApp.Models;
-using DomeApp.Extensions;
-using System.Web.UI;
+using DomeApp.Code.Paging;
 
 namespace DomeApp.Controllers
 {

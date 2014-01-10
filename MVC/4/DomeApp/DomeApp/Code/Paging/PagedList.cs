@@ -1,23 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
-namespace DomeApp.Extensions
+namespace DomeApp.Code.Paging
 {
-    public interface IPagedList
-    {
-        int TotalPages { get; }
-
-        int CurrentPage { get; set; }
-
-        int PageSize { get; set; }
-
-        bool HasNextPage { get; }
-
-        bool HasPreviousPage { get; }
-    }
-
     public class PagedList<T> : IEnumerable<T>, IPagedList
     {
         private IQueryable<T> source;
@@ -100,14 +85,6 @@ namespace DomeApp.Extensions
             this.source = source;
             this.PageSize = pageSize;
             this.CurrentPage = currentPage;
-        }
-    }
-
-    public static class PagingExtensions
-    {
-        public static PagedList<T> ToPagedList<T>(this IQueryable<T> source, int pageSize, int currentPage = 1)
-        {
-            return new PagedList<T>(source, pageSize, currentPage);
         }
     }
 }
