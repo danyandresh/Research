@@ -23,9 +23,6 @@ namespace DomeApp.Controllers
         {
         }
 
-        //
-        // GET: /BlgoPost/
-
         public ActionResult Autocomplete(string term)
         {
             Func<BlogPost, bool> searchPosts = (p) => true;
@@ -56,9 +53,6 @@ namespace DomeApp.Controllers
             return Request.IsAjaxRequest() ? (ActionResult)PartialView("PostSummary", model) : (ActionResult)View(model);
         }
 
-        //
-        // GET: /BlgoPost/Details/5
-
         public ActionResult Details(int id = 0)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);
@@ -66,19 +60,14 @@ namespace DomeApp.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(blogpost);
         }
-
-        //
-        // GET: /BlgoPost/Create
 
         public ActionResult Create()
         {
             return View();
         }
-
-        //
-        // POST: /BlgoPost/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -94,9 +83,6 @@ namespace DomeApp.Controllers
             return View(blogpost);
         }
 
-        //
-        // GET: /BlgoPost/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);
@@ -106,9 +92,6 @@ namespace DomeApp.Controllers
             }
             return View(blogpost);
         }
-
-        //
-        // POST: /BlgoPost/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -124,9 +107,6 @@ namespace DomeApp.Controllers
             return View(blogpost);
         }
 
-        //
-        // GET: /BlgoPost/Delete/5
-
         public ActionResult Delete(int id = 0)
         {
             BlogPost blogpost = db.Query<BlogPost>().First(e => e.Id == id);
@@ -137,9 +117,6 @@ namespace DomeApp.Controllers
 
             return View(blogpost);
         }
-
-        //
-        // POST: /BlgoPost/Delete/5
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
