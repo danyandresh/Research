@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DomeApp.Models.BlogPost>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@*<form method="get">
+        <input type="text" name="search"/>
+        <input type="submit" title="Search"/>
+    </form>*@
+
+@*@using (Ajax.BeginForm(new AjaxOptions
+    {
+        HttpMethod = "get",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "posts"
+    }))
+    {
+        <input type="text" name="search" />
+        <input type="submit" title="Search" />
+    }*@
+
+<form method="get" action="@Url.Action("Index")"
+      data-dome-ajax="true" data-dome-target="#posts">
+    <input type="text" name="search" data-dome-autocomplete="@Url.Action("Autocomplete")" />
+    <input type="submit" value="@DomeApp.Views.Resources.search" />
+</form>
+
+@Html.Partial("PostSummary", Model)
+
+<div class="pager" data-domeapp-target="#posts" data-domeapp-pager="@Url.Action("Pages")">
+    @{int page = 1;}
+    @Html.ActionLink("Next page", "Index", new { page = page + 1 }, new { @class = "pager" })
+</div>
