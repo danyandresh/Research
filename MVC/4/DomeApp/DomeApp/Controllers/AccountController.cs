@@ -16,7 +16,16 @@ namespace DomeApp.Controllers
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : ControllerBase
-    {
+    {        
+        public AccountController():base()
+        {
+        }
+
+        public AccountController(IRepository repository)
+            : base(repository)
+        {
+        }
+
         //
         // GET: /Account/Login
 

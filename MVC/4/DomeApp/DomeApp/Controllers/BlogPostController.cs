@@ -11,18 +11,14 @@ using System.Web.UI;
 
 namespace DomeApp.Controllers
 {
-    public class BlogPostController : Controller
+    public class BlogPostController : ControllerBase
     {
-        private IRepository db;
-
-        public BlogPostController()
-            : this(new DomeAppContext())
+        public BlogPostController():base()
         {
         }
 
-        public BlogPostController(IRepository repository)
+        public BlogPostController(IRepository repository):base(repository)
         {
-            db = repository;
         }
 
         //
@@ -163,10 +159,5 @@ namespace DomeApp.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }
