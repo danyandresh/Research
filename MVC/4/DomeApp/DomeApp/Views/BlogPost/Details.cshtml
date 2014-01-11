@@ -4,30 +4,22 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="display-title">
+    <h3>
+        @Html.DisplayFor(m => m.Title)
+    </h3>
+</div>
 
-<fieldset>
-    <legend>BlogPost</legend>
+<div class="display-area">
+    @Html.DisplayFor(m => m.Content)
+</div>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Content)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Content)
-    </div>
-</fieldset>
-<p>
-    @if (@User.HasActionPermission(Request.RequestContext, "Edit")){
+<div class="display-actions">
+    @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+    {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-        @:|       
+        @:|
     }
 
     @Html.ActionLink("Back to List", "Index")
-</p>
+</div>

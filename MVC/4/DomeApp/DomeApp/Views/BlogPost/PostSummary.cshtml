@@ -5,16 +5,24 @@
     @foreach (var item in Model)
     {
         <div>
-            <div>@Html.DisplayFor(modelItem => item.Title)</div>
-            <div>@Html.DisplayFor(modelItem => item.Content)</div>
-            <div>
+            <div class="display-title">
+                <h3>
+                    @Html.DisplayFor(m => item.Title)
+                </h3>
+            </div>
+
+            <div class="display-area">
+                @{var excerpt = item.Content.GetExcerpt() + " [...] ";}
+                @Html.DisplayFor(m => excerpt)
+            </div>
+            <div class="display-actions">
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @:|
                 }
 
-                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @Html.ActionLink("Read Further", "Details", new { id = item.Id })
 
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                 {

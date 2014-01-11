@@ -191,6 +191,7 @@
     <Compile Include="Code\Paging\PagedList.cs" />
     <Compile Include="Code\Paging\PagingExtensions.cs" />
     <Compile Include="Code\SecurityExtensions.cs" />
+    <Compile Include="Code\TextExtensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogPostController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
@@ -217,6 +218,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\domeapp.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
