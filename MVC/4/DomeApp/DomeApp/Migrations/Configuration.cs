@@ -9,6 +9,7 @@ namespace DomeApp.Migrations
         {
             // Kee this false on deployment
             AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(DomeAppContext context)
