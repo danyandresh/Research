@@ -8,13 +8,22 @@
             <div>@Html.DisplayFor(modelItem => item.Title)</div>
             <div>@Html.DisplayFor(modelItem => item.Content)</div>
             <div>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @:|
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+
+                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                {
+                    @:|
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
             </div>
         </div>
     }
 
     @Html.Partial("Pager", Model)
 </div>
-
