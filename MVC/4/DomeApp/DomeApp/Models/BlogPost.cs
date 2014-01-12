@@ -15,6 +15,11 @@ namespace DomeApp.Models
         public string Title { get; set; }
 
         [AllowHtml]
+        [Required(ErrorMessageResourceType = typeof(DomeApp.Views.Resources), ErrorMessageResourceName = "postExcerptRequired")]
+        public string Excerpt { get; set; }
+
+        [AllowHtml]
+        [Required(ErrorMessageResourceType = typeof(DomeApp.Views.Resources), ErrorMessageResourceName = "postContentRequired")]
         public string Content { get; set; }
     }
 }

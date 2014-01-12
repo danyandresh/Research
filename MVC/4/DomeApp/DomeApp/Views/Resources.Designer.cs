@@ -61,7 +61,25 @@ namespace DomeApp.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BlogPost title is required.
+        ///   Looks up a localized string similar to Content is required.
+        /// </summary>
+        public static string postContentRequired {
+            get {
+                return ResourceManager.GetString("postContentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excerpt is required.
+        /// </summary>
+        public static string postExcerptRequired {
+            get {
+                return ResourceManager.GetString("postExcerptRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title is required.
         /// </summary>
         public static string postTitleRequired {
             get {

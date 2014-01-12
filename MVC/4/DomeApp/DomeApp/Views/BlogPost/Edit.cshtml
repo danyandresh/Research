@@ -6,11 +6,12 @@
 
 <h2>Edit</h2>
 
+@{var editorAreaAttributes = new { @class = "expandableTextarea", rows = 20, columns = 20 };}
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
     <fieldset>
         <legend>BlogPost</legend>
 
@@ -25,10 +26,18 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.Excerpt)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Excerpt, editorAreaAttributes)
+            @Html.ValidationMessageFor(model => model.Excerpt)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.Content)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Content, new { @class = "expandableTextarea" })
+            @Html.TextAreaFor(model => model.Content, editorAreaAttributes)
             @Html.ValidationMessageFor(model => model.Content)
         </div>
 

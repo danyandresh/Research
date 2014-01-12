@@ -12,8 +12,8 @@
             </div>
 
             <div class="display-area">
-                @{var excerpt = item.Content.GetExcerpt() + " [...] ";}
-                @Html.DisplayFor(m => excerpt)
+                @item.Excerpt.ToSafeMarkdown()
+                [...]
             </div>
             <div class="display-actions">
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))

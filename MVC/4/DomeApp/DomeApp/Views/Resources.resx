@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="postContentRequired" xml:space="preserve">
+    <value>Content is required</value>
+  </data>
+  <data name="postExcerptRequired" xml:space="preserve">
+    <value>Excerpt is required</value>
+  </data>
   <data name="postTitleRequired" xml:space="preserve">
-    <value>BlogPost title is required</value>
+    <value>Title is required</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Search</value>

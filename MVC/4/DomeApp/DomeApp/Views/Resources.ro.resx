@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="postContentRequired" xml:space="preserve">
+    <value>Conținutul este necesar</value>
+  </data>
+  <data name="postExcerptRequired" xml:space="preserve">
+    <value>Abstractul este necesar</value>
+  </data>
   <data name="postTitleRequired" xml:space="preserve">
-    <value>Titlul postării este obligatoriu</value>
+    <value>Titlul este necesar</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Caută</value>
