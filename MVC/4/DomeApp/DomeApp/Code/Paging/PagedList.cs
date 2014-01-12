@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DomeApp.Code.Paging
@@ -11,7 +12,9 @@ namespace DomeApp.Code.Paging
         {
             get
             {
-                return (int)(1 + source.Count() / PageSize);
+                var pages = (int)decimal.Ceiling(source.Count() / (decimal)PageSize);
+
+                return pages;
             }
         }
 
@@ -62,7 +65,8 @@ namespace DomeApp.Code.Paging
             var query = source;
             if (CurrentPage > 1)
             {
-                query = query.Skip(CurrentPage * PageSize);
+                var skipRecords = Math.Max(0, CurrentPage - 1) * PageSize;
+                query = query.Skip(skipRecords);
             }
 
             return query.Take(PageSize).GetEnumerator();
