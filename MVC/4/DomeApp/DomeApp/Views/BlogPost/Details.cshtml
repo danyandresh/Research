@@ -23,3 +23,11 @@
 
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div id="postComments">
+    @Html.Action("CommentsByPost", "Comment", new { postId = Model.Id })
+
+    <p> Create a comment:</p>
+    @Html.Action("Create", "Comment", new { postId = Model.Id })
+</div>
+

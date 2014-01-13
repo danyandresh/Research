@@ -21,5 +21,7 @@ namespace DomeApp.Models
         [AllowHtml]
         [Required(ErrorMessageResourceType = typeof(DomeApp.Views.Resources), ErrorMessageResourceName = "postContentRequired")]
         public string Content { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

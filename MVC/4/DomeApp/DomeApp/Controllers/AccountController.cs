@@ -34,8 +34,8 @@ namespace DomeApp.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             WebSecurity.Logout();

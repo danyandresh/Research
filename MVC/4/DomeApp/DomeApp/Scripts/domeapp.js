@@ -60,4 +60,6 @@
     $("input[data-dome-autocomplete]").each(createAutocomplete);
 
     $("section.main-content").on("click", ".pager a", getPage);
+
+    $("form[data-dome-resultreplacestarget='true']").submit(ajaxRequest);
 })

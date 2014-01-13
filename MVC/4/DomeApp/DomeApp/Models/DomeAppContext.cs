@@ -20,8 +20,6 @@ namespace DomeApp.Models
         {
         }
 
-        public DbSet<BlogPost> BlogPosts { get; set; }
-
         public IQueryable<T> Query<T>() where T : class
         {
             return Set<T>();
@@ -46,5 +44,17 @@ namespace DomeApp.Models
         {
             base.SaveChanges();
         }
+
+        public DbSet<BlogPost> BlogPosts { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+    }
+
+    public class DummyContext : DbContext
+    {
+        public DummyContext()
+            : base("name=DefaultConnection")
+        {
+        }        
     }
 }

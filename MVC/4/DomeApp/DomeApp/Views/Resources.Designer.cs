@@ -63,6 +63,15 @@ namespace DomeApp.Views {
         /// <summary>
         ///   Looks up a localized string similar to Content is required.
         /// </summary>
+        public static string commentContentRequired {
+            get {
+                return ResourceManager.GetString("commentContentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content is required.
+        /// </summary>
         public static string postContentRequired {
             get {
                 return ResourceManager.GetString("postContentRequired", resourceCulture);

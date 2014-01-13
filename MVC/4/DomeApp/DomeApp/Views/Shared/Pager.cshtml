@@ -1,15 +1,21 @@
-﻿@model IPagedList
+﻿@model Tuple<IPagedList, string, string>
 
-<div class="pager" data-domeapp-target="#posts" data-domeapp-pager="@Url.Action("Index")">
-    @if (Model.HasPreviousPage)
+@{
+    var pagedList = Model.Item1;
+    var navigatePage = Model.Item2;
+    var updateTarget = Model.Item3;
+}
+
+<div class="pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
+    @if (pagedList.HasPreviousPage)
     {
-        @Html.ActionLink("Previous page", "Index", new { toPage = Model.CurrentPage - 1 }, new { @class = "pager" })
+        @Html.ActionLink("Previous page", navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { @class = "pager" })
     }
 
-    Page @Model.CurrentPage of @Model.TotalPages
+    Page @pagedList.CurrentPage of @pagedList.TotalPages
 
-    @if (Model.HasNextPage)
+    @if (pagedList.HasNextPage)
     {
-        @Html.ActionLink("Next page", "Index", new { toPage = Model.CurrentPage + 1 }, new { @class = "pager" })
+        @Html.ActionLink("Next page", navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { @class = "pager" })
     }
 </div>

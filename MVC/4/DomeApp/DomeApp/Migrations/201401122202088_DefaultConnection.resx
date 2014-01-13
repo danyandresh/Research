@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="commentContentRequired" xml:space="preserve">
-    <value>Content is required</value>
-  </data>
-  <data name="postContentRequired" xml:space="preserve">
-    <value>Content is required</value>
-  </data>
-  <data name="postExcerptRequired" xml:space="preserve">
-    <value>Excerpt is required</value>
-  </data>
-  <data name="postTitleRequired" xml:space="preserve">
-    <value>Title is required</value>
-  </data>
-  <data name="search" xml:space="preserve">
-    <value>Search</value>
+  <data name="Target" xml:space="preserve">
+    <value>H4sIAAAAAAAEAN1YzW7bRhC+F+g7EHtqD9HaTg6pQSVwJLswWtlG6OS+IkfyovvDcpeG9Gw59JH6Cp3lz4paUTJtx4HRG7mc+eb/45D/fvsn/riSIrqHwnCtxuR4dEQiUKnOuFqOSWkXb96Tjx9+/ik+z+Qq+trKvXVyqKnMmNxZm59SatI7kMyMJE8LbfTCjlItKcs0PTk6+o0eH1NACIJYURR/LpXlEqobvJ1olUJuSyZmOgNhmnN8klSo0RWTYHKWwphMtYSzPB/VkiQ6E5yhFwmIBYnyd6dfDCS20GqZ5MxyJm7XOeDzBRMGGp9P83dD3T46cW5TppS2CKfVk8ImPiAM6RxDt2vnVhXWmHwSenmjje1KodwfsN46wKObQudQ2PVnWDS6lxmJ6LYeDRW9WkfHmccrZd+ekOiqFILNBfgsYRoTqwv4HRQUzEJ2w6yFQjldqNzfsRrYuOVWQGsG64HtRKILvoLsT1BLe+dNzdiqPcFLEn1RHLsPlWxRQo9rh82er1IocvvjDWMHW8zMSxuO6aZ7DvbUREvp/PkftdSrSLFzgnEMoXGqYaPKt1WY7lolARsMOrLWxkZNXSNPAmEWQpCmsn0YbdF74/Geb8iV1uzasjDdQ8PxjOU55rpDy81JlNScPHmTPJ4XZY1BU9NDj95bbwmbhy0heOrSkcEFL4ydMsvmzFVzkskdsWF1ao2F5QqHZpP5VsNdb3VE834a9ZN7N4kXGJcrWxUieF/2vRca5SRlghU9YzjRopRq3ygf0m44uwvQHA3H8ATcRfGHw3H8sHdx/OEuTkyDbIYlozs1CygubIJBLeKH8Rkd0kvVgxpkr+bL9MerqskOrYUi3rqnt4DG4oZSHl45dzimFiERJuieZ45fkrWxIEdOYJT8LSaCV0lpBWZM8QUYe6v/AnzlIQW+DzbXJ2yV1JhMvNbVkrvwH3zjP3LL2toq1T0r0jtW/CLZ6tfnborPAwtWk8eAvf6N7kUq+WIZCxe03f1g2I52cEWr539MsrnGCGpPO8vdsA3u0ALXZ2Cz+D1xvdvlu5h2P8TjKRi+3EC4z3IFqfvq3YC2MpdqoduaYmhdj1qRoOQzsCzDIpwVli9YavFxCsZUS/xXJko3lHIO2aW6Lm1e2jNjQM7F1ndBTA/br3bYbZ/j69zdme8RArrJMQS4Vp9KLjLv90VPl+6BcP3YzBF6hR8xCLdce6QrrQYCNembQg7KTeEtyFwgmLlWCbuH/b49nMPtjMVTzpYFk6bB2Oi7/0LU/Rj68B+uWas4ShIAAA==</value>
   </data>
 </root>

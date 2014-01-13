@@ -15,6 +15,9 @@
                 @item.Excerpt.ToSafeMarkdown()
                 [...]
             </div>
+
+            @((item.Comments ?? Enumerable.Empty<Comment>()).Count()) comments
+
             <div class="display-actions">
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                 {
@@ -33,5 +36,5 @@
         </div>
     }
 
-    @Html.Partial("Pager", Model)
+    @Html.Partial("Pager", new Tuple<IPagedList, string,string>(Model, "Index", "posts"))
 </div>

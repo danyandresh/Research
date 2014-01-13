@@ -31,5 +31,14 @@ namespace DomeApp.Properties {
                 return ((int)(this["PageSize"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int CommentsPageSize {
+            get {
+                return ((int)(this["CommentsPageSize"]));
+            }
+        }
     }
 }

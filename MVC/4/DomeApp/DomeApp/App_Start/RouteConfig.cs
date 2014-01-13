@@ -16,13 +16,19 @@ namespace DomeApp
             routes.MapRoute(
                 name: "About",
                 url: "about",
-                defaults: new { controller = "Home", action = "About"}
+                defaults: new { controller = "Home", action = "About" }
             );
 
             routes.MapRoute(
                 name: "Contact",
                 url: "contact",
                 defaults: new { controller = "Home", action = "Contact", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Comments",
+                url: "comment/{action}/{postId}/{commentId}",
+                defaults: new { controller = "Comment", action = "Index", postId = UrlParameter.Optional, commentId = UrlParameter.Optional }
             );
 
             routes.MapRoute(

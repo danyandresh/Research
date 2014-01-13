@@ -11,5 +11,15 @@ namespace DomeApp.Code.Paging
         {
             return new PagedList<T>(source, pageSize, currentPage);
         }
+
+        public static PagedList<T> MoveLastPage<T>(this PagedList<T> source)
+        {
+            while(source.HasNextPage)
+            {
+                source.MoveNextPage();
+            }
+
+            return source;
+        }
     }
 }

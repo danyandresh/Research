@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DomeApp.Code.Paging
 {
@@ -16,6 +17,12 @@ namespace DomeApp.Code.Paging
 
                 return pages;
             }
+        }
+
+        public int PageSize
+        {
+            get;
+            set;
         }
 
         public int CurrentPage
@@ -60,6 +67,11 @@ namespace DomeApp.Code.Paging
             CurrentPage -= 1;
         }
 
+        public PagedList<T> TakeFrom(Expression<Func<T, bool>> predicate)
+        {
+            return source.SkipWhile(predicate).ToPagedList(PageSize);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             var query = source;
@@ -69,18 +81,12 @@ namespace DomeApp.Code.Paging
                 query = query.Skip(skipRecords);
             }
 
-            return query.Take(PageSize).GetEnumerator();
+            return query.Take(PageSize).ToList().GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        public int PageSize
-        {
-            get;
-            set;
         }
 
         public PagedList(IQueryable<T> source, int pageSize, int currentPage)

@@ -1,0 +1,30 @@
+﻿@model Tuple<BlogPost, PagedList<Comment>>
+
+@{var pagedList = Model.Item2;
+var post = Model.Item1;}
+
+<div id="comments">
+    @foreach (var item in pagedList)
+    {
+        <div class="comment-details">
+            <div class="comment-details">
+                /*todo: implement user*/ commented at /*Implement comment date*/
+            </div>
+
+            <div id="comment-@item.Id" class="display-area">
+                @item.Content.ToSafeMarkdown()
+            </div>
+
+            <div>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
+        </div>
+    }
+
+    <p>
+        Paging
+    </p>
+
+    @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
+</div>
