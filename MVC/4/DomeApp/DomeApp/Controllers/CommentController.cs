@@ -80,6 +80,12 @@
                 return HttpNotFound(string.Format("Post {0} not found", postId));
             }
 
+            var currentUser = db.Query<UserProfile>().First(u => u.UserName == User.Identity.Name);
+            comment.Author = currentUser;
+            comment.CreatedDate = DateTime.UtcNow;
+            comment.Post = post;
+            ModelState.Clear();
+            TryValidateModel(comment);
             if (ModelState.IsValid)
             {
                 db.Add(comment);
