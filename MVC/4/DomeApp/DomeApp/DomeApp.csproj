@@ -203,14 +203,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\MarkdownCodeTransformers.cs" />
     <Compile Include="Code\Paging\IPagedList.cs" />
     <Compile Include="Code\Paging\PagedList.cs" />
     <Compile Include="Code\Paging\PagingExtensions.cs" />
     <Compile Include="Code\SecurityExtensions.cs" />
     <Compile Include="Code\TextExtensions.cs" />
-    <Compile Include="Code\UriExtensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogPostController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
@@ -245,7 +243,7 @@
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DomeAppContext.cs" />
-    <Compile Include="Models\RepositoryBase.cs" />
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -382,12 +380,10 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
-    <Content Include="Views\Comment\Details.cshtml" />
     <Content Include="Views\Comment\Create.cshtml" />
-    <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Comment\Delete.cshtml" />
     <Content Include="Views\Comment\CommentsByPost.cshtml" />
-    <Content Include="Views\Comment\CommentsFrom.cshtml" />
+    <Content Include="Views\Comment\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

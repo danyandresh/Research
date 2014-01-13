@@ -3,5 +3,10 @@
 }
 
 .expandableTextarea {
-    resize: both;    
+    resize: both;
+}
+
+.comment {
+    margin-bottom: 6px;
+    margin-top: 6px;
 }

@@ -6,18 +6,26 @@ var post = Model.Item1;}
 <div id="comments">
     @foreach (var item in pagedList)
     {
-        <div class="comment-details">
+        <div class="comment">
             <div class="comment-details">
-                /*todo: implement user*/ commented at /*Implement comment date*/
+                /*todo: implement user*/ commented at @item.CreatedDate
             </div>
 
             <div id="comment-@item.Id" class="display-area">
                 @item.Content.ToSafeMarkdown()
             </div>
 
-            <div>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            <div class="comment-actions">
+                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @:|
+                }
+                
+                @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
             </div>
         </div>
     }

@@ -49,12 +49,4 @@ namespace DomeApp.Models
 
         public DbSet<Comment> Comments { get; set; }
     }
-
-    public class DummyContext : DbContext
-    {
-        public DummyContext()
-            : base("name=DefaultConnection")
-        {
-        }        
-    }
 }

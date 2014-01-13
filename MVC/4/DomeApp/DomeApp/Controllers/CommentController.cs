@@ -5,7 +5,6 @@
     using DomeApp.Models;
     using DomeApp.Code.Paging;
     using System;
-    using DomeApp.Code;
 
     public class CommentController : ControllerBase
     {
@@ -63,17 +62,7 @@
             return PartialView(model);
         }
 
-        public ActionResult Details(int id)
-        {
-            var comment = db.Query<Comment>().FirstOrDefault(c => c.Id == id);
-            if (comment == null)
-            {
-                return HttpNotFound(string.Format("Comment with ID {0} not found", id));
-            }
-
-            return View(comment);
-        }
-
+        [Authorize]
         public ActionResult Create()
         {
             return PartialView();
@@ -81,6 +70,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(int postId, Comment comment, string returnUrl)
         {
             var post = db.Query<BlogPost>().FirstOrDefault(p => p.Id == postId);
@@ -107,7 +97,7 @@
             return PartialView(comment);
         }
 
-        [ChildActionOnly]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id = 0)
         {
             var comment = db.Query<Comment>().FirstOrDefault(c => c.Id == id);
@@ -121,6 +111,8 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(Comment comment)
         {
             if (ModelState.IsValid)
@@ -132,6 +124,8 @@
             return View(comment);
         }
 
+        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
             var comment = db.Query<Comment>().FirstOrDefault(c => c.Id == id);
@@ -145,6 +139,7 @@
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             var comment = db.Query<Comment>().FirstOrDefault(c => c.Id == id);

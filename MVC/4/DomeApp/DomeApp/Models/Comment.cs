@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-
-namespace DomeApp.Models
+﻿namespace DomeApp.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     public class Comment
     {
         public int Id { get; set; }
