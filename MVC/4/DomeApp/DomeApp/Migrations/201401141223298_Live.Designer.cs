@@ -5,13 +5,13 @@ namespace DomeApp.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class DefaultConnection1 : IMigrationMetadata
+    public sealed partial class Live : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DefaultConnection1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Live));
         
         string IMigrationMetadata.Id
         {
-            get { return "201401131223012_DefaultConnection1"; }
+            get { return "201401141223298_Live"; }
         }
         
         string IMigrationMetadata.Source

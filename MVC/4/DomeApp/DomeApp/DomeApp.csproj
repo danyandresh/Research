@@ -218,25 +218,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201401122202088_DefaultConnection.cs" />
-    <Compile Include="Migrations\201401122202088_DefaultConnection.Designer.cs">
-      <DependentUpon>201401122202088_DefaultConnection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401131223012_DefaultConnection1.cs" />
-    <Compile Include="Migrations\201401131223012_DefaultConnection1.Designer.cs">
-      <DependentUpon>201401131223012_DefaultConnection1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401132051442_DefaultConnection2.cs" />
-    <Compile Include="Migrations\201401132051442_DefaultConnection2.Designer.cs">
-      <DependentUpon>201401132051442_DefaultConnection2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401132137479_DefaultConnection3.cs" />
-    <Compile Include="Migrations\201401132137479_DefaultConnection3.Designer.cs">
-      <DependentUpon>201401132137479_DefaultConnection3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401132140402_CreatedDateForComments.cs" />
-    <Compile Include="Migrations\201401132140402_CreatedDateForComments.Designer.cs">
-      <DependentUpon>201401132140402_CreatedDateForComments.cs</DependentUpon>
+    <Compile Include="Migrations\201401141223298_Live.cs" />
+    <Compile Include="Migrations\201401141223298_Live.Designer.cs">
+      <DependentUpon>201401141223298_Live.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -392,20 +376,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201401122202088_DefaultConnection.resx">
-      <DependentUpon>201401122202088_DefaultConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401131223012_DefaultConnection1.resx">
-      <DependentUpon>201401131223012_DefaultConnection1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401132051442_DefaultConnection2.resx">
-      <DependentUpon>201401132051442_DefaultConnection2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401132137479_DefaultConnection3.resx">
-      <DependentUpon>201401132137479_DefaultConnection3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401132140402_CreatedDateForComments.resx">
-      <DependentUpon>201401132140402_CreatedDateForComments.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201401141223298_Live.resx">
+      <DependentUpon>201401141223298_Live.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

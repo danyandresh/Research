@@ -33,7 +33,7 @@ namespace DomeApp
         private void MigrateDd()
         {
             var migrator = new DbMigrator(new Configuration());
-            migrator.Update();
+            //migrator.Update();
 
             if(!WebSecurity.Initialized)
             {
