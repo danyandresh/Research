@@ -11,20 +11,20 @@ namespace DomeApp.Migrations
         {
             // Kee this false on deployment
             AutomaticMigrationsEnabled = false;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(DomeAppContext context)
         {
-            UserProfile author = context.Query<UserProfile>().FirstOrDefault();
-            var comments = DummyComments(author);
-            context.Comments.AddOrUpdate(r => r.Content, comments);
-            context.BlogPosts.AddOrUpdate(r => r.Title,
-                                new BlogPost { Title = "DomeApp", Excerpt = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application.", Content = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application. Localization, package management, codefirst, mvc, razor engine are among the features exposed so far", Comments = comments.Take(10).ToArray() },
-                                new BlogPost { Title = "DomeApp 1", Excerpt = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application.", Content = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application. Localization, package management, codefirst, mvc, razor engine are among the features exposed so far", Comments = comments.Skip(10).ToArray() }
-                );
+            //UserProfile author = context.Query<UserProfile>().FirstOrDefault();
+            //var comments = DummyComments(author);
+            //context.Comments.AddOrUpdate(r => r.Content, comments);
+            //context.BlogPosts.AddOrUpdate(r => r.Title,
+            //                    new BlogPost { Title = "DomeApp", Excerpt = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application.", Content = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application. Localization, package management, codefirst, mvc, razor engine are among the features exposed so far", Comments = comments.Take(10).ToArray() },
+            //                    new BlogPost { Title = "DomeApp 1", Excerpt = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application.", Content = "DomeApp is a demo application to research and leverage MVC4 features and ultimately end up with a _functional_ application. Localization, package management, codefirst, mvc, razor engine are among the features exposed so far", Comments = comments.Skip(10).ToArray() }
+            //    );
 
-            context.BlogPosts.AddOrUpdate(r => r.Title, MultipleDummyPosts());
+            //context.BlogPosts.AddOrUpdate(r => r.Title, MultipleDummyPosts());
 
         }
 
