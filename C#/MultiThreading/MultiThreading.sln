@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiThreading", "MultiThreading\MultiThreading.csproj", "{E5CA4309-E15A-4084-BB05-BD6A522D8B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadingTests", "ThreadingTests\ThreadingTests.csproj", "{A1B70733-53EB-4B27-98D7-0978D5D58D99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5CA4309-E15A-4084-BB05-BD6A522D8B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5CA4309-E15A-4084-BB05-BD6A522D8B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5CA4309-E15A-4084-BB05-BD6A522D8B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5CA4309-E15A-4084-BB05-BD6A522D8B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B70733-53EB-4B27-98D7-0978D5D58D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B70733-53EB-4B27-98D7-0978D5D58D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B70733-53EB-4B27-98D7-0978D5D58D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B70733-53EB-4B27-98D7-0978D5D58D99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
