@@ -35,6 +35,15 @@ namespace LightPlayerTests
             Assert.IsTrue(folder.IsValid, "Folder refers to the executing assembly directory, is should be valid");
         }
 
+        [TestMethod]
+        public void TestFolderIsNotValidIfPathDoesntExist()
+        {
+            string expectedPath = "inexistentFolder";
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+
+            Assert.IsFalse(folder.IsValid, "Folder refers to a fictionary location, is should not be valid");
+        }
+
         static public string AssemblyDirectory
         {
             get

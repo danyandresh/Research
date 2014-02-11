@@ -1,4 +1,5 @@
-﻿
+﻿using System.IO;
+
 namespace LightPlayer
 {
     public class Folder : IFolder
@@ -10,7 +11,7 @@ namespace LightPlayer
 
         public bool IsValid
         {
-            get { return true; }
+            get { return Directory.Exists(Path); }
         }
 
         public string Path
