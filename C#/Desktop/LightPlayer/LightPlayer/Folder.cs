@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace LightPlayer
 {
@@ -18,6 +19,12 @@ namespace LightPlayer
         {
             get;
             private set;
+        }
+
+
+        public IEnumerable<string> Files
+        {
+            get { return Directory.GetFiles(Path); }
         }
     }
 }

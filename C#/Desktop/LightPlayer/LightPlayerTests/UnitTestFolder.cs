@@ -4,6 +4,8 @@ using LightPlayer;
 using System.Reflection;
 using System;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace LightPlayerTests
 {
@@ -42,6 +44,18 @@ namespace LightPlayerTests
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
 
             Assert.IsFalse(folder.IsValid, "Folder refers to a fictionary location, is should not be valid");
+        }
+
+        [TestMethod]
+        public void TestFolderListsFiles()
+        {
+            string expectedPath = AssemblyDirectory;
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+
+            var files = Directory.GetFiles(AssemblyDirectory);
+
+            Assert.AreEqual(files.Length, folder.Files.Count(), "Folder does not display correctly the file from directory");
+            Assert.IsTrue(files.All(f => folder.Files.Contains(f)), "Not all file from current directory are displayed by Folder");
         }
 
         static public string AssemblyDirectory
