@@ -67,6 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Folder.cs" />
     <Compile Include="FolderViewModel.cs" />
     <Compile Include="IFolder.cs" />
     <Compile Include="IFolderViewModel.cs" />
