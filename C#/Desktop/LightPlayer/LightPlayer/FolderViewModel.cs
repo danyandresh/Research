@@ -8,6 +8,11 @@ namespace LightPlayer
 
         public void Add(IFolder folder)
         {
+            if (folder != null && !folder.IsValid)
+            {
+                return;
+            }
+
             models.Add(folder);
         }
 
