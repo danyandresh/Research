@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace LightPlayer
 {
     public class Folder : IFolder
@@ -11,7 +10,7 @@ namespace LightPlayer
 
         public bool IsValid
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
 
         public string Path
