@@ -8,14 +8,12 @@ using LightPlayer;
 namespace LightPlayerTests
 {
     [TestClass]
-    public class UnitTestFoldersViewModel
+    public class UnitTestFoldersViewModel : TestContext
     {
-        protected IWindsorContainer WindsorContainer;
-
-        [TestInitialize]
-        public void SetupDependencies()
+        public override void InitializeParticularDependencies()
         {
-            WindsorContainer = new WindsorContainer();
+            base.InitializeParticularDependencies();
+
             WindsorContainer.Register(Component.For<IFolderViewModel>().ImplementedBy<FolderViewModel>());
         }
 
@@ -29,8 +27,8 @@ namespace LightPlayerTests
             vm.Add(mock.Object);
             vm.Add(null);
 
-            Assert.AreEqual(2, vm.Models.Count(),"There should have been two models in the collection");
-            Assert.IsTrue(vm.Models.Contains(mock.Object),"Folder could not be added to the FolderViewModel");
+            Assert.AreEqual(2, vm.Models.Count(), "There should have been two models in the collection");
+            Assert.IsTrue(vm.Models.Contains(mock.Object), "Folder could not be added to the FolderViewModel");
         }
 
         [TestMethod]
