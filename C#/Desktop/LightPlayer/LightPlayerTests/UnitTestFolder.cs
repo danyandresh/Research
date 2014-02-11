@@ -58,6 +58,15 @@ namespace LightPlayerTests
             Assert.IsTrue(files.All(f => folder.Files.Contains(f)), "Not all file from current directory are displayed by Folder");
         }
 
+        [TestMethod]
+        public void TestFolderListsNoFilesFromInvalidPath()
+        {
+            string expectedPath = "";
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+
+            Assert.AreEqual(0, folder.Files.Count(), "Folder should display 0 files from invalid path");
+        }
+
         static public string AssemblyDirectory
         {
             get

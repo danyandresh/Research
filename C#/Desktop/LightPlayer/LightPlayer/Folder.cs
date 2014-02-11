@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LightPlayer
 {
@@ -24,7 +25,7 @@ namespace LightPlayer
 
         public IEnumerable<string> Files
         {
-            get { return Directory.GetFiles(Path); }
+            get { return IsValid ? Directory.GetFiles(Path) : Enumerable.Empty<string>(); }
         }
     }
 }
