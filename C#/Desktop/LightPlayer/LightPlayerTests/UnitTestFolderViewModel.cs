@@ -4,6 +4,9 @@ using Moq;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using LightPlayer;
+using System.Collections.Specialized;
+using System.Threading;
+using System;
 
 namespace LightPlayerTests
 {
@@ -46,6 +49,30 @@ namespace LightPlayerTests
 
             Assert.AreEqual(1, vm.Models.Count(), "There should have been a single model in the collection");
             Assert.IsTrue(vm.Models.Contains(mockValidModel.Object), "Valid model was not be added to the FolderViewModel");
+        }
+
+        [TestMethod]
+        public void TestVMMonitorsFolders()
+        {
+            var mockValidModel = new Mock<IFolder>();
+            mockValidModel.SetupGet(f => f.IsValid).Returns(true);
+
+            var synchronizer = new ManualResetEvent(false);
+            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+            vm.Models.CollectionChanged += (sender, e) =>
+                {
+                    Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
+                    Assert.AreEqual(1, e.NewItems.Count);
+                    Assert.AreEqual(mockValidModel.Object, e.NewItems[0]);
+                    synchronizer.Set();
+                };
+
+            vm.Add(mockValidModel.Object);
+
+            if (!synchronizer.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Monitoring of the folders collection does not work - event handler was not called");
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LightPlayer
 {
     public class FolderViewModel : IFolderViewModel
     {
-        private IList<IFolder> models = new List<IFolder>();
+        private ObservableCollection<IFolder> models = new ObservableCollection<IFolder>();
 
         public void Add(IFolder folder)
         {
@@ -16,6 +17,6 @@ namespace LightPlayer
             models.Add(folder);
         }
 
-        public IEnumerable<IFolder> Models { get { return models; } }
+        public ObservableCollection<IFolder> Models { get { return models; } }
     }
 }
