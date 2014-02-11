@@ -31,7 +31,7 @@ namespace LightPlayerTests
         [TestMethod]
         public void TestFolderIsValidIfPathExists()
         {
-            string expectedPath = AssemblyDirectory;
+            string expectedPath = RealTestPath;
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
 
             Assert.IsTrue(folder.IsValid, "Folder refers to the executing assembly directory, is should be valid");
@@ -49,10 +49,10 @@ namespace LightPlayerTests
         [TestMethod]
         public void TestFolderListsFiles()
         {
-            string expectedPath = AssemblyDirectory;
+            string expectedPath = RealTestPath;
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
 
-            var files = Directory.GetFiles(AssemblyDirectory);
+            var files = Directory.GetFiles(RealTestPath);
 
             Assert.AreEqual(files.Length, folder.Files.Count(), "Folder does not display correctly the file from directory");
             Assert.IsTrue(files.All(f => folder.Files.Contains(f)), "Not all file from current directory are displayed by Folder");
@@ -67,14 +67,11 @@ namespace LightPlayerTests
             Assert.AreEqual(0, folder.Files.Count(), "Folder should display 0 files from invalid path");
         }
 
-        static public string AssemblyDirectory
+        static public string RealTestPath
         {
             get
             {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
     }
