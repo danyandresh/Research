@@ -1,0 +1,8 @@
+﻿The program would be able to
+1. Create a list of folders containing the files to be played
+2. Monitor the folders so new items would be automatically picked up
+3. Play files in order
+4. Create queues of files to play
+5. View/Manage enqueued files
+6. Would hookup to keys so pause/play
+7. Would be able to scroll through files
