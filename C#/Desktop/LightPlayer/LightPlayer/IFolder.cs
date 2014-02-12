@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LightPlayer
 {
@@ -8,6 +9,6 @@ namespace LightPlayer
 
         string Path { get; }
 
-        IEnumerable<string> Files { get; }
+        ObservableCollection<string> Files { get; }
     }
 }

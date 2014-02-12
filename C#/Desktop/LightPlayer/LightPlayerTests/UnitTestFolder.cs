@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Castle.MicroKernel.Registration;
 using LightPlayer;
-using System.Reflection;
 using System;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Collections.Specialized;
+using System.Threading;
 
 namespace LightPlayerTests
 {
@@ -65,6 +65,32 @@ namespace LightPlayerTests
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
 
             Assert.AreEqual(0, folder.Files.Count(), "Folder should display 0 files from invalid path");
+        }
+
+        [TestMethod]
+        public void TestFolderMonitorsFiles()
+        {
+            string expectedPath = RealTestPath;
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+            var synchronizer = new ManualResetEvent(false);
+
+            var testFilePath = Path.Combine(expectedPath, "new files poped up.txt");
+
+            folder.Files.CollectionChanged += (sender, e) =>
+                {
+                    Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
+                    Assert.AreEqual(1, e.NewItems.Count);
+                    Assert.AreEqual(testFilePath, e.NewItems[0]);
+                    synchronizer.Set();
+                };
+
+            using (var file = File.Create(testFilePath, 1, FileOptions.DeleteOnClose))
+            {
+                if (!synchronizer.WaitOne(TimeSpan.FromSeconds(1)))
+                {
+                    Assert.Fail("Monitoring of the files collection in Folder does not work - event handler was not called");
+                }
+            }
         }
 
         static public string RealTestPath
