@@ -33,6 +33,11 @@ namespace LightPlayer
         private void SelectFolder()
         {
             var dialogResult = selectDialog.Show();
+            if (dialogResult.Item1 == DialogResult.Cancel)
+            {
+                return;
+            }
+
             Add(new Folder(dialogResult.Item2));
         }
     }

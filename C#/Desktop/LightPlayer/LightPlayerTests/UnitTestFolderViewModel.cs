@@ -133,5 +133,29 @@ namespace LightPlayerTests
                 Assert.Fail("Command has not added a new folder - event handler was not called");
             }
         }
+
+        [TestMethod]
+        public void TestFolderVMCommandAddFolderCanBeCanceled()
+        {
+            var realFolderPath = UnitTestFolder.RealTestPath;
+            var folderDialogMock = new Mock<ISelectDialog>();
+            folderDialogMock.Setup(f => f.Show()).Returns(new Tuple<DialogResult, string>(DialogResult.Cancel, realFolderPath));
+
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { selectDialog = folderDialogMock.Object });
+
+            var command = vm.CommandAddFolder;
+            Assert.IsNotNull(command, "Command is null");
+
+            var synchronizer = new ManualResetEvent(false);
+            vm.Models.CollectionChanged += (sender, e) =>
+            {
+                Assert.Fail("When select dialog is canceled do not add anything to the list of folders");
+                synchronizer.Set();
+            };
+
+            command.Execute(null);
+
+            synchronizer.WaitOne(TimeSpan.FromSeconds(1));
+        }
     }
 }

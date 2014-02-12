@@ -3,6 +3,7 @@ namespace LightPlayer
 {
     public enum DialogResult
     {
-        Ok
+        Ok,
+        Cancel
     }
 }
