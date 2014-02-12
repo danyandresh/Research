@@ -25,6 +25,6 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Add folder"/>
+        <Button Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Add folder" Command="{Binding CommandAddFolder}"/>
     </Grid>
 </Page>

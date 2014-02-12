@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Practices.Prism.Commands;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace LightPlayer
 {
@@ -18,5 +19,12 @@ namespace LightPlayer
         }
 
         public ObservableCollection<IFolder> Models { get { return models; } }
+
+        public ICommand CommandAddFolder { get { return new DelegateCommand(SelectFolder); } }
+
+        private void SelectFolder()
+        {
+            Add(new Folder("c:\\"));
+        }
     }
 }

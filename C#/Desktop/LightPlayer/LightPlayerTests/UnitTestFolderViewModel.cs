@@ -74,5 +74,29 @@ namespace LightPlayerTests
                 Assert.Fail("Monitoring of the folders collection does not work - event handler was not called");
             }
         }
+
+        [TestMethod]
+        public void TestFolderVMCommandAddFolder()
+        {
+            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+
+            var command = vm.CommandAddFolder;
+            Assert.IsNotNull(command, "Command is null");
+
+            var synchronizer = new ManualResetEvent(false);
+            vm.Models.CollectionChanged += (sender, e) =>
+            {
+                Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
+                Assert.AreEqual(1, e.NewItems.Count);
+                Assert.IsTrue(((IFolder)e.NewItems[0]).IsValid);
+                synchronizer.Set();
+            };
+
+            command.Execute(null);
+            if (!synchronizer.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Command has not added a new folder - event handler was not called");
+            }
+        }
     }
 }
