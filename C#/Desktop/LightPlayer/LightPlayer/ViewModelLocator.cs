@@ -7,7 +7,7 @@ namespace LightPlayer
     {
         private static IWindsorContainer dependencyContainer;
 
-        public static IFolderViewModel FoldersViewModel { get { return new FolderViewModel(null); } }
+        public static IFolderViewModel FoldersViewModel { get { return DependecyContainer.Resolve<IFolderViewModel>(); } }
 
         public static IWindsorContainer DependecyContainer
         {

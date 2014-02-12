@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Castle.MicroKernel.Registration;
 using LightPlayer;
 
 
@@ -30,6 +29,14 @@ namespace LightPlayerTests
         public void TestSetupDependencyContainerReturnsContainer()
         {
             Assert.IsNotNull(ViewModelLocator.SetupDependencyContainer());
+        }
+
+        [TestMethod]
+        public void TestLocatorResolvesFolderViewModelFromContainer()
+        {
+            var vm = ViewModelLocator.DependecyContainer.Resolve<IFolderViewModel>();
+
+            Assert.AreEqual(vm, ViewModelLocator.FoldersViewModel);
         }
     }
 }
