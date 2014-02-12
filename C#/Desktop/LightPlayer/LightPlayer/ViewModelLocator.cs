@@ -32,14 +32,14 @@ namespace LightPlayer
                 var fileDialog = new CommonOpenFileDialog();
                 fileDialog.IsFolderPicker = true;
                 return fileDialog;
-            }).Named("folderSelectDialog"));
+            }).Named("openFolderDialog"));
 
-            container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>());
+            container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>().Named("folderSelectDialog"));
 
             container.Register(Component
                 .For<IFolderViewModel>()
                 .ImplementedBy<FolderViewModel>()
-                .DependsOn(Dependency.OnValue<ISelectDialog>(container.Resolve<ISelectDialog>())));
+                .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog")));
 
             return container;
         }
