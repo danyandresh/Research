@@ -17,7 +17,13 @@ namespace LightPlayerTests
         {
             base.InitializeParticularDependencies();
 
-            WindsorContainer.Register(Component.For<IFolderViewModel>().ImplementedBy<FolderViewModel>());
+            var folderDialogMock = new Mock<ISelectDialog>();
+            folderDialogMock.Setup(f => f.Show()).Returns(new Tuple<DialogResult, string>(DialogResult.Ok, UnitTestFolder.RealTestPath));
+
+            WindsorContainer.Register(Component
+                .For<IFolderViewModel>()
+                .ImplementedBy<FolderViewModel>()
+                .DependsOn(Dependency.OnValue<ISelectDialog>(folderDialogMock.Object)));
         }
 
         [TestMethod]
@@ -89,6 +95,35 @@ namespace LightPlayerTests
                 Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
                 Assert.AreEqual(1, e.NewItems.Count);
                 Assert.IsTrue(((IFolder)e.NewItems[0]).IsValid);
+                synchronizer.Set();
+            };
+
+            command.Execute(null);
+            if (!synchronizer.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Command has not added a new folder - event handler was not called");
+            }
+        }
+
+        [TestMethod]
+        public void TestFolderVMCommandAddRealFolder()
+        {
+            var realFolderPath = UnitTestFolder.RealTestPath;
+            var folderDialogMock = new Mock<ISelectDialog>();
+            folderDialogMock.Setup(f => f.Show()).Returns(new Tuple<DialogResult, string>(DialogResult.Ok, realFolderPath));
+
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { selectDialog = folderDialogMock.Object });
+
+            var command = vm.CommandAddFolder;
+            Assert.IsNotNull(command, "Command is null");
+
+            var synchronizer = new ManualResetEvent(false);
+            vm.Models.CollectionChanged += (sender, e) =>
+            {
+                Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
+                Assert.AreEqual(1, e.NewItems.Count);
+                Assert.IsTrue(((IFolder)e.NewItems[0]).IsValid);
+                Assert.AreEqual(realFolderPath, ((IFolder)e.NewItems[0]).Path);
                 synchronizer.Set();
             };
 
