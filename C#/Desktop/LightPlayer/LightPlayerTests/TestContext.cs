@@ -1,4 +1,5 @@
 ﻿using Castle.Windsor;
+using LightPlayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace LightPlayerTests
         [TestInitialize]
         public void SetupDependencies()
         {
-            WindsorContainer = new WindsorContainer();
+            WindsorContainer = ViewModelLocator.SetupDependencyContainer();
             InitializeParticularDependencies();
         }
 

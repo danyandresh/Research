@@ -76,6 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="DialogResult.cs" />
     <Compile Include="ISelectDialog.cs" />
+    <Compile Include="SelectDialog.cs" />
     <Compile Include="SelectDialogMode.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Views\Folders.xaml.cs">

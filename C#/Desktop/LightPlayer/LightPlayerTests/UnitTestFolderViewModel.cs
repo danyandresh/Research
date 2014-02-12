@@ -16,14 +16,6 @@ namespace LightPlayerTests
         public override void InitializeParticularDependencies()
         {
             base.InitializeParticularDependencies();
-
-            var folderDialogMock = new Mock<ISelectDialog>();
-            folderDialogMock.Setup(f => f.Show()).Returns(new Tuple<DialogResult, string>(DialogResult.Ok, UnitTestFolder.RealTestPath));
-
-            WindsorContainer.Register(Component
-                .For<IFolderViewModel>()
-                .ImplementedBy<FolderViewModel>()
-                .DependsOn(Dependency.OnValue<ISelectDialog>(folderDialogMock.Object)));
         }
 
         [TestMethod]
@@ -84,7 +76,13 @@ namespace LightPlayerTests
         [TestMethod]
         public void TestFolderVMCommandAddFolder()
         {
-            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+            var realFolderPath = UnitTestFolder.RealTestPath;
+
+            var folderDialogMock = new Mock<ISelectDialog>();
+            folderDialogMock.Setup(f => f.Show()).Returns(new Tuple<DialogResult, string>(DialogResult.Ok, realFolderPath));
+
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { selectDialog = folderDialogMock.Object });
+
 
             var command = vm.CommandAddFolder;
             Assert.IsNotNull(command, "Command is null");

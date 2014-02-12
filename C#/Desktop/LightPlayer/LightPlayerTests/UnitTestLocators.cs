@@ -13,5 +13,23 @@ namespace LightPlayerTests
         {
             Assert.IsNotNull(ViewModelLocator.FoldersViewModel, "ViewModelLocator does not create folders VM");
         }
+
+        [TestMethod]
+        public void TestDependencyContainerSetup()
+        {
+            Assert.IsNotNull(ViewModelLocator.DependecyContainer);
+        }
+
+        [TestMethod]
+        public void TestDependencyContainerSingleton()
+        {
+            Assert.AreEqual(ViewModelLocator.DependecyContainer, ViewModelLocator.DependecyContainer, "Dependency container should obtain the same instance always");
+        }
+
+        [TestMethod]
+        public void TestSetupDependencyContainerReturnsContainer()
+        {
+            Assert.IsNotNull(ViewModelLocator.SetupDependencyContainer());
+        }
     }
 }
