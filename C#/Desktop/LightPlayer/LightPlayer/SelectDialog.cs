@@ -14,7 +14,14 @@ namespace LightPlayer
             selectFolder = () =>
                 {
                     var dialogResult = openFileDialog.ShowDialog();
-                    return new Tuple<CommonFileDialogResult, string>(dialogResult, openFileDialog.FileName);
+                    string path = null;
+
+                    if (CommonFileDialogResult.Ok == dialogResult)
+                    {
+                        path=openFileDialog.FileName;
+                    }
+
+                    return new Tuple<CommonFileDialogResult, string>(dialogResult, path);
                 };
         }
 
