@@ -1,6 +1,7 @@
 ﻿
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Microsoft.WindowsAPICodePack.Dialogs;
 namespace LightPlayer
 {
     public class ViewModelLocator
@@ -25,6 +26,13 @@ namespace LightPlayer
         public static IWindsorContainer SetupDependencyContainer()
         {
             var container = new WindsorContainer();
+
+            container.Register(Component.For<CommonOpenFileDialog>().UsingFactoryMethod((k, context) =>
+            {
+                var fileDialog = new CommonOpenFileDialog();
+                fileDialog.IsFolderPicker = true;
+                return fileDialog;
+            }).Named("folderSelectDialog"));
 
             container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>());
 
