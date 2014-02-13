@@ -1,5 +1,4 @@
-﻿using Castle.Windsor;
-using Microsoft.Practices.Prism.Commands;
+﻿using Microsoft.Practices.Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -9,12 +8,11 @@ namespace LightPlayer
     {
         private ISelectDialog selectDialog;
 
-        public FolderViewModel(ISelectDialog selectDialog)
+        public FolderViewModel(ISelectDialog selectDialog, IApplicationState appState)
         {
             this.selectDialog = selectDialog;
+            Models = appState.Folders;
         }
-
-        private ObservableCollection<IFolder> models = new ObservableCollection<IFolder>();
 
         public void Add(IFolder folder)
         {
@@ -23,10 +21,10 @@ namespace LightPlayer
                 return;
             }
 
-            models.Add(folder);
+            Models.Add(folder);
         }
 
-        public ObservableCollection<IFolder> Models { get { return models; } }
+        public ObservableCollection<IFolder> Models { get; private set; }
 
         public ICommand CommandAddFolder { get { return new DelegateCommand(SelectFolder); } }
 

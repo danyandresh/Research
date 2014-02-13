@@ -155,5 +155,51 @@ namespace LightPlayerTests
 
             synchronizer.WaitOne(TimeSpan.FromSeconds(1));
         }
+
+        [TestMethod]
+        public void TestFolderVMRemembersFolders()
+        {
+            var realFolderPath = UnitTestFolder.RealTestPath;
+
+            var vm = TransientFolderVM(WindsorContainer);
+            vm.Add(new Folder(realFolderPath));
+            WindsorContainer.Release(vm);
+
+            vm = TransientFolderVM(WindsorContainer);
+
+            Assert.AreEqual(1, vm.Models.Count, "FolderVM should store exactly the same number of folders");
+            Assert.AreEqual(realFolderPath, vm.Models[0].Path, "FolderVM should store folder paths");
+        }
+
+        [TestMethod]
+        public void TestFolderVMCanBeDisposed()
+        {
+            var vm = TransientFolderVM(WindsorContainer);
+            WindsorContainer.Release(vm);
+            Assert.IsFalse(WindsorContainer.Kernel.ReleasePolicy.HasTrack(vm));
+
+            var currentVm = TransientFolderVM(WindsorContainer);
+
+            Assert.AreNotEqual(vm, currentVm, "FolderVM should have been disposed");
+        }
+
+        public static IFolderViewModel TransientFolderVM(IWindsorContainer windsorContainer)
+        {
+            var container = new WindsorContainer();
+
+            container.Register(Component
+                .For<IFolderViewModel>()
+                .ImplementedBy<FolderViewModel>()
+                .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog"))
+                .DependsOn(Dependency.OnComponent(typeof(ApplicationState), "applicationState"))
+                .LifestyleTransient()
+            );
+
+            windsorContainer.AddChildContainer(container);
+            var result = container.Resolve<IFolderViewModel>();
+            windsorContainer.RemoveChildContainer(container);
+            container.Dispose();
+            return result;
+        }
     }
 }

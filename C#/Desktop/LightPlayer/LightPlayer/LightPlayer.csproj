@@ -80,7 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationState.cs" />
     <Compile Include="DialogResult.cs" />
+    <Compile Include="IApplicationState.cs" />
     <Compile Include="ISelectDialog.cs" />
     <Compile Include="SelectDialog.cs" />
     <Compile Include="SelectDialogMode.cs" />

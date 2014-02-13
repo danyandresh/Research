@@ -36,10 +36,13 @@ namespace LightPlayer
 
             container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>().Named("folderSelectDialog"));
 
+            container.Register(Component.For<IApplicationState>().ImplementedBy<ApplicationState>().Named("applicationState"));
+
             container.Register(Component
                 .For<IFolderViewModel>()
                 .ImplementedBy<FolderViewModel>()
-                .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog")));
+                .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog"))
+                .DependsOn(Dependency.OnComponent(typeof(ApplicationState), "applicationState")));
 
             return container;
         }
