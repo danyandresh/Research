@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 
@@ -6,6 +7,10 @@ namespace LightPlayer
 {
     public class Folder : IFolder
     {
+        private Folder()
+        {
+        }
+
         public Folder(string path)
         {
             Path = path;
@@ -19,6 +24,7 @@ namespace LightPlayer
             get { return Directory.Exists(Path); }
         }
 
+        [Key]
         public string Path
         {
             get;

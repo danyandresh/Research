@@ -7,11 +7,13 @@ namespace LightPlayer
     public class FolderViewModel : IFolderViewModel
     {
         private ISelectDialog selectDialog;
+        private IApplicationState applicationState;
 
         public FolderViewModel(ISelectDialog selectDialog, IApplicationState appState)
         {
             this.selectDialog = selectDialog;
-            Models = appState.Folders;
+            applicationState = appState;
+            Models = new ObservableCollection<IFolder>(appState.Folders);
         }
 
         public void Add(IFolder folder)
@@ -21,6 +23,7 @@ namespace LightPlayer
                 return;
             }
 
+            applicationState.AddFolder(folder);
             Models.Add(folder);
         }
 
@@ -37,6 +40,13 @@ namespace LightPlayer
             }
 
             Add(new Folder(dialogResult.Item2));
+        }
+
+
+        public void Clear()
+        {
+            Models.Clear();
+            applicationState.ClearFolders();
         }
     }
 }

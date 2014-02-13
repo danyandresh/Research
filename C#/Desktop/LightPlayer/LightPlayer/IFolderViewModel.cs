@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace LightPlayer
@@ -11,5 +10,7 @@ namespace LightPlayer
         ObservableCollection<IFolder> Models { get; }
 
         ICommand CommandAddFolder { get; }
+
+        void Clear();
     }
 }

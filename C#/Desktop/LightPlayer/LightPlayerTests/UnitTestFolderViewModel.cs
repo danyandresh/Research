@@ -24,7 +24,8 @@ namespace LightPlayerTests
             var mock = new Mock<IFolder>();
             mock.SetupGet(f => f.IsValid).Returns(true);
 
-            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+            var appStateMock = new Mock<IApplicationState>();
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { appState = appStateMock.Object });
             vm.Add(mock.Object);
             vm.Add(null);
 
@@ -41,7 +42,8 @@ namespace LightPlayerTests
             var mockInvalidModel = new Mock<IFolder>();
             mockInvalidModel.SetupGet(f => f.IsValid).Returns(false);
 
-            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+            var appStateMock = new Mock<IApplicationState>();
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { appState = appStateMock.Object });
             vm.Add(mockValidModel.Object);
             vm.Add(mockInvalidModel.Object);
 
@@ -56,7 +58,8 @@ namespace LightPlayerTests
             mockValidModel.SetupGet(f => f.IsValid).Returns(true);
 
             var synchronizer = new ManualResetEvent(false);
-            var vm = WindsorContainer.Resolve<IFolderViewModel>();
+            var appStateMock = new Mock<IApplicationState>();
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { appState = appStateMock.Object });
             vm.Models.CollectionChanged += (sender, e) =>
                 {
                     Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
@@ -162,6 +165,7 @@ namespace LightPlayerTests
             var realFolderPath = UnitTestFolder.RealTestPath;
 
             var vm = TransientFolderVM(WindsorContainer);
+            vm.Clear();
             vm.Add(new Folder(realFolderPath));
             WindsorContainer.Release(vm);
 
@@ -183,7 +187,7 @@ namespace LightPlayerTests
             Assert.AreNotEqual(vm, currentVm, "FolderVM should have been disposed");
         }
 
-        public static IFolderViewModel TransientFolderVM(IWindsorContainer windsorContainer)
+        public static IFolderViewModel TransientFolderVM(IWindsorContainer windsorContainer, dynamic arguments = null)
         {
             var container = new WindsorContainer();
 
@@ -196,7 +200,7 @@ namespace LightPlayerTests
             );
 
             windsorContainer.AddChildContainer(container);
-            var result = container.Resolve<IFolderViewModel>();
+            var result = container.Resolve<IFolderViewModel>(arguments ?? new { });
             windsorContainer.RemoveChildContainer(container);
             container.Dispose();
             return result;

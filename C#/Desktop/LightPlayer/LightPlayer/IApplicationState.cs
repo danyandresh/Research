@@ -1,9 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace LightPlayer
 {
     public interface IApplicationState
     {
-        ObservableCollection<IFolder> Folders { get; }
+        IEnumerable<IFolder> Folders { get; }
+
+        void AddFolder(IFolder folder);
+
+        void ClearFolders();
     }
 }

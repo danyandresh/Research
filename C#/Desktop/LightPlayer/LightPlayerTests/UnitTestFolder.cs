@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Castle.MicroKernel.Registration;
 using LightPlayer;
 using System;
 using System.IO;
@@ -15,8 +14,6 @@ namespace LightPlayerTests
         public override void InitializeParticularDependencies()
         {
             base.InitializeParticularDependencies();
-
-            WindsorContainer.Register(Component.For<IFolder>().ImplementedBy<Folder>());
         }
 
         [TestMethod]
