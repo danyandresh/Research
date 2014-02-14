@@ -9,7 +9,11 @@ namespace LightPlayer
 
         ObservableCollection<IFolder> Models { get; }
 
+        IFolder SelectedFolder { get; }
+
         ICommand CommandAddFolder { get; }
+
+        ICommand CommandSelectFolder { get; }
 
         void Clear();
     }

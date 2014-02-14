@@ -187,6 +187,24 @@ namespace LightPlayerTests
             Assert.AreNotEqual(vm, currentVm, "FolderVM should have been disposed");
         }
 
+        [TestMethod]
+        public void TestFolderVMCommandSelectFolder()
+        {
+            var realFolderPath = UnitTestFolder.RealTestPath;
+
+            var folderDialogMock = new Mock<ISelectDialog>();
+
+            var vm = WindsorContainer.Resolve<IFolderViewModel>(new { selectDialog = folderDialogMock.Object });
+
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = realFolderPath });
+
+            var command = vm.CommandSelectFolder;
+            Assert.IsNotNull(command, "Command is null");
+
+            command.Execute(folder);
+            Assert.AreEqual(folder, vm.SelectedFolder, "Select command does not set up correctly the SelectedFolder into VM");
+        }
+
         public static IFolderViewModel TransientFolderVM(IWindsorContainer windsorContainer, dynamic arguments = null)
         {
             var container = new WindsorContainer();

@@ -31,6 +31,20 @@ namespace LightPlayer
 
         public ICommand CommandAddFolder { get { return new DelegateCommand(SelectFolder); } }
 
+        public ICommand CommandSelectFolder
+        {
+            get
+            {
+                return new DelegateCommand<IFolder>((folder) => { SelectedFolder = folder; });
+            }
+        }
+
+        public IFolder SelectedFolder
+        {
+            get;
+            set;
+        }
+
         private void SelectFolder()
         {
             var dialogResult = selectDialog.Show();
