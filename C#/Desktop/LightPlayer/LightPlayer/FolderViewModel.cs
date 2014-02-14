@@ -56,7 +56,6 @@ namespace LightPlayer
             Add(new Folder(dialogResult.Item2));
         }
 
-
         public void Clear()
         {
             Models.Clear();

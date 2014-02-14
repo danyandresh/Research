@@ -7,6 +7,8 @@ namespace LightPlayer
 {
     public class Folder : IFolder
     {
+        private string path;
+
         private Folder()
         {
         }
@@ -14,9 +16,6 @@ namespace LightPlayer
         public Folder(string path)
         {
             Path = path;
-            SetupFilesCollection();
-            //TODO Between these two operations a file could be added to the folder and be missed from the list of files _visible_
-            SetupFileWatcher();
         }
 
         public bool IsValid
@@ -27,8 +26,15 @@ namespace LightPlayer
         [Key]
         public string Path
         {
-            get;
-            private set;
+            get { return path; }
+            private set
+            {
+                path = value;
+
+                SetupFilesCollection();
+                //TODO Between these two operations a file could be added to the folder and be missed from the list of files _visible_
+                SetupFileWatcher();
+            }
         }
 
 

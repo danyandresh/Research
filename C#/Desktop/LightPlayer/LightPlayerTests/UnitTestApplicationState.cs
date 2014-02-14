@@ -49,6 +49,40 @@ namespace LightPlayerTests
             Assert.AreEqual(testFolder, appStateCurrent.Folders.First().Path);
         }
 
+        [TestMethod]
+        public void TestApplicationStateRestoredModelRemainsValid()
+        {
+            var testFolderPath = UnitTestFolder.RealTestPath;
+            var appState = TransientApplicationState(WindsorContainer);
+            appState.ClearFolders();
+            var testFolder = WindsorContainer.Resolve<IFolder>(new { path = testFolderPath });
+            appState.AddFolder(testFolder);
+            var filesCount = testFolder.Files.Count;
+
+            WindsorContainer.Release(appState);
+            var appStateCurrent = TransientApplicationState(WindsorContainer);
+
+            Assert.IsNotNull(appStateCurrent.Folders.First().Files);
+            Assert.IsTrue(appStateCurrent.Folders.First().IsValid);
+        }
+
+        [TestMethod]
+        public void TestApplicationStateRestoredModelReadsFiles()
+        {
+            var testFolderPath = UnitTestFolder.RealTestPath;
+            var appState = TransientApplicationState(WindsorContainer);
+            appState.ClearFolders();
+            var testFolder = WindsorContainer.Resolve<IFolder>(new { path = testFolderPath });
+            appState.AddFolder(testFolder);
+            var filesCount = testFolder.Files.Count;
+
+            WindsorContainer.Release(appState);
+            var appStateCurrent = TransientApplicationState(WindsorContainer);
+
+            Assert.IsNotNull(appStateCurrent.Folders.First().Files);
+            Assert.AreEqual(filesCount, appStateCurrent.Folders.First().Files.Count);
+        }
+
 
         public static IApplicationState TransientApplicationState(IWindsorContainer windsorContainer)
         {
