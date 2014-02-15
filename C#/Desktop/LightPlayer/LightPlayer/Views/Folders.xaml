@@ -19,8 +19,11 @@
         <ListView Grid.Row="1" ItemsSource="{Binding Models}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Path}"/>
-                    <!--TODO Implement command binding-->
+                        <TextBlock Padding="10,5,10,5">
+                            <Hyperlink Name="hypelink"  NavigateUri="Playlist.xaml" Command="{Binding DataContext.CommandSelectFolder,RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding .}">
+                                <TextBlock Text="{Binding Path}"/>
+                            </Hyperlink>
+                        </TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -120,7 +120,14 @@
     <Compile Include="FolderViewModel.cs" />
     <Compile Include="IFolder.cs" />
     <Compile Include="IFolderViewModel.cs" />
+    <Compile Include="Views\Playlist.xaml.cs">
+      <DependentUpon>Playlist.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\Folders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Playlist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
