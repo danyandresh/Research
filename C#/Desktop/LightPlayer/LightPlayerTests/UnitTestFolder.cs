@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Threading;
+using Moq;
 
 namespace LightPlayerTests
 {
@@ -47,7 +48,9 @@ namespace LightPlayerTests
         public void TestFolderListsFiles()
         {
             string expectedPath = RealTestPath;
-            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+            var filterMock = new Mock<IFileMask>();
+            filterMock.Setup(f => f.IsVisible(It.IsAny<string>())).Returns(true);
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath, fileMask = filterMock.Object });
 
             var files = Directory.GetFiles(RealTestPath);
 
@@ -68,7 +71,10 @@ namespace LightPlayerTests
         public void TestFolderMonitorsFiles()
         {
             string expectedPath = RealTestPath;
-            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+            var fileMaskMock = new Mock<IFileMask>();
+            fileMaskMock.Setup(f => f.IsVisible(It.IsAny<string>())).Returns(true);
+
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath, fileMask = fileMaskMock.Object });
             var synchronizer = new ManualResetEvent(false);
 
             var testFilePath = Path.Combine(expectedPath, "new files poped up.txt");
@@ -88,6 +94,32 @@ namespace LightPlayerTests
                     Assert.Fail("Monitoring of the files collection in Folder does not work - event handler was not called");
                 }
             }
+        }
+
+        [TestMethod]
+        public void TestFolderSeesOnlyFilesThroughMask()
+        {
+            string expectedPath = RealTestPath;
+
+            var realFiles = Directory.GetFiles(expectedPath);
+            var randomFileCount = new Random().Next(0, realFiles.Length);
+            var currentFileCount = 0;
+
+            var filterMock = new Mock<IFileMask>();
+            filterMock.Setup(f => f.IsVisible(It.IsAny<string>())).Returns(() =>
+            {
+                if (currentFileCount >= randomFileCount)
+                {
+                    return false;
+                }
+
+                currentFileCount++;
+                return true;
+            });
+
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath, fileMask = filterMock.Object });
+
+            Assert.AreEqual(randomFileCount, currentFileCount, string.Format("There should have been exactly {0} files visible through mask", randomFileCount));
         }
 
         [TestMethod]

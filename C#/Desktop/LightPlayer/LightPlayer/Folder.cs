@@ -9,18 +9,29 @@ namespace LightPlayer
     {
         private string path;
 
+        private IFileMask fileMask;
+
         private Folder()
         {
         }
 
-        public Folder(string path)
+        public Folder(string path, IFileMask fileMask)
         {
+            this.fileMask = fileMask;
             Path = path;
         }
 
         public bool IsValid
         {
             get { return Directory.Exists(Path); }
+        }
+
+        public IFileMask FileMask
+        {
+            get
+            {
+                return fileMask ?? ViewModelLocator.DependecyContainer.Resolve<IFileMask>();
+            }
         }
 
         [Key]
@@ -63,7 +74,7 @@ namespace LightPlayer
         private void SetupFilesCollection()
         {
             var fileNames = IsValid ? Directory.GetFiles(Path) : Enumerable.Empty<string>();
-            Files = new ObservableCollection<string>(fileNames);
+            Files = new ObservableCollection<string>(fileNames.Where(f => FileMask.IsVisible(f)).ToList());
         }
     }
 }

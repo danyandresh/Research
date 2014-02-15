@@ -53,7 +53,7 @@ namespace LightPlayer
                 return;
             }
 
-            Add(new Folder(dialogResult.Item2));
+            Add(ViewModelLocator.DependecyContainer.Resolve<IFolder>(new { path = dialogResult.Item2 }));
         }
 
         public void Clear()

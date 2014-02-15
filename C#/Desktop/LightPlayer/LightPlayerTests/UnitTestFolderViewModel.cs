@@ -166,7 +166,7 @@ namespace LightPlayerTests
 
             var vm = TransientFolderVM(WindsorContainer);
             vm.Clear();
-            vm.Add(new Folder(realFolderPath));
+            vm.Add(WindsorContainer.Resolve<IFolder>(new { path = realFolderPath }));
             WindsorContainer.Release(vm);
 
             vm = TransientFolderVM(WindsorContainer);
