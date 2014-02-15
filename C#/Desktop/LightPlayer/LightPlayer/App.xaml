@@ -2,8 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views/Folders.xaml"
-             xmlns:lightPlayer="clr-namespace:LightPlayer">
+             xmlns:lightPlayer="clr-namespace:LightPlayer"
+             xmlns:converters="clr-namespace:LightPlayer.Converters">
     <Application.Resources>
-        <lightPlayer:ViewModelLocator x:Key="Locator" />
+        <ResourceDictionary>
+            <lightPlayer:ViewModelLocator x:Key="Locator" />
+            <converters:MultiValueParams x:Key="MultiValueParams"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
