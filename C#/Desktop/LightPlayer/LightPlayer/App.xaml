@@ -6,6 +6,9 @@
              xmlns:converters="clr-namespace:LightPlayer.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <lightPlayer:ViewModelLocator x:Key="Locator" />
             <converters:MultiValueParams x:Key="MultiValueParams"/>
         </ResourceDictionary>
