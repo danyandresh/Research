@@ -49,6 +49,10 @@ namespace LightPlayer
                 .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog"))
                 .DependsOn(Dependency.OnComponent(typeof(ApplicationState), "applicationState")));
 
+            container.Register(Component
+                .For<IPlaylist>()
+                .ImplementedBy<Playlist>());
+
             container.Kernel.Resolver.AddSubResolver(new PlaylistDependencyResolver(container.Kernel));
 
             container.Register(Component

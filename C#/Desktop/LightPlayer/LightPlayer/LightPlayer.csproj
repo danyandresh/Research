@@ -105,9 +105,11 @@
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IFileMask.cs" />
     <Compile Include="IMediaElement.cs" />
+    <Compile Include="IPlaylist.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />
     <Compile Include="MediaElementProxy.cs" />
+    <Compile Include="Playlist.cs" />
     <Compile Include="PlayListViewModel.cs" />
     <Compile Include="SelectDialog.cs" />
     <Compile Include="SelectDialogMode.cs" />
