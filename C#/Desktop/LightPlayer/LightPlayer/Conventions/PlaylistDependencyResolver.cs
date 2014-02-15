@@ -20,7 +20,8 @@ namespace LightPlayer.Conventions
 
         public object Resolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model, DependencyModel dependency)
         {
-            return null;
+            var vm = kernel.Resolve<IFolderViewModel>();
+            return vm.SelectedFolder;
         }
     }
 }

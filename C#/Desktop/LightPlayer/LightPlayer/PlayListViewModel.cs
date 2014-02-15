@@ -5,6 +5,9 @@ namespace LightPlayer
     {
         public PlaylistViewModel(IFolder toPlay)
         {
+            Folder = toPlay;
         }
+
+        public IFolder Folder { get; set; }
     }
 }

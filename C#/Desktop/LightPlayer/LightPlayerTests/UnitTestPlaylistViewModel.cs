@@ -23,5 +23,18 @@ namespace LightPlayerTests
                 Assert.IsTrue(ex.Message.Contains("Parameter 'toPlay'"), "Missing dependency was not detected");
             }
         }
+
+        [TestMethod]
+        public void TestMethodPlaylistVMBuildsOnSelectedFolderInFolderVM()
+        {
+            var folderVM = WindsorContainer.Resolve<IFolderViewModel>();
+            var testFolder = WindsorContainer.Resolve<IFolder>(new { path = UnitTestFolder.RealTestPath });
+            folderVM.CommandSelectFolder.Execute(testFolder);
+            Assert.IsNotNull(folderVM.SelectedFolder);
+
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>();
+
+            Assert.AreSame(folderVM.SelectedFolder, playlistVM.Folder);
+        }
     }
 }
