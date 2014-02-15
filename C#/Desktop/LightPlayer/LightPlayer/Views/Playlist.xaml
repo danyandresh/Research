@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <MediaElement Grid.Row="0" Name="media" Source="{Binding CurrentlyPlaying}" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
@@ -19,7 +19,7 @@
             <Button Content=">" Command="{Binding CommandPlay}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"/>
             <Button Content="." Command="{Binding CommandStop}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"/>
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Folder.Files}" SelectedItem="{Binding CurrentlyPlaying}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Folder.Files}" SelectedItem="{Binding CurrentlyPlaying}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="20">

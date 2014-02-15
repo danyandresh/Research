@@ -1,9 +1,9 @@
-﻿
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using LightPlayer.Conventions;
 using LightPlayer.Converters;
 using Microsoft.WindowsAPICodePack.Dialogs;
+
 namespace LightPlayer
 {
     public class ViewModelLocator

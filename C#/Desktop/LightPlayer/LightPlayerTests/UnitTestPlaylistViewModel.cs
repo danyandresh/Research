@@ -149,7 +149,6 @@ namespace LightPlayerTests
             }
         }
 
-
         [TestMethod]
         public void TestMethodPlaylistVMPlayCommandStarts()
         {
