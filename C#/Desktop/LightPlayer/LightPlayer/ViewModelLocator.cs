@@ -38,7 +38,7 @@ namespace LightPlayer
                 return fileDialog;
             }).Named("openFolderDialog"));
 
-            container.Register(Component.For<IFolder>().ImplementedBy<Folder>());
+            container.Register(Component.For<IFolder>().ImplementedBy<Folder>().LifestyleTransient());
             container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>().Named("folderSelectDialog"));
 
             container.Register(Component.For<IApplicationState>().ImplementedBy<ApplicationState>().Named("applicationState"));

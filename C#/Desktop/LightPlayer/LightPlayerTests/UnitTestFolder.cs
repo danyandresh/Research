@@ -90,6 +90,15 @@ namespace LightPlayerTests
             }
         }
 
+        [TestMethod]
+        public void TestFolderReturnsDifferentInstancesForDifferentPaths()
+        {
+            var folder1 = WindsorContainer.Resolve<IFolder>(new { path = "c:\\p1" });
+            var folder2 = WindsorContainer.Resolve<IFolder>(new { path = "c:\\p2" });
+
+            Assert.AreNotSame(folder1, folder2, "Container should resolve to different folders for different paths");
+        }
+
         static public string RealTestPath
         {
             get
