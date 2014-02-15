@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Practices.Prism.Commands;
+using System.ComponentModel;
+using System.Windows.Input;
+using System.Linq;
+using System;
 
 namespace LightPlayer
 {
@@ -9,6 +13,7 @@ namespace LightPlayer
         public PlaylistViewModel(IFolder toPlay)
         {
             Folder = toPlay;
+            currentlyPlaying = Folder.Files.First();
         }
 
         public IFolder Folder { get; set; }

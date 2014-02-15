@@ -5,6 +5,7 @@ using Castle.MicroKernel.Resolvers;
 using Moq;
 using System.Threading;
 using System;
+using System.Collections.ObjectModel;
 
 namespace LightPlayerTests
 {
@@ -62,6 +63,8 @@ namespace LightPlayerTests
             var testFolder = new Mock<IFolder>();
             var playFile = string.Empty;
 
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile }));
+
             var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
 
             var manualResetEvent = new ManualResetEvent(false);
@@ -78,6 +81,19 @@ namespace LightPlayerTests
             {
                 Assert.Fail("CurrentlyPlaying file is not observed");
             }
+        }
+
+        [TestMethod]
+        public void TestMethodPlaylistVMStartsWithFirstFile()
+        {
+            var testFolder = new Mock<IFolder>();
+            var playFile = string.Empty;
+
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile, null }));
+
+            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+
+            Assert.AreEqual(playFile, playlist.CurrentlyPlaying);
         }
     }
 }
