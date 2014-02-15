@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using LightPlayer.Conventions;
+using LightPlayer.Converters;
 using Microsoft.WindowsAPICodePack.Dialogs;
 namespace LightPlayer
 {
@@ -51,6 +52,8 @@ namespace LightPlayer
             container.Register(Component
                 .For<IPlaylistViewModel>()
                 .ImplementedBy<PlaylistViewModel>());
+
+            container.Register(Component.For<MultiValueParams>());
 
             return container;
         }

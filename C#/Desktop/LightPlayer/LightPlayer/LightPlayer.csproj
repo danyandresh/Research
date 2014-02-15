@@ -98,6 +98,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationState.cs" />
     <Compile Include="Conventions\PlaylistDependencyResolver.cs" />
+    <Compile Include="Converters\MultiValueParams.cs" />
     <Compile Include="DialogResult.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
