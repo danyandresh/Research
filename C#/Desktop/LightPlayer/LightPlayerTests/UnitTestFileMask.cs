@@ -12,9 +12,18 @@ namespace LightPlayerTests
         public void TestFileMaskSeesMp3()
         {
             var fileMask = WindsorContainer.Resolve<IFileMask>();
-            var fileInfo=new FileInfo("file.mp3");
+            var fileName = "file.mp3";
 
-            Assert.IsTrue(fileMask.IsVisible(fileInfo.Name));
+            Assert.IsTrue(fileMask.IsVisible(fileName));
+        }
+
+        [TestMethod]
+        public void TestFileMaskDoesNotSeeMp4()
+        {
+            var fileMask = WindsorContainer.Resolve<IFileMask>();
+            var fileName = "file.mp4";
+
+            Assert.IsFalse(fileMask.IsVisible(fileName));
         }
     }
 }

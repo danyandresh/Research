@@ -5,7 +5,7 @@ namespace LightPlayer
     {
         public bool IsVisible(string fileName)
         {
-            return true;
+            return fileName.EndsWith(".mp3");
         }
     }
 }
