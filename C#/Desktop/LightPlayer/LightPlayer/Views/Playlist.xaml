@@ -20,7 +20,14 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="20">
-                        <TextBlock Text="{Binding .}"/>
+                        <Button Content="{Binding .}" Command="{Binding DataContext.CommandPlayFile,RelativeSource={RelativeSource AncestorType=Page}}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ResourceKey=MultiValueParams}">
+                                    <Binding ElementName="media"/>
+                                    <Binding Path="."/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

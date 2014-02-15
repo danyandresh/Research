@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LightPlayer.Converters;
+using System.Windows.Controls;
+using LightPlayer;
 
 namespace LightPlayerTests
 {
@@ -8,12 +10,16 @@ namespace LightPlayerTests
     public class UnitTestConverters : TestContext
     {
         [TestMethod]
-        public void TestMethodMultiValueParamsConverterReturnsTupleOfTwoParams()
+        public void TestMethodMultiValueParamsConverterMediaElementConvertsToMediaElementProxy()
         {
             var converter = WindsorContainer.Resolve<MultiValueParams>();
-            var tuple = converter.Convert(new dynamic[] { null, null }, null, null, null);
 
-            Assert.IsTrue(tuple is Tuple<dynamic, dynamic>);
+            var mediaElement = new MediaElement();
+            var file = string.Empty;
+
+            var tuple = converter.Convert(new dynamic[] { mediaElement, file }, null, null, null);
+
+            Assert.IsTrue(tuple is Tuple<IMediaElement, string>);
         }
     }
 }
