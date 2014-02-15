@@ -13,21 +13,24 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <MediaElement Grid.Row="0" Name="media" Source="{Binding CurrentlyPlaying}" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
-        
+
         <ListView Grid.Row="1" ItemsSource="{Binding Folder.Files}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="20">
-                        <Button Content="{Binding .}" Command="{Binding DataContext.CommandPlayFile,RelativeSource={RelativeSource AncestorType=Page}}">
-                            <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource ResourceKey=MultiValueParams}">
-                                    <Binding ElementName="media"/>
-                                    <Binding Path="."/>
-                                </MultiBinding>
-                            </Button.CommandParameter>
-                        </Button>
+                        <TextBlock>
+                            <Hyperlink Command="{Binding DataContext.CommandPlayFile,RelativeSource={RelativeSource AncestorType=Page}}">
+                                <Hyperlink.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource ResourceKey=MultiValueParams}">
+                                        <Binding ElementName="media"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Hyperlink.CommandParameter>
+                                <TextBlock Text="{Binding .}"/>
+                            </Hyperlink>
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
