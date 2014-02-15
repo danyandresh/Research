@@ -21,5 +21,20 @@ namespace LightPlayerTests
             Assert.IsTrue(playlist.MoveNext());
             Assert.AreEqual(initialFile, playlist.CurrentFile, "Playlist did not move in the loop");
         }
+
+        [TestMethod]
+        public void TestMethodPlaylistIsTransient()
+        {
+            var folderMock1 = new Mock<IFolder>();
+            folderMock1.Setup(f => f.Files).Returns(new ObservableCollection<string>(new[] { string.Empty, "a file" }));
+            var playlist1 = WindsorContainer.Resolve<IPlaylist>(new { folder = folderMock1.Object });
+
+
+            var folderMock2 = new Mock<IFolder>();
+            folderMock2.Setup(f => f.Files).Returns(new ObservableCollection<string>(new[] { string.Empty, "a file" }));
+            var playlist2 = WindsorContainer.Resolve<IPlaylist>(new { folder = folderMock1.Object });
+
+            Assert.AreNotEqual(playlist1, playlist2, "Playlists should be transient");
+        }
     }
 }

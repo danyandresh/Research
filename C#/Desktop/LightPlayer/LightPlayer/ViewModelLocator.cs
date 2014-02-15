@@ -51,7 +51,8 @@ namespace LightPlayer
 
             container.Register(Component
                 .For<IPlaylist>()
-                .ImplementedBy<Playlist>());
+                .ImplementedBy<Playlist>()
+                .LifestyleTransient());
 
             container.Kernel.Resolver.AddSubResolver(new PlaylistDependencyResolver(container.Kernel));
 
