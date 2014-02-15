@@ -107,5 +107,46 @@ namespace LightPlayerTests
 
             Assert.IsNull(playlist.CurrentlyPlaying);
         }
+
+        [TestMethod]
+        public void TestMethodPlaylistVMPlayCommandStopsAndStartsWithNewFile()
+        {
+            var testFolder = new Mock<IFolder>();
+            var playFile = string.Empty;
+
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile, null }));
+
+            var mediaElement = new Mock<IMediaElement>();
+
+            EventWaitHandle stopEH = new ManualResetEvent(false),
+                changeEH = new ManualResetEvent(false),
+                startEH = new ManualResetEvent(false);
+            mediaElement.Setup(me => me.Stop()).Callback(() => { stopEH.Set(); });
+            mediaElement.Setup(me => me.Play()).Callback(() =>
+            {
+                // make sure source is being changed before playing
+                Assert.IsTrue(changeEH.WaitOne(TimeSpan.FromSeconds(1)), "Source was never changed");
+                startEH.Set();
+            });
+
+            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+
+            playFile = "new file";
+            playlist.PropertyChanged += (s, e) =>
+            {
+                // make sure Stop is called in the first instance
+                Assert.IsTrue(stopEH.WaitOne(TimeSpan.FromSeconds(1)), "Stop was never called");
+                Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
+                Assert.AreEqual(playFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
+                changeEH.Set();
+            };
+
+            playlist.CommandPlayFile.Execute(new Tuple<IMediaElement, string>(mediaElement.Object, playFile));
+
+            if (!startEH.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Start was never called");
+            }
+        }
     }
 }

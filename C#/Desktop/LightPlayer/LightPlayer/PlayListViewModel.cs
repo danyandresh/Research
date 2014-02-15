@@ -18,6 +18,8 @@ namespace LightPlayer
 
         public IFolder Folder { get; set; }
 
+        public ICommand CommandPlayFile { get { return new DelegateCommand<Tuple<IMediaElement, string>>(PlayFile); } }
+
         public string CurrentlyPlaying
         {
             get { return currentlyPlaying; }
@@ -26,6 +28,13 @@ namespace LightPlayer
                 currentlyPlaying = value;
                 NotifyPropertyChanged("CurrentlyPlaying");
             }
+        }
+
+        private void PlayFile(Tuple<IMediaElement, string> @params)
+        {
+            @params.Item1.Stop();
+            CurrentlyPlaying = @params.Item2;
+            @params.Item1.Play();
         }
 
         private void NotifyPropertyChanged(string prop)

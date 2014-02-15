@@ -101,6 +101,7 @@
     <Compile Include="Converters\MultiValueParams.cs" />
     <Compile Include="DialogResult.cs" />
     <Compile Include="IApplicationState.cs" />
+    <Compile Include="IMediaElement.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />
     <Compile Include="PlayListViewModel.cs" />

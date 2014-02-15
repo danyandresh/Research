@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using System.Windows.Input;
 namespace LightPlayer
 {
     public interface IPlaylistViewModel : INotifyPropertyChanged
@@ -7,5 +8,7 @@ namespace LightPlayer
         IFolder Folder { get; }
 
         string CurrentlyPlaying { get; set; }
+
+        ICommand CommandPlayFile { get; }
     }
 }
