@@ -12,5 +12,7 @@ namespace LightPlayer
         ICommand CommandPlayFile { get; }
 
         ICommand CommandPlay { get; }
+
+        ICommand CommandStop { get; }
     }
 }

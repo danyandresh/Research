@@ -28,6 +28,14 @@ namespace LightPlayer
             }
         }
 
+        public ICommand CommandStop
+        {
+            get
+            {
+                return new DelegateCommand<IMediaElement>((mediaElement) => { mediaElement.Stop(); });
+            }
+        }
+
         public string CurrentlyPlaying
         {
             get { return currentlyPlaying; }
