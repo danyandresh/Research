@@ -121,8 +121,8 @@ namespace LightPlayerTests
             EventWaitHandle stopEH = new ManualResetEvent(false),
                 changeEH = new ManualResetEvent(false),
                 startEH = new ManualResetEvent(false);
-            mediaElement.Setup(me => me.Stop()).Callback(() => { stopEH.Set(); });
-            mediaElement.Setup(me => me.Play()).Callback(() =>
+            mediaElement.Setup(me => me.Stop).Returns(() => { stopEH.Set(); });
+            mediaElement.Setup(me => me.Play).Returns(() =>
             {
                 // make sure source is being changed before playing
                 Assert.IsTrue(changeEH.WaitOne(TimeSpan.FromSeconds(1)), "Source was never changed");

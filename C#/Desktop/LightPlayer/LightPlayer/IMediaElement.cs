@@ -1,10 +1,11 @@
 ﻿
+using System;
 namespace LightPlayer
 {
     public interface IMediaElement
     {
-        void Stop();
+        Action Play { get; }
 
-        void Play();
+        Action Stop { get; }
     }
 }
