@@ -21,5 +21,17 @@ namespace LightPlayerTests
 
             Assert.IsTrue(tuple is Tuple<IMediaElement, string>);
         }
+
+        [TestMethod]
+        public void TestMethodMediaInteractionConverterMediaElementConvertsToMediaElementProxy()
+        {
+            var converter = WindsorContainer.Resolve<MediaInteractionConverter>();
+
+            var mediaElement = new MediaElement();
+
+            var tuple = converter.Convert(mediaElement, null, null, null);
+
+            Assert.IsTrue(tuple is IMediaElement);
+        }
     }
 }

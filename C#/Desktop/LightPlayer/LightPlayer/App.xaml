@@ -11,6 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
             <lightPlayer:ViewModelLocator x:Key="Locator" />
             <converters:MultiValueParams x:Key="MultiValueParams"/>
+            <converters:MediaInteractionConverter x:Key="MediaInteraction"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
