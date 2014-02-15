@@ -63,12 +63,19 @@ namespace LightPlayer
             }
 
             var fileSystemWatcher = new FileSystemWatcher(Path);
-            fileSystemWatcher.Created += (sender, e) =>
-                {
-                    Files.Add(e.FullPath);
-                };
+            fileSystemWatcher.Created += OnFileCreated;
 
             fileSystemWatcher.EnableRaisingEvents = true;
+        }
+
+        public void OnFileCreated(object sender, FileSystemEventArgs e)
+        {
+            if (!FileMask.IsVisible(e.FullPath))
+            {
+                return;
+            }
+
+            Files.Add(e.FullPath);
         }
 
         private void SetupFilesCollection()

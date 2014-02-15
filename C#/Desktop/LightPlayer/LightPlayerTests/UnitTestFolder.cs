@@ -131,6 +131,29 @@ namespace LightPlayerTests
             Assert.AreNotSame(folder1, folder2, "Container should resolve to different folders for different paths");
         }
 
+        [TestMethod]
+        public void TestFolderMonitorsFilesUsingMask()
+        {
+            string expectedPath = RealTestPath;
+            var notifyOnNewFile = new ManualResetEvent(false);
+            var notifyFromMask = new ManualResetEvent(false);
+
+            var fileMaskMock = new Mock<IFileMask>();
+            fileMaskMock.Setup(f => f.IsVisible(It.IsAny<string>())).Returns(() =>
+            {
+                notifyFromMask.Set();
+                return true;
+            });
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath, fileMask = fileMaskMock.Object });
+
+            folder.OnFileCreated(null, new FileSystemEventArgs(WatcherChangeTypes.Created, expectedPath, "new file popped up.txt"));
+
+            if (!notifyFromMask.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Monitoring of the files collection in Folder while applying mask does not work - most likely mask has not been used");
+            }
+        }
+
         static public string RealTestPath
         {
             get
