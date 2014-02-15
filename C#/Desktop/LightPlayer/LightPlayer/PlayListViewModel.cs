@@ -20,6 +20,14 @@ namespace LightPlayer
 
         public ICommand CommandPlayFile { get { return new DelegateCommand<Tuple<IMediaElement, string>>(PlayFile); } }
 
+        public ICommand CommandPlay
+        {
+            get
+            {
+                return new DelegateCommand<IMediaElement>((mediaElement) => { mediaElement.Play(); });
+            }
+        }
+
         public string CurrentlyPlaying
         {
             get { return currentlyPlaying; }

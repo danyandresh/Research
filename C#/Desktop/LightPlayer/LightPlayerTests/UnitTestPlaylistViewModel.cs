@@ -148,5 +148,41 @@ namespace LightPlayerTests
                 Assert.Fail("Start was never called");
             }
         }
+
+
+        [TestMethod]
+        public void TestMethodPlaylistVMPlayCommandStarts()
+        {
+            var testFolder = new Mock<IFolder>();
+            var playFile = string.Empty;
+
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile, null }));
+
+            var mediaElement = new Mock<IMediaElement>();
+
+            EventWaitHandle changeEH = new ManualResetEvent(false),
+            startEH = new ManualResetEvent(false);
+            mediaElement.Setup(me => me.Play).Returns(() =>
+            {
+                startEH.Set();
+            });
+
+            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+
+            playFile = "new file";
+            playlist.PropertyChanged += (s, e) =>
+            {
+                Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
+                Assert.AreEqual(playFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
+                changeEH.Set();
+            };
+
+            playlist.CommandPlay.Execute(mediaElement.Object);
+
+            if (!startEH.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Start was never called");
+            }
+        }
     }
 }

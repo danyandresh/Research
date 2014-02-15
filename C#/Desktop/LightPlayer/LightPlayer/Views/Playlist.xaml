@@ -15,8 +15,10 @@
         </Grid.RowDefinitions>
 
         <MediaElement Grid.Row="0" Name="media" Source="{Binding CurrentlyPlaying}" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
-
-        <ListView Grid.Row="1" ItemsSource="{Binding Folder.Files}">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Button Content=">" Command="{Binding CommandPlay}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"/>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Folder.Files}" SelectedItem="{Binding CurrentlyPlaying}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="20">

@@ -10,5 +10,7 @@ namespace LightPlayer
         string CurrentlyPlaying { get; set; }
 
         ICommand CommandPlayFile { get; }
+
+        ICommand CommandPlay { get; }
     }
 }
