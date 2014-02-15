@@ -38,5 +38,21 @@ namespace LightPlayerTests
 
             Assert.AreEqual(vm, ViewModelLocator.FoldersViewModel);
         }
+
+        [TestMethod]
+        public void TestLocatorPlaylistVMIsTransient()
+        {
+            var folderVM = ViewModelLocator.FoldersViewModel;
+            var testFolder = WindsorContainer.Resolve<IFolder>(new { path = UnitTestFolder.RealTestPath });
+            folderVM.CommandSelectFolder.Execute(testFolder);
+
+            Assert.IsNotNull(folderVM.SelectedFolder);
+
+            var playlist1 = ViewModelLocator.PlaylistViewModel;
+            var playlist2 = ViewModelLocator.PlaylistViewModel;
+
+            Assert.AreNotSame(playlist1, playlist2);
+        }
+
     }
 }

@@ -12,6 +12,8 @@ namespace LightPlayer
 
         public static IFolderViewModel FoldersViewModel { get { return DependecyContainer.Resolve<IFolderViewModel>(); } }
 
+        public static IPlaylistViewModel PlaylistViewModel { get { return DependecyContainer.Resolve<IPlaylistViewModel>(); } }
+
         public static IWindsorContainer DependecyContainer
         {
             get
