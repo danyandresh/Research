@@ -1,6 +1,7 @@
 ﻿
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using LightPlayer.Conventions;
 using Microsoft.WindowsAPICodePack.Dialogs;
 namespace LightPlayer
 {
@@ -44,6 +45,12 @@ namespace LightPlayer
                 .ImplementedBy<FolderViewModel>()
                 .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog"))
                 .DependsOn(Dependency.OnComponent(typeof(ApplicationState), "applicationState")));
+
+            container.Kernel.Resolver.AddSubResolver(new PlaylistDependencyResolver(container.Kernel));
+
+            container.Register(Component
+                .For<IPlaylistViewModel>()
+                .ImplementedBy<PlaylistViewModel>());
 
             return container;
         }

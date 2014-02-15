@@ -97,9 +97,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationState.cs" />
+    <Compile Include="Conventions\PlaylistDependencyResolver.cs" />
     <Compile Include="DialogResult.cs" />
     <Compile Include="IApplicationState.cs" />
+    <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />
+    <Compile Include="PlayListViewModel.cs" />
     <Compile Include="SelectDialog.cs" />
     <Compile Include="SelectDialogMode.cs" />
     <Compile Include="ViewModelLocator.cs" />
