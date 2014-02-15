@@ -41,7 +41,7 @@ namespace LightPlayerTests
             var appState = TransientApplicationState(WindsorContainer);
             appState.ClearFolders();
             appState.AddFolder(WindsorContainer.Resolve<IFolder>(new { path = testFolder }));
-            
+
             WindsorContainer.Release(appState);
             var appStateCurrent = TransientApplicationState(WindsorContainer);
 

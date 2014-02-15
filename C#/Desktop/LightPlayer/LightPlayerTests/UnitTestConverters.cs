@@ -10,7 +10,7 @@ namespace LightPlayerTests
         [TestMethod]
         public void TestMethodMultiValueParamsConverterReturnsTupleOfTwoParams()
         {
-            var converter=WindsorContainer.Resolve<MultiValueParams>();
+            var converter = WindsorContainer.Resolve<MultiValueParams>();
             var tuple = converter.Convert(new dynamic[] { null, null }, null, null, null);
 
             Assert.IsTrue(tuple is Tuple<dynamic, dynamic>);
