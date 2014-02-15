@@ -13,7 +13,7 @@ namespace LightPlayer
         public PlaylistViewModel(IFolder toPlay)
         {
             Folder = toPlay;
-            currentlyPlaying = Folder.Files.First();
+            currentlyPlaying = Folder.Files.FirstOrDefault();
         }
 
         public IFolder Folder { get; set; }

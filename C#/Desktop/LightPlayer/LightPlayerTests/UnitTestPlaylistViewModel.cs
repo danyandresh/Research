@@ -95,5 +95,17 @@ namespace LightPlayerTests
 
             Assert.AreEqual(playFile, playlist.CurrentlyPlaying);
         }
+
+        [TestMethod]
+        public void TestMethodPlaylistVMStartsWithNoFileIfEmptyFolder()
+        {
+            var testFolder = new Mock<IFolder>();
+
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>());
+
+            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+
+            Assert.IsNull(playlist.CurrentlyPlaying);
+        }
     }
 }
