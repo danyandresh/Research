@@ -100,7 +100,9 @@
     <Compile Include="Conventions\PlaylistDependencyResolver.cs" />
     <Compile Include="Converters\MultiValueParams.cs" />
     <Compile Include="DialogResult.cs" />
+    <Compile Include="FileMask.cs" />
     <Compile Include="IApplicationState.cs" />
+    <Compile Include="IFileMask.cs" />
     <Compile Include="IMediaElement.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />

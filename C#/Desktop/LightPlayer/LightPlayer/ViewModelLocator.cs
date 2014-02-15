@@ -58,6 +58,8 @@ namespace LightPlayer
 
             container.Register(Component.For<MultiValueParams>());
 
+            container.Register(Component.For<IFileMask>().ImplementedBy<FileMask>());
+
             return container;
         }
     }
