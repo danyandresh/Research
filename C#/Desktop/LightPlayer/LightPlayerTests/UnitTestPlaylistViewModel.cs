@@ -2,6 +2,9 @@
 using LightPlayer;
 using Castle.Windsor;
 using Castle.MicroKernel.Resolvers;
+using Moq;
+using System.Threading;
+using System;
 
 namespace LightPlayerTests
 {
@@ -52,5 +55,29 @@ namespace LightPlayerTests
             Assert.AreNotSame(playlist1, playlist2);
         }
 
+
+        [TestMethod]
+        public void TestMethodPlaylistVMObservesCurrentlyPlaying()
+        {
+            var testFolder = new Mock<IFolder>();
+            var playFile = string.Empty;
+
+            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+
+            var manualResetEvent = new ManualResetEvent(false);
+            playlist.PropertyChanged += (s, e) =>
+            {
+                Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
+                Assert.AreEqual(playFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
+                manualResetEvent.Set();
+            };
+
+            playlist.CurrentlyPlaying = playFile;
+
+            if (!manualResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("CurrentlyPlaying file is not observed");
+            }
+        }
     }
 }
