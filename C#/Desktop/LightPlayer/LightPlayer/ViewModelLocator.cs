@@ -51,7 +51,8 @@ namespace LightPlayer
 
             container.Register(Component
                 .For<IPlaylistViewModel>()
-                .ImplementedBy<PlaylistViewModel>());
+                .ImplementedBy<PlaylistViewModel>()
+                .LifestyleTransient());
 
             container.Register(Component.For<MultiValueParams>());
 
