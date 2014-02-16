@@ -29,5 +29,16 @@ namespace LightPlayerTests
             Assert.AreEqual(stopMethod, ((Delegate)proxy.Stop).Method, "Stop method is not surrogated");
             Assert.AreEqual(mediaElement, ((System.Delegate)proxy.Play).Target, "MediaElement surrogate's stop method does not reference original media element");
         }
+
+        [TestMethod]
+        public void TestMethodMediaElementProxySurrogatesPause()
+        {
+            var mediaElement = new MediaElement();
+            IMediaElement proxy = MediaElementProxy.BuildProxy(mediaElement);
+            var stopMethod = typeof(MediaElement).GetMethod("Pause");
+
+            Assert.AreEqual(stopMethod, ((Delegate)proxy.Pause).Method, "Pause method is not surrogated");
+            Assert.AreEqual(mediaElement, ((System.Delegate)proxy.Play).Target, "MediaElement surrogate's pause method does not reference original media element");
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace LightPlayer
             var result = new MediaElementProxy();
             result.Play = mediaElement.Play;
             result.Stop = mediaElement.Stop;
+            result.Pause = mediaElement.Pause;
 
             return result;
         }
