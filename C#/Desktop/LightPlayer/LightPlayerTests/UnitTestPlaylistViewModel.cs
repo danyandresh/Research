@@ -24,7 +24,7 @@ namespace LightPlayerTests
             }
             catch (DependencyResolverException ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Parameter 'toPlay'"), "Missing dependency was not detected");
+                Assert.IsTrue(ex.Message.Contains("Parameter 'folder'"), "Missing dependency was not detected");
             }
         }
 
@@ -38,7 +38,7 @@ namespace LightPlayerTests
 
             var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>();
 
-            Assert.AreSame(folderVM.SelectedFolder, playlistVM.Folder);
+            Assert.AreSame(folderVM.SelectedFolder, playlistVM.Playlist.Folder);
         }
 
         [TestMethod]
@@ -65,17 +65,19 @@ namespace LightPlayerTests
 
             testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile }));
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
+
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
 
             var manualResetEvent = new ManualResetEvent(false);
-            playlist.PropertyChanged += (s, e) =>
+            playlistVM.PropertyChanged += (s, e) =>
             {
                 Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
                 Assert.AreEqual(playFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
                 manualResetEvent.Set();
             };
 
-            playlist.CurrentlyPlaying = playFile;
+            playlistVM.CurrentlyPlaying = playFile;
 
             if (!manualResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
             {
@@ -91,9 +93,11 @@ namespace LightPlayerTests
 
             testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile, null }));
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
 
-            Assert.AreEqual(playFile, playlist.CurrentlyPlaying);
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
+
+            Assert.AreEqual(playFile, playlistVM.CurrentlyPlaying);
         }
 
         [TestMethod]
@@ -103,9 +107,11 @@ namespace LightPlayerTests
 
             testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>());
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
 
-            Assert.IsNull(playlist.CurrentlyPlaying);
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
+
+            Assert.IsNull(playlistVM.CurrentlyPlaying);
         }
 
         [TestMethod]
@@ -129,10 +135,12 @@ namespace LightPlayerTests
                 startEH.Set();
             });
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
+
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
 
             playFile = "new file";
-            playlist.PropertyChanged += (s, e) =>
+            playlistVM.PropertyChanged += (s, e) =>
             {
                 // make sure Stop is called in the first instance
                 Assert.IsTrue(stopEH.WaitOne(TimeSpan.FromSeconds(1)), "Stop was never called");
@@ -141,7 +149,7 @@ namespace LightPlayerTests
                 changeEH.Set();
             };
 
-            playlist.CommandPlayFile.Execute(new Tuple<IMediaElement, string>(mediaElement.Object, playFile));
+            playlistVM.CommandPlayFile.Execute(new Tuple<IMediaElement, string>(mediaElement.Object, playFile));
 
             if (!startEH.WaitOne(TimeSpan.FromSeconds(1)))
             {
@@ -166,17 +174,19 @@ namespace LightPlayerTests
                 startEH.Set();
             });
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
+
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
 
             playFile = "new file";
-            playlist.PropertyChanged += (s, e) =>
+            playlistVM.PropertyChanged += (s, e) =>
             {
                 Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
                 Assert.AreEqual(playFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
                 changeEH.Set();
             };
 
-            playlist.CommandPlay.Execute(mediaElement.Object);
+            playlistVM.CommandPlay.Execute(mediaElement.Object);
 
             if (!startEH.WaitOne(TimeSpan.FromSeconds(1)))
             {
@@ -200,10 +210,11 @@ namespace LightPlayerTests
                 stopEH.Set();
             });
 
-            var playlist = WindsorContainer.Resolve<IPlaylistViewModel>(new { toPlay = testFolder.Object });
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
 
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
 
-            playlist.CommandStop.Execute(mediaElement.Object);
+            playlistVM.CommandStop.Execute(mediaElement.Object);
 
             if (!stopEH.WaitOne(TimeSpan.FromSeconds(1)))
             {

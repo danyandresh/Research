@@ -5,7 +5,7 @@ namespace LightPlayer
 {
     public interface IPlaylistViewModel : INotifyPropertyChanged
     {
-        IFolder Folder { get; }
+        IPlaylist Playlist { get; }
 
         string CurrentlyPlaying { get; set; }
 

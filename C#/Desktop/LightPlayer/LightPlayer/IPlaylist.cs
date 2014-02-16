@@ -3,8 +3,10 @@ namespace LightPlayer
 {
     public interface IPlaylist
     {
-        string CurrentFile { get; }
+        string CurrentFile { get; set; }
 
         bool MoveNext();
+
+        IFolder Folder { get; }
     }
 }

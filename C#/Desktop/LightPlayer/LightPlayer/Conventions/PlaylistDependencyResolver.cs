@@ -15,7 +15,7 @@ namespace LightPlayer.Conventions
 
         public bool CanResolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model, DependencyModel dependency)
         {
-            return model.Implementation == typeof(PlaylistViewModel) && dependency.DependencyKey == "toPlay";
+            return model.Implementation == typeof(Playlist) && dependency.DependencyKey == "folder";
         }
 
         public object Resolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model, DependencyModel dependency)

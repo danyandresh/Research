@@ -8,15 +8,11 @@ namespace LightPlayer
 {
     public class PlaylistViewModel : IPlaylistViewModel
     {
-        private string currentlyPlaying;
-
-        public PlaylistViewModel(IFolder toPlay)
+        public PlaylistViewModel(IPlaylist playlist)
         {
-            Folder = toPlay;
-            currentlyPlaying = Folder.Files.FirstOrDefault();
         }
 
-        public IFolder Folder { get; set; }
+        public IPlaylist Playlist { get; set; }
 
         public ICommand CommandPlayFile { get { return new DelegateCommand<Tuple<IMediaElement, string>>(PlayFile); } }
 
@@ -38,10 +34,10 @@ namespace LightPlayer
 
         public string CurrentlyPlaying
         {
-            get { return currentlyPlaying; }
+            get { return Playlist.CurrentFile; }
             set
             {
-                currentlyPlaying = value;
+                Playlist.CurrentFile = value;
                 NotifyPropertyChanged("CurrentlyPlaying");
             }
         }

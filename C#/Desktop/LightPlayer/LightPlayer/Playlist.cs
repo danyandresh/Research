@@ -5,21 +5,21 @@ namespace LightPlayer
 {
     class Playlist : IPlaylist
     {
-        private IFolder folder;
-
         private Queue<string> playQueue;
 
         public Playlist(IFolder folder)
         {
-            this.folder = folder;
+            Folder = folder;
             playQueue = new Queue<string>(folder.Files);
             MoveNext();
         }
 
+        public IFolder Folder { get; private set; }
+
         public string CurrentFile
         {
             get;
-            private set;
+            set;
         }
 
         public bool MoveNext()
