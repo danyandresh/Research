@@ -221,5 +221,50 @@ namespace LightPlayerTests
                 Assert.Fail("Stop was never called");
             }
         }
+
+        [TestMethod]
+        public void TestMethodPlaylistVMCommandPlayNextMovesToNextFileAndStarts()
+        {
+            var testFolder = new Mock<IFolder>();
+            var playFile1 = "x";
+            var playFile2 = "y";
+
+            testFolder.Setup(t => t.Files).Returns(new ObservableCollection<string>(new[] { playFile1, playFile2 }));
+
+            var mediaElement = new Mock<IMediaElement>();
+
+            var startEH = new ManualResetEvent(false);
+            var changeEH = new ManualResetEvent(false);
+            mediaElement.Setup(me => me.Play).Returns(() =>
+            {
+                startEH.Set();
+            });
+
+            var playlist = WindsorContainer.Resolve<IPlaylist>(new { folder = testFolder.Object });
+
+            var playlistVM = WindsorContainer.Resolve<IPlaylistViewModel>(new { playlist = playlist });
+
+            var currentFile = playlistVM.CurrentlyPlaying;
+            playlistVM.PropertyChanged += (s, e) =>
+            {
+                Assert.AreEqual("CurrentlyPlaying", e.PropertyName);
+                Assert.AreNotEqual(currentFile, ((IPlaylistViewModel)s).CurrentlyPlaying);
+                changeEH.Set();
+            };
+
+            playlistVM.CurrentlyPlaying = null;
+            playlistVM.CommandPlayNext.Execute(mediaElement.Object);
+
+
+            if (!changeEH.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("PlayNext did not change the file!");
+            }
+
+            if (!startEH.WaitOne(TimeSpan.FromSeconds(1)))
+            {
+                Assert.Fail("Start was never called");
+            }
+        }
     }
 }

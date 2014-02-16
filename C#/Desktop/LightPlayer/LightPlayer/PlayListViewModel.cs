@@ -24,6 +24,19 @@ namespace LightPlayer
             }
         }
 
+        public ICommand CommandPlayNext
+        {
+            get
+            {
+                return new DelegateCommand<IMediaElement>((mediaElement) =>
+                {
+                    Playlist.MoveNext();
+                    CurrentlyPlaying = Playlist.CurrentFile;
+                    mediaElement.Play();
+                });
+            }
+        }
+
         public ICommand CommandStop
         {
             get

@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:pinteractivity="clr-namespace:Microsoft.Practices.Prism.Interactivity;assembly=Microsoft.Practices.Prism.Interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="Playlist"
@@ -14,7 +16,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <MediaElement Grid.Row="0" Name="media" Source="{Binding CurrentlyPlaying}" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
+        <MediaElement Grid.Row="0" Name="media"
+                      Source="{Binding CurrentlyPlaying}" LoadedBehavior="Manual" UnloadedBehavior="Stop">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="MediaEnded">
+                    <pinteractivity:InvokeCommandAction Command="{Binding CommandPlayNext}" 
+                                                        CommandParameter="{Binding ElementName=media,Converter={StaticResource ResourceKey=MediaInteraction}}"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </MediaElement>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Button Content=">" Command="{Binding CommandPlay}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"/>
             <Button Content="." Command="{Binding CommandStop}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"/>
