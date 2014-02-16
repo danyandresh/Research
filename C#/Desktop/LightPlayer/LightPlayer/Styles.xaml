@@ -8,5 +8,8 @@
         </Style.Triggers>
         <Setter Property="Foreground" Value="DarkBlue" />
         <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
-    </Style>    
+    </Style>
+    <Style x:Name="buttons" TargetType="{x:Type Button}" >
+        <Setter Property="Margin" Value="5,10,5,10"/>
+    </Style>
 </ResourceDictionary>
