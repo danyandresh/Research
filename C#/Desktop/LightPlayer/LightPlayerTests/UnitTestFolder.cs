@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using System.Threading;
 using Moq;
+using System.Threading.Tasks;
 
 namespace LightPlayerTests
 {
@@ -152,6 +153,39 @@ namespace LightPlayerTests
             {
                 Assert.Fail("Monitoring of the files collection in Folder while applying mask does not work - most likely mask has not been used");
             }
+        }
+
+        [TestMethod]
+        public void TestFolderMonitorsFilesCollectionCanBeChangeFromDifferentThread()
+        {
+            string expectedPath = RealTestPath;
+
+            var uiComplete = new ManualResetEvent(false);
+
+            var appState = WindsorContainer.Resolve<IApplicationState>();
+            appState.ClearFolders();
+            var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
+            appState.AddFolder(folder);
+            ViewModelLocator.FoldersViewModel.CommandSelectFolder.Execute(folder);
+
+            //Trigger the UI to bind to ObservableCollections and prevent their change from MTA threads
+            var app = new App();
+            var playlistUI = new LightPlayer.Views.Playlist();
+
+            var success = false;
+            var task = new Task(() =>
+                                {
+                                    Assert.AreEqual(ApartmentState.MTA, Thread.CurrentThread.GetApartmentState());
+
+                                    var folder1 = ViewModelLocator.PlaylistViewModel.Playlist.Folder;
+                                    folder1.OnFileCreated(null, new FileSystemEventArgs(WatcherChangeTypes.Created, expectedPath, "test.mp3"));
+                                    success = true;
+                                });
+
+            task.Start();
+            task.Wait();
+            Assert.IsNull(task.Exception/*task.Exception.Flatten().InnerException.ToString()*/);
+            Assert.IsTrue(success);
         }
 
         static public string RealTestPath
