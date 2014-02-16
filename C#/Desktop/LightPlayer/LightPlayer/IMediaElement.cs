@@ -7,5 +7,7 @@ namespace LightPlayer
         Action Play { get; }
 
         Action Stop { get; }
+
+        Action Pause { get; }
     }
 }

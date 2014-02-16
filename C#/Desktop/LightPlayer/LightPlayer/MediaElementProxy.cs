@@ -11,6 +11,8 @@ namespace LightPlayer
 
         public Action Stop { get; private set; }
 
+        public Action Pause { get; private set; }
+
         public static IMediaElement BuildProxy(System.Windows.Controls.MediaElement mediaElement)
         {
             var result = new MediaElementProxy();
