@@ -59,7 +59,7 @@
     $("form[data-dome-ajax='true']").submit(ajaxRequest);
     $("input[data-dome-autocomplete]").each(createAutocomplete);
 
-    $("section.main-content").on("click", ".pager a", getPage);
+    $("section#mainContent").on("click", ".pager a", getPage);
 
     $("form[data-dome-resultreplacestarget='true']").submit(ajaxRequest);
 })

@@ -3,12 +3,11 @@
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
-</hgroup>
+<p>@ViewBag.Title</p>
+<p>Associate your @ViewBag.ProviderDisplayName account.</p>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -19,13 +18,11 @@
             Please enter a user name for this site below and click the Confirm button to finish
             logging in.
         </p>
-        <ol>
-            <li class="name">
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-        </ol>
+        <p>
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </p>
         @Html.HiddenFor(m => m.ExternalLoginData)
         <input type="submit" value="Register" />
     </fieldset>

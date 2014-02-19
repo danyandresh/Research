@@ -1,25 +1,25 @@
 ﻿@model PagedList<Comment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All comments";
 }
 
 <div id="comments">
 
-    <h2>All comments</h2>
+    <p>@ViewBag.Title</p>
 
     @foreach (var item in Model)
     {
         <div class="comment">
-            <div class="comment-details">
+            <div>
                 User /*todo: implement user*/ commented on @Html.ActionLink(@item.Post.Title, "Details", "BlogPost", new { id = item.Post.Id }, null) at @item.CreatedDate
             </div>
 
-            <div id="comment-@item.Id" class="display-area">
+            <div id="comment-@item.Id">
                 @item.Content.ToSafeMarkdown()
             </div>
 
-            <div class="comment-actions">
+            <div>
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })

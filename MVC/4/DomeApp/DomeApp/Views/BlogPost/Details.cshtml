@@ -4,21 +4,18 @@
     ViewBag.Title = "Details";
 }
 
-<div class="display-title">
-    <h3>
-        @Html.DisplayFor(m => m.Title)
-    </h3>
-</div>
+<p>
+    @Html.DisplayFor(m => m.Title)
+</p>
 
-<div class="display-area">
+<div>
     @Model.Content.ToSafeMarkdown()
 </div>
 
-<div class="display-actions">
+<div>
     @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-        @:|
     }
 
     @Html.ActionLink("Back to List", "Index")

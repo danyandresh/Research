@@ -6,22 +6,22 @@ var post = Model.Item1;}
 <div id="comments">
     @foreach (var item in pagedList)
     {
-        <div class="comment">
-            <div class="comment-details">
+        <div>
+            <p>
                 /*todo: implement user*/ commented at @item.CreatedDate
-            </div>
+            </p>
 
             <div id="comment-@item.Id" class="display-area">
                 @item.Content.ToSafeMarkdown()
             </div>
 
-            <div class="comment-actions">
+            <div>
                 @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @:|
                 }
-                
+
                 @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
                 {
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
@@ -30,9 +30,7 @@ var post = Model.Item1;}
         </div>
     }
 
-    <p>
-        Paging
-    </p>
+    <p>Paging</p>
 
     @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
 </div>
