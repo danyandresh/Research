@@ -6,33 +6,38 @@
 
 <h2>Post a new comment</h2>
 
-@{
+@if (!Request.IsAuthenticated)
+{
+    @Html.ActionLink("Log in to comment", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+}
+else
+{
+
     var returnQueryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
     returnQueryString["toMostRecent"] = "true";
-}
 
-@using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Content)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Content, new { @class = "expandableTextarea" })
+            @Html.ValidationMessageFor(model => model.Content)
+        </div>
+
+        <p>
+            <input type="submit" value="Post" />
+        </p>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-    <div class="editor-field">
-        @Html.TextAreaFor(model => model.Content, new { @class = "expandableTextarea" })
-        @Html.ValidationMessageFor(model => model.Content)
-    </div>
-
-    <p>
-        <input type="submit" value="Post" />
-    </p>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

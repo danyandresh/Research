@@ -62,7 +62,6 @@
             return PartialView(model);
         }
 
-        [Authorize]
         public ActionResult Create()
         {
             return PartialView();
