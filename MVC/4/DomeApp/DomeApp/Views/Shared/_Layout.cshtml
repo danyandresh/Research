@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title - DomeApp</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/bootstrap_css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -31,6 +32,7 @@
     </footer>
 
     @Scripts.Render("~/bundles/domeapp")
+    @Scripts.Render("~/bundles/bootstrap_scripts")
     @RenderSection("scripts", required: false)
 </body>
 </html>
