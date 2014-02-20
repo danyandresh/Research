@@ -1,10 +1,12 @@
 ﻿@model DomeApp.Models.BlogPost
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create a new post";
 }
 
-<p>@ViewBag.Title</p>
+<div class="page-header">
+    <h3>@ViewBag.Title</h3>
+</div>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()

@@ -1,10 +1,12 @@
 ﻿@model DomeApp.Models.Comment
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit comment";
 }
 
-<p>@ViewBag.Title</p>
+<div class="page-header">
+    <h3>@ViewBag.Title</h3>
+</div>
 
 @using (Html.BeginForm())
 {
@@ -12,13 +14,10 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Comment</legend>
-
         @Html.HiddenFor(model => model.Id)
 
         <div>
-            @Html.LabelFor(model => model.Content)
-            @Html.EditorFor(model => model.Content)
+            @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
             @Html.ValidationMessageFor(model => model.Content)
         </div>
 

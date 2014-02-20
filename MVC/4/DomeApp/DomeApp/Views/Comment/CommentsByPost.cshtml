@@ -3,34 +3,45 @@
 @{var pagedList = Model.Item2;
 var post = Model.Item1;}
 
-<div id="comments">
-    @foreach (var item in pagedList)
-    {
+<div class="clearfix"></div>
+
+@if (pagedList.TotalPages == 0)
+{
+    //TODO Move this to a resource
+    @: No comments just yet.
+}
+else
+{
+
+
+    <div id="comments">
         <div>
-            <p>
-                /*todo: implement user*/ commented at @item.CreatedDate
-            </p>
-
-            <div id="comment-@item.Id" class="display-area">
-                @item.Content.ToSafeMarkdown()
-            </div>
-
-            <div>
-                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    @:|
-                }
-
-                @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
-                {
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
-            </div>
+            <span class="lead">Comments:</span>
         </div>
-    }
+        @foreach (var item in pagedList)
+        {
+            <div>
+                <p class="lead">
+                    /*todo: implement user*/ commented at @item.CreatedDate
+                </p>
 
-    <p>Paging</p>
+                <div id="comment-@item.Id" class="display-area">
+                    @item.Content.ToSafeMarkdown()
+                </div>
+                <div>
+                    @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                    }
 
-    @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
-</div>
+                    @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    }
+                </div>
+            </div>
+        }
+
+        @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
+    </div>
+}

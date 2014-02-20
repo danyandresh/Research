@@ -1,10 +1,8 @@
 ﻿@model DomeApp.Models.Comment
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create comment";
 }
-
-<p>@ViewBag.Title</p>
 
 @if (!Request.IsAuthenticated)
 {
@@ -22,14 +20,13 @@ else
         @Html.ValidationSummary(true)
 
         <div>
-            @Html.LabelFor(model => model.Content)
-            @Html.TextAreaFor(model => model.Content, new { @class = "expandableTextarea" })
-            @Html.ValidationMessageFor(model => model.Content)
-        </div>
+            <div>
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows=5 })
+                @Html.ValidationMessageFor(model => model.Content)
+            </div>
 
-        <p>
-            <input type="submit" value="Post" />
-        </p>
+            <input type="submit" value="Post" class="btn btn-primary active pull-right" />
+        </div>
     }
 
     <div>

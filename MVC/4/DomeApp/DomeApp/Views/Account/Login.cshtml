@@ -4,10 +4,7 @@
     ViewBag.Title = "Log in";
 }
 
-<p>@ViewBag.Title</p>
-
 <section id="socialLoginForm">
-    <p>Use another service to log in.</p>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>
 

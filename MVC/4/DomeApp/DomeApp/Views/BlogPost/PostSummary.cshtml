@@ -5,27 +5,26 @@
     @foreach (var item in Model)
     {
         <div>
-            <p>@Html.DisplayFor(m => item.Title)</p>
+            <div class="page-header">
+                <h3>@Html.DisplayFor(m => item.Title)</h3>
+            </div>
 
             <div>
                 @item.Excerpt.ToSafeMarkdown()
             </div>
 
-            <p>@((item.Comments ?? Enumerable.Empty<Comment>()).Count()) comments<p>
+
 
             <div>
-                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                }
+                <span class="text-center text-right">@((item.Comments ?? Enumerable.Empty<Comment>()).Count()) comments</span>
+                <div class="input-group input-group-lg pull-right">
+                    <div>
+                        @Html.ActionLink("Read more", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
 
-                @Html.ActionLink("Read Further", "Details", new { id = item.Id })
-
-                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
-                {
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
+                    </div>
+                </div>
             </div>
+            <div class="clearfix"></div>
         </div>
     }
 

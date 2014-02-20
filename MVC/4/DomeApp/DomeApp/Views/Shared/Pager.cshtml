@@ -6,16 +6,19 @@
     var updateTarget = Model.Item3;
 }
 
-<div class="pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
-    @if (pagedList.HasPreviousPage)
-    {
-        @Html.ActionLink("Previous page", navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { @class = "pager" })
-    }
 
-    Page @pagedList.CurrentPage of @pagedList.TotalPages
+<div class="clearfix"></div>
+<div class="input-group-lg pull-right pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
+        @if (pagedList.HasPreviousPage)
+        {
+                @Html.ActionLink("Previous page", navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { @class = "btn btn-info" })
+        }
 
-    @if (pagedList.HasNextPage)
-    {
-        @Html.ActionLink("Next page", navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { @class = "pager" })
-    }
+        <span>@pagedList.CurrentPage/@pagedList.TotalPages</span>
+
+        @if (pagedList.HasNextPage)
+        {
+                @Html.ActionLink("Next page", navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { @class = "btn btn-info" })
+        }
 </div>
+<div class="clearfix"></div>

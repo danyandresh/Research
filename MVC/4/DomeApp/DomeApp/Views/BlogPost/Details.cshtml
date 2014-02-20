@@ -4,27 +4,32 @@
     ViewBag.Title = "Details";
 }
 
-<p>
-    @Html.DisplayFor(m => m.Title)
-</p>
+<div class="page-header">
+    <h3>@Html.DisplayFor(m => m.Title)</h3>
+</div>
 
-<div>
+<div class="">
     @Model.Content.ToSafeMarkdown()
 </div>
 
-<div>
-    @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
-    {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-    }
-
-    @Html.ActionLink("Back to List", "Index")
+<div class="input-group input-group-lg pull-right">
+    <div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary active" })
+        @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+        }
+        @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+        {
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
+        }
+    </div>
 </div>
 
 <div id="postComments">
     @Html.Action("CommentsByPost", "Comment", new { postId = Model.Id })
 
-    <p> Create a comment:</p>
+    <p class="alert-success lead"> Your comment:</p>
     @Html.Action("Create", "Comment", new { postId = Model.Id })
 </div>
 

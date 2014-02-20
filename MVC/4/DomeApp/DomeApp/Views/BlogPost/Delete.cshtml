@@ -1,31 +1,25 @@
 ﻿@model DomeApp.Models.BlogPost
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete a post";
 }
 
-<p>@ViewBag.Title</p>
+<div class="page-header">
+    <h3>@ViewBag.Title</h3>
+</div>
 
-<p>Are you sure you want to delete this?</p>
-<fieldset>
-    <legend>BlogPost</legend>
+<p>Are you sure you want to delete <b>@Model.Title</b>?</p>
 
-    <div>
-        @Html.DisplayNameFor(model => model.Title)
-        @Html.DisplayFor(model => model.Title)
-    </div>
-
-    <div>
-        @Html.DisplayNameFor(model => model.Content)
-        @Html.DisplayFor(model => model.Content)
-    </div>
-</fieldset>
+<div>
+    @Html.DisplayNameFor(model => model.Content)
+    @Html.DisplayFor(model => model.Content)
+</div>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <p>
-        <input type="submit" value="Delete" />
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    <div class="pull-right">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary active" })
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </div>
 }

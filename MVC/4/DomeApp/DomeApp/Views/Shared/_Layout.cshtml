@@ -3,32 +3,49 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title - DomeApp</title>
-    @Styles.Render("~/Content/css")
+    <meta name="viewport" content="width=device-with, initial-scale=1.0" />
     @Styles.Render("~/bundles/bootstrap_css")
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <header>
-        <p>@Html.ActionLink("DomeApp", "Index", "BlogPost")</p>
-        <section id="login">
-            @Html.Partial("_LoginPartial")
-        </section>
-        <nav>
-            <p>
-                @Html.ActionLink("Blog posts", "Index", "BlogPost")
-                @Html.ActionLink("About", "About", "Home")
-                @Html.ActionLink("Contact", "Contact", "Home")
-            </p>
-        </nav>
+    <a class="sr-only" href="#body">Skip to main content</a>
+    <header class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container">
+            <div class="row">
+                @Html.ActionLink("DomeApp", "Index", "BlogPost", new { @class = "navbar-brand col-xs-3" })
+
+                <div class="pull-right">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderToCollapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <nav class="collapse navbar-collapse navHeaderToCollapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            @Html.Partial("_LoginPartial")
+                            <li class="@(ViewContext.RouteData.Values["Action"] == "Index" ? "active" : "")">@Html.ActionLink("Blog posts", "Index", "BlogPost")</li>
+                            <li class="@(ViewContext.RouteData.Values["Action"] == "About" ? "active" : "")">@Html.ActionLink("About", "About", "Home") </li>
+                            <li class="@(ViewContext.RouteData.Values["Action"] == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </header>
-    <div id="body">
+    <div class="jumbotron">
         @RenderSection("featured", required: false)
-        <section id="mainContent">
+    </div>
+    <div id="body" class="container">
+        <section id="mainContent" class="container">
             @RenderBody()
         </section>
     </div>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Daniel Andreș</p>
+    <footer class="navbar navbar-inverse">
+        <div class="container">
+            <p class="navbar-text">&copy; @DateTime.Now.Year - Daniel Andreș</p>
+        </div>
     </footer>
 
     @Scripts.Render("~/bundles/domeapp")

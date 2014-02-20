@@ -3,7 +3,9 @@
     ViewBag.Title = "Register";
 }
 
-<p>@ViewBag.Title</p>
+<div class="page-header">
+    <h3>@ViewBag.Title</h3>
+</div>
 <p>Associate your @ViewBag.ProviderDisplayName account.</p>
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))

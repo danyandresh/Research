@@ -10,3 +10,14 @@
     margin-bottom: 6px;
     margin-top: 6px;
 }
+
+.page-header {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.panel-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+

@@ -6,14 +6,16 @@
 
 <div id="comments">
 
-    <p>@ViewBag.Title</p>
+    <div class="page-header">
+        <h3>@ViewBag.Title</h3>
+    </div>
 
     @foreach (var item in Model)
     {
         <div class="comment">
-            <div>
+            <h4>
                 User /*todo: implement user*/ commented on @Html.ActionLink(@item.Post.Title, "Details", "BlogPost", new { id = item.Post.Id }, null) at @item.CreatedDate
-            </div>
+            </h4>
 
             <div id="comment-@item.Id">
                 @item.Content.ToSafeMarkdown()
