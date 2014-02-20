@@ -29,7 +29,7 @@
 <div id="postComments">
     @Html.Action("CommentsByPost", "Comment", new { postId = Model.Id })
 
-    <p class="alert-success lead"> Your comment:</p>
+    <p class="alert-info lead"> Post a new comment</p>
     @Html.Action("Create", "Comment", new { postId = Model.Id })
 </div>
 
