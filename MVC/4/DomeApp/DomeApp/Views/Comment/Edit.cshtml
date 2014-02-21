@@ -4,10 +4,6 @@
     ViewBag.Title = "Edit comment";
 }
 
-<div class="page-header">
-    <h3>@ViewBag.Title</h3>
-</div>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -16,20 +12,19 @@
     <fieldset>
         @Html.HiddenFor(model => model.Id)
 
-        <div>
-            @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
-            @Html.ValidationMessageFor(model => model.Content)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
+                @Html.ValidationMessageFor(model => model.Content)
+            </div>
         </div>
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
+        <div class="pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default active" })
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

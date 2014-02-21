@@ -14,15 +14,12 @@
             </div>
 
             <div>
-
                 <a href="@Url.Action("Details", new { id = item.Id })#postComments">
                     <span class="glyphicon glyphicon-comment text-left"></span>
                     @((item.Comments ?? Enumerable.Empty<Comment>()).Count()) comments
                 </a>
-                <div class="input-group input-group-lg pull-right">
-                    <div>
+                <div class="pull-right">
                         @Html.ActionLink("Read more", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>

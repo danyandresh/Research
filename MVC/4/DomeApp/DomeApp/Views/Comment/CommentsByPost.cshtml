@@ -13,22 +13,27 @@ var post = Model.Item1;}
 else
 {
     <div id="comments">
-        <div>
+        <a href="#postComments">
             <span class="glyphicon glyphicon-comment text-left"></span>
             <span class="lead">@pagedList.Count() comments</span>
-        </div>
+        </a>
         <div class="list-group">
             @foreach (var item in pagedList)
             {
-                <div class="list-group-item">
-                    <h4 class="list-group-item-heading">
-                        /*todo: implement user*/ <small>@item.CreatedDate</small>
-                    </h4>
+                <div id="comment-@item.Id" class="list-group-item">
+                    <div class="list-group-item-heading">
+                        <a href="#comment-@item.Id">
+                            <h4 class="list-group-item-heading">
+                                /*todo: implement user*/ <small>@item.CreatedDate</small>
+                            </h4>
+                        </a>
+                    </div>
 
-                    <div id="comment-@item.Id" class="display-area list-group-item-text">
+                    <div class="display-area list-group-item-text">
                         @item.Content.ToSafeMarkdown()
                     </div>
-                    <div>
+
+                    <div class="pull-right">
                         @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
                         {
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
@@ -39,6 +44,7 @@ else
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                         }
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             }
         </div>

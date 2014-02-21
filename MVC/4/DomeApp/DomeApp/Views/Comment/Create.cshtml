@@ -3,36 +3,47 @@
 @{
     ViewBag.Title = "Create comment";
 }
-<div class="panel panel-default">
-    <div class="panel-heading">New comment</div>
-    <div class="panel-body">
-        @if (!Request.IsAuthenticated)
+
+<fieldset>
+
+    @if (!Request.IsAuthenticated)
+    {
+        <div class="panel">
+        </div>
+
+        <div class="pull-right">
+            @Html.ActionLink("Log in to post a comment", "Login", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary active pull-right" })
+        </div>
+    }
+    else
+    {
+
+        var returnQueryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+        returnQueryString["toMostRecent"] = "true";
+
+        using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
         {
-            @Html.ActionLink("Log in to comment", "Login", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary active pull-right" })
-        }
-        else
-        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-            var returnQueryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
-            returnQueryString["toMostRecent"] = "true";
-
-            using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
-                <div>
-                    <div>
-                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
-                        @Html.ValidationMessageFor(model => model.Content)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>New comment</span>
                     </div>
 
-                    <input type="submit" value="Post" class="btn btn-primary active pull-right" />
+                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
+                    @Html.ValidationMessageFor(model => model.Content)
                 </div>
-            }
+            </div>
+
+            <div class="pull-right">
+                <input type="submit" value="Post" class="btn btn-primary active pull-right" />
+            </div>
         }
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
-    </div>
-</div>
+    }
+</fieldset>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
