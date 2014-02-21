@@ -3,36 +3,36 @@
 @{
     ViewBag.Title = "Create comment";
 }
+<div class="panel panel-default">
+    <div class="panel-heading">New comment</div>
+    <div class="panel-body">
+        @if (!Request.IsAuthenticated)
+        {
+            @Html.ActionLink("Log in to comment", "Login", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary active pull-right" })
+        }
+        else
+        {
 
-@if (!Request.IsAuthenticated)
-{
-    @Html.ActionLink("Log in to comment", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-}
-else
-{
+            var returnQueryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+            returnQueryString["toMostRecent"] = "true";
 
-    var returnQueryString = HttpUtility.ParseQueryString(Request.QueryString.ToString());
-    returnQueryString["toMostRecent"] = "true";
+            using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
 
-    using (Html.BeginForm("Create", "Comment", new { ReturnUrl = Request.Url.LocalPath + "?" + returnQueryString.ToString() }, FormMethod.Post, null))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
+                <div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 5 })
+                        @Html.ValidationMessageFor(model => model.Content)
+                    </div>
 
-        <div>
-            <div>
-                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows=5 })
-                @Html.ValidationMessageFor(model => model.Content)
-            </div>
-
-            <input type="submit" value="Post" class="btn btn-primary active pull-right" />
-        </div>
-    }
-
-    @*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
-}
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                    <input type="submit" value="Post" class="btn btn-primary active pull-right" />
+                </div>
+            }
+        }
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>

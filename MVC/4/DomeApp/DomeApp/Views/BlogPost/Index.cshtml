@@ -1,5 +1,7 @@
 ﻿@model PagedList<BlogPost>
-
+@{
+    ViewBag.Title = "Posts";
+}
 <div class="row">
     <div class="col-xs-12 col-sm-9 pull-left">
         <form method="get" action="@Url.Action("Index")"
@@ -11,6 +13,7 @@
                 </span>
             </div>
         </form>
+        <div class="clearfix">&nbsp;</div>
         @if (@User.HasActionPermission(Request.RequestContext, "Create"))
         {
             <div class="pull-right">

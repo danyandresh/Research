@@ -12,35 +12,36 @@ var post = Model.Item1;}
 }
 else
 {
-
-
     <div id="comments">
         <div>
-            <span class="lead">Comments:</span>
+            <span class="glyphicon glyphicon-comment text-left"></span>
+            <span class="lead">@pagedList.Count() comments</span>
         </div>
-        @foreach (var item in pagedList)
-        {
-            <div>
-                <p class="lead">
-                    /*todo: implement user*/ commented at @item.CreatedDate
-                </p>
+        <div class="list-group">
+            @foreach (var item in pagedList)
+            {
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        /*todo: implement user*/ <small>@item.CreatedDate</small>
+                    </h4>
 
-                <div id="comment-@item.Id" class="display-area">
-                    @item.Content.ToSafeMarkdown()
-                </div>
-                <div>
-                    @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
-                    {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
-                    }
+                    <div id="comment-@item.Id" class="display-area list-group-item-text">
+                        @item.Content.ToSafeMarkdown()
+                    </div>
+                    <div>
+                        @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        }
 
-                    @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
-                    {
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    }
+                        @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
+                        {
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
 
         @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
     </div>
