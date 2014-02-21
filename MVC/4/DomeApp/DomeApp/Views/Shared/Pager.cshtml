@@ -4,21 +4,47 @@
     var pagedList = Model.Item1;
     var navigatePage = Model.Item2;
     var updateTarget = Model.Item3;
+
+    var pageRangeCount = 3;
+
+    var pages = pagedList.GetPageRange(pageRangeCount);
 }
 
-
 <div class="clearfix"></div>
-<div class="input-group-lg pull-right pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
-        @if (pagedList.HasPreviousPage)
-        {
-                @Html.ActionLink("Previous page", navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { @class = "btn btn-info" })
-        }
-
-        <span>@pagedList.CurrentPage/@pagedList.TotalPages</span>
-
-        @if (pagedList.HasNextPage)
-        {
-                @Html.ActionLink("Next page", navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { @class = "btn btn-info" })
-        }
-</div>
+<center>
+    <div id="pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
+        <ul class="pagination">
+            @if (!pagedList.HasPreviousPage)
+            {
+                <li class="disabled">
+                    <span>&laquo;<span class="sr-only">(current)</span></span>
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&laquo;"), navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { rel = "prev" })
+                </li>
+            }
+            @foreach (var p in pages)
+            {
+                <li class="@(p==pagedList.CurrentPage?"active":"")">
+                    @Html.ActionLink(p.ToString(), navigatePage, new { toPage = p })
+                </li>
+            }
+            @if (!pagedList.HasNextPage)
+            {
+                <li class="disabled">
+                    <span>&raquo;<span class="sr-only">(current)</span></span>
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink(HttpUtility.HtmlDecode("&raquo;"), navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { rel = "next" })
+                </li>
+            }
+        </ul>
+    </div>
+</center>
 <div class="clearfix"></div>

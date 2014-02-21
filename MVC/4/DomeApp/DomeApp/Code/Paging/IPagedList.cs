@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace DomeApp.Code.Paging
 {
@@ -13,5 +14,7 @@ namespace DomeApp.Code.Paging
         bool HasNextPage { get; }
 
         bool HasPreviousPage { get; }
+
+        IEnumerable<int> GetPageRange(int pagesInRange);
     }
 }

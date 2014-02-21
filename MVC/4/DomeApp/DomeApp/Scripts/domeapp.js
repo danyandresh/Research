@@ -49,7 +49,7 @@
         }
 
         $.ajax(options).done(function (data) {
-            var target = $a.parents("div.pager").attr("data-domeapp-target");
+            var target = $a.parents("div#pager").attr("data-domeapp-target");
             $(target).replaceWith(data);
         });
 
@@ -59,7 +59,7 @@
     $("form[data-dome-ajax='true']").submit(ajaxRequest);
     $("input[data-dome-autocomplete]").each(createAutocomplete);
 
-    $("section#mainContent").on("click", ".pager a", getPage);
+    $("section#mainContent").on("click", "#pager a", getPage);
 
     $("form[data-dome-resultreplacestarget='true']").submit(ajaxRequest);
 })

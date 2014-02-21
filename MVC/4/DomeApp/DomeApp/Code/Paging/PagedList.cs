@@ -96,5 +96,14 @@ namespace DomeApp.Code.Paging
             this.PageSize = pageSize;
             this.CurrentPage = currentPage;
         }
+
+        public IEnumerable<int> GetPageRange(int pagesInRange)
+        {
+            var rangeStart = CurrentPage - pagesInRange / 2;
+            rangeStart = Math.Max(1, rangeStart);
+            rangeStart = Math.Min(TotalPages - pagesInRange + 1, rangeStart);
+
+            return Enumerable.Range(rangeStart, pagesInRange).Where(n => n >= 1 && n <= TotalPages);
+        }
     }
 }
