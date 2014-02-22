@@ -59,7 +59,7 @@ namespace DomeApp.Controllers
 
             return View(blogpost);
         }
-        
+
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
@@ -82,7 +82,7 @@ namespace DomeApp.Controllers
 
             return View(blogpost);
         }
-        
+
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
