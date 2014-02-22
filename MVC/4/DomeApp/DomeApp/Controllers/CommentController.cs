@@ -88,8 +88,6 @@
             if (ModelState.IsValid)
             {
                 db.Add(comment);
-                post.Comments.Add(comment);
-                db.Update(post);
                 db.SaveChanges();
 
                 var model = new Tuple<BlogPost, PagedList<Comment>>(post, post.Comments.AsQueryable().ToPagedList(CommentsPageSize).MoveLastPage());
