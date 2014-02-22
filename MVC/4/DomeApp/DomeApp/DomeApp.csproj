@@ -237,6 +237,10 @@
     <Compile Include="Migrations\201402221520288_RequiredUserDetails.Designer.cs">
       <DependentUpon>201402221520288_RequiredUserDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402222254513_PostsAuthor.cs" />
+    <Compile Include="Migrations\201402222254513_PostsAuthor.Designer.cs">
+      <DependentUpon>201402222254513_PostsAuthor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BlogPost.cs" />
@@ -400,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402221520288_RequiredUserDetails.resx">
       <DependentUpon>201402221520288_RequiredUserDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402222254513_PostsAuthor.resx">
+      <DependentUpon>201402222254513_PostsAuthor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

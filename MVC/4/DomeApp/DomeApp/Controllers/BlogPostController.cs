@@ -73,6 +73,8 @@ namespace DomeApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                blogpost.Author = GetCurrentUser();
+                blogpost.CreatedDate = DateTime.UtcNow;
                 db.Add(blogpost);
                 db.SaveChanges();
                 return RedirectToAction("Index");

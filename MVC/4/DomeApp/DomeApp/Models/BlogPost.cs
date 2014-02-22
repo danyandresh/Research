@@ -22,6 +22,12 @@ namespace DomeApp.Models
         [Required(ErrorMessageResourceType = typeof(DomeApp.Views.Resources), ErrorMessageResourceName = "postContentRequired")]
         public string Content { get; set; }
 
+        [Required]
+        public virtual UserProfile Author { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }
