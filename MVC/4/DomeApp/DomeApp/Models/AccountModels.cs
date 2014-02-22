@@ -28,6 +28,7 @@ namespace DomeApp.Models
         [Required]
         public string UserName { get; set; }
 
+        [Required]
         [Display(Name = "Display name")]
         public string DisplayName { get; set; }
     }
@@ -38,6 +39,7 @@ namespace DomeApp.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        [Required]
         [Display(Name = "Display name")]
         public string DisplayName { get; set; }
 
