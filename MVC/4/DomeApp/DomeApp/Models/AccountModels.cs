@@ -27,6 +27,9 @@ namespace DomeApp.Models
 
         [Required]
         public string UserName { get; set; }
+
+        [Display(Name = "Display name")]
+        public string DisplayName { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -34,6 +37,9 @@ namespace DomeApp.Models
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
+
+        [Display(Name = "Display name")]
+        public string DisplayName { get; set; }
 
         public string ExternalLoginData { get; set; }
     }
