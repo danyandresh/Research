@@ -2,19 +2,12 @@
     ViewBag.Title = "Manage Account";
 }
 
-<div class="page-header">
-    <h3>@ViewBag.Title</h3>
-</div>
-
-<p>@ViewBag.StatusMessage</p>
-
 <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
 
 <section id="externalLogins">
-    @Html.Action("RemoveExternalLogins")
+    @Html.Action("RemoveExternalLogins", new { returnUrl = ViewBag.ReturnUrl })
 
-    <p>Add an external login</p>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+    @Html.Action("ExternalLoginsList", new { returnUrl = ViewBag.ReturnUrl })
 </section>
 
 @section Scripts {
