@@ -71,10 +71,13 @@ namespace DomeApp.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create(BlogPost blogpost)
         {
+            blogpost.Author = GetCurrentUser();
+            blogpost.CreatedDate = DateTime.UtcNow;
+
+            ModelState.Clear();
+            TryValidateModel(blogpost);
             if (ModelState.IsValid)
             {
-                blogpost.Author = GetCurrentUser();
-                blogpost.CreatedDate = DateTime.UtcNow;
                 db.Add(blogpost);
                 db.SaveChanges();
                 return RedirectToAction("Index");
