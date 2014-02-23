@@ -11,7 +11,7 @@
         $.ajax(options).done(function (data) {
             var $target = $($form.attr("data-dome-target"));
 
-            var $highlightData = $(data);
+            var $highlightData = $($.parseHTML(data));
             $target.replaceWith($highlightData);
 
             $highlightData.effect("highlight");
@@ -33,7 +33,11 @@
 
         var options = {
             source: $input.attr("data-dome-autocomplete"),
-            select: submitAutocompleteForm
+            select: submitAutocompleteForm,
+            messages: {
+                noResults: '',
+                results: function () { }
+            }
         };
 
         $input.autocomplete(options);
@@ -62,4 +66,6 @@
     $("section#mainContent").on("click", "#pager a", getPage);
 
     $("form[data-dome-resultreplacestarget='true']").submit(ajaxRequest);
+
+    $("span[role='status'][aria-live='polite'][class='ui-helper-hidden-accessible']").remove();
 })
