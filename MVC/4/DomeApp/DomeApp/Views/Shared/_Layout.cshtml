@@ -3,42 +3,39 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title - DomeApp</title>
-    <meta name="viewport" content="width=device-with, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @Styles.Render("~/bundles/bootstrap_css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <a class="sr-only" href="#body">Skip to main content</a>
-    <header class="navbar navbar-fixed-top navbar-inverse">
+    <header class="navbar navbar-static-top navbar-inverse" role="banner">
         <div class="container">
-            <div class="row">
-                @Html.ActionLink("DomeApp", "Index", "BlogPost", null, new { @class = "navbar-brand col-xs-3 col-sm-3 pull-left" })
-
-                <div class="col-xs-9 col-sm-9 pull-right">
-                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderToCollapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <nav class="collapse navbar-collapse navHeaderToCollapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            @Html.Partial("_LoginPartial")
-                            <li class="@(ViewContext.RouteData.Values["Action"] == "Index" ? "active" : "")">@Html.ActionLink("Blog posts", "Index", "BlogPost")</li>
-                            <li class="@(ViewContext.RouteData.Values["Action"] == "About" ? "active" : "")">@Html.ActionLink("About", "About", "Home") </li>
-                            <li class="@(ViewContext.RouteData.Values["Action"] == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".bs-to-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("DomeApp", "Index", "BlogPost", null, new { @class = "navbar-brand" })
             </div>
+            <nav class="collapse navbar-collapse bs-to-collapse nav-justified" role="navigation">
+                <ul class="nav navbar-nav navbar-right">
+                    @Html.Partial("_LoginPartial")
+                    <li @(ViewContext.RouteData.Values["Action"] == "Index" ? "class='active'" : "")>@Html.ActionLink("Blog posts", "Index", "BlogPost")</li>
+                    <li @(ViewContext.RouteData.Values["Action"] == "About" ? "class='active'" : "")>@Html.ActionLink("About", "About", "Home") </li>
+                    <li @(ViewContext.RouteData.Values["Action"] == "Contact" ? "class='active'" : "")>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </nav>
         </div>
     </header>
-    <div class="jumbotron">
+    @*<div class="jumbotron">
         @RenderSection("featured", required: false)
-    </div>
+    </div>*@
     <div id="body" class="container">
-        <section id="mainContent" class="container">
+        <section id="mainContent">
             @RenderBody()
         </section>
     </div>
