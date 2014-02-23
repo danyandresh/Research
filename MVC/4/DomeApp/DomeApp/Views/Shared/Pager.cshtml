@@ -14,35 +14,38 @@
 <center>
     <div id="pager" data-domeapp-target="#@updateTarget" data-domeapp-pager="@Url.Action(navigatePage)">
         <ul class="pagination">
-            @if (!pagedList.HasPreviousPage)
+            @if (pages.Count() > 0)
             {
-                <li class="disabled">
-                    <span>&laquo;<span class="sr-only">(current)</span></span>
-                </li>
-            }
-            else
-            {
-                <li>
-                    @Html.ActionLink(HttpUtility.HtmlDecode("&laquo;"), navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { rel = "prev" })
-                </li>
-            }
-            @foreach (var p in pages)
-            {
-                <li class="@(p==pagedList.CurrentPage?"active":"")">
-                    @Html.ActionLink(p.ToString(), navigatePage, new { toPage = p })
-                </li>
-            }
-            @if (!pagedList.HasNextPage)
-            {
-                <li class="disabled">
-                    <span>&raquo;<span class="sr-only">(current)</span></span>
-                </li>
-            }
-            else
-            {
-                <li>
-                    @Html.ActionLink(HttpUtility.HtmlDecode("&raquo;"), navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { rel = "next" })
-                </li>
+                if (!pagedList.HasPreviousPage)
+                {
+                    <li class="disabled">
+                        <span>&laquo;<span class="sr-only">(current)</span></span>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink(HttpUtility.HtmlDecode("&laquo;"), navigatePage, new { toPage = pagedList.CurrentPage - 1 }, new { rel = "prev" })
+                    </li>
+                }
+                foreach (var p in pages)
+                {
+                    <li class="@(p==pagedList.CurrentPage?"active":"")">
+                        @Html.ActionLink(p.ToString(), navigatePage, new { toPage = p })
+                    </li>
+                }
+                if (!pagedList.HasNextPage)
+                {
+                    <li class="disabled">
+                        <span>&raquo;<span class="sr-only">(current)</span></span>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink(HttpUtility.HtmlDecode("&raquo;"), navigatePage, new { toPage = pagedList.CurrentPage + 1 }, new { rel = "next" })
+                    </li>
+                }
             }
         </ul>
     </div>
