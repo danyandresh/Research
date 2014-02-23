@@ -51,5 +51,6 @@
     @Scripts.Render("~/bundles/domeapp")
     @Scripts.Render("~/bundles/bootstrap_scripts")
     @RenderSection("scripts", required: false)
+    @{Html.RenderPartial("GoogleAnalytics");}
 </body>
 </html>

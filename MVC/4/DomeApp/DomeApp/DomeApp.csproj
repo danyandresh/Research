@@ -387,6 +387,7 @@
     <Content Include="Views\Comment\CommentsByPost.cshtml" />
     <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Shared\_UserActions.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
