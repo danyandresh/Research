@@ -44,7 +44,7 @@ namespace DomeApp.Controllers
                 searchPosts = (p) => p.Title.Contains(search) || p.Content.Contains(search);
             }
 
-            var model = db.Query<BlogPost>().Where(searchPosts).AsQueryable().ToPagedList(pageSize, toPage);
+            var model = db.Query<BlogPost>().Where(searchPosts).OrderByDescending(p => p.CreatedDate).AsQueryable().ToPagedList(pageSize, toPage);
 
             return Request.IsAjaxRequest() ? (ActionResult)PartialView("PostSummary", model) : (ActionResult)View(model);
         }
