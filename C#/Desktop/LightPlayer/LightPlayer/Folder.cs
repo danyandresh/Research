@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace LightPlayer
 {
@@ -10,6 +11,8 @@ namespace LightPlayer
         private string path;
 
         private IFileMask fileMask;
+
+        private Dispatcher dispatcher;
 
         private Folder()
         {
@@ -42,17 +45,25 @@ namespace LightPlayer
             {
                 path = value;
 
-                SetupFilesCollection();
-                //TODO Between these two operations a file could be added to the folder and be missed from the list of files _visible_
                 SetupFileWatcher();
             }
         }
 
+        private ObservableCollection<string> files;
 
         public ObservableCollection<string> Files
         {
-            get;
-            private set;
+            get
+            {
+                if (files == null)
+                {
+                    files = SetupFilesCollection();
+                }
+
+                return files;
+            }
+
+            private set { }
         }
 
         private void SetupFileWatcher()
@@ -68,6 +79,11 @@ namespace LightPlayer
             fileSystemWatcher.EnableRaisingEvents = true;
         }
 
+        public Dispatcher GetDispatcher()
+        {
+            return dispatcher ?? Dispatcher.CurrentDispatcher;
+        }
+
         public void OnFileCreated(object sender, FileSystemEventArgs e)
         {
             if (!FileMask.IsVisible(e.FullPath))
@@ -75,13 +91,17 @@ namespace LightPlayer
                 return;
             }
 
-            Files.Add(e.FullPath);
+            GetDispatcher().Invoke(() =>
+            {
+                Files.Add(e.FullPath);
+            });
         }
 
-        private void SetupFilesCollection()
+        private ObservableCollection<string> SetupFilesCollection()
         {
+            dispatcher = Dispatcher.CurrentDispatcher;
             var fileNames = IsValid ? Directory.GetFiles(Path) : Enumerable.Empty<string>();
-            Files = new ObservableCollection<string>(fileNames.Where(f => FileMask.IsVisible(f)).ToList());
+            return new ObservableCollection<string>(fileNames.Where(f => FileMask.IsVisible(f)).ToList());
         }
     }
 }

@@ -7,6 +7,9 @@ using System.Collections.Specialized;
 using System.Threading;
 using Moq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace LightPlayerTests
 {
@@ -80,8 +83,10 @@ namespace LightPlayerTests
 
             var testFilePath = Path.Combine(expectedPath, "new files poped up.txt");
 
+            var frame = new DispatcherFrame();
             folder.Files.CollectionChanged += (sender, e) =>
                 {
+                    frame.Continue = false;
                     Assert.AreEqual(NotifyCollectionChangedAction.Add, e.Action);
                     Assert.AreEqual(1, e.NewItems.Count);
                     Assert.AreEqual(testFilePath, e.NewItems[0]);
@@ -90,6 +95,7 @@ namespace LightPlayerTests
 
             using (var file = File.Create(testFilePath, 1, FileOptions.DeleteOnClose))
             {
+                Dispatcher.PushFrame(frame);
                 if (!synchronizer.WaitOne(TimeSpan.FromSeconds(1)))
                 {
                     Assert.Fail("Monitoring of the files collection in Folder does not work - event handler was not called");
@@ -120,7 +126,9 @@ namespace LightPlayerTests
 
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath, fileMask = filterMock.Object });
 
-            Assert.AreEqual(randomFileCount, currentFileCount, string.Format("There should have been exactly {0} files visible through mask", randomFileCount));
+            var files = folder.Files;
+
+            Assert.AreEqual(randomFileCount, files.Count, string.Format("There should have been exactly {0} files visible through mask", randomFileCount));
         }
 
         [TestMethod]
@@ -140,8 +148,10 @@ namespace LightPlayerTests
             var notifyFromMask = new ManualResetEvent(false);
 
             var fileMaskMock = new Mock<IFileMask>();
+            var frame = new DispatcherFrame();
             fileMaskMock.Setup(f => f.IsVisible(It.IsAny<string>())).Returns(() =>
             {
+                frame.Continue = false;
                 notifyFromMask.Set();
                 return true;
             });
@@ -149,6 +159,7 @@ namespace LightPlayerTests
 
             folder.OnFileCreated(null, new FileSystemEventArgs(WatcherChangeTypes.Created, expectedPath, "new file popped up.txt"));
 
+            Dispatcher.PushFrame(frame);
             if (!notifyFromMask.WaitOne(TimeSpan.FromSeconds(1)))
             {
                 Assert.Fail("Monitoring of the files collection in Folder while applying mask does not work - most likely mask has not been used");
@@ -162,15 +173,23 @@ namespace LightPlayerTests
 
             var uiComplete = new ManualResetEvent(false);
 
-            var appState = WindsorContainer.Resolve<IApplicationState>();
-            appState.ClearFolders();
             var folder = WindsorContainer.Resolve<IFolder>(new { path = expectedPath });
-            appState.AddFolder(folder);
             ViewModelLocator.FoldersViewModel.CommandSelectFolder.Execute(folder);
 
-            //Trigger the UI to bind to ObservableCollections and prevent their change from MTA threads
-            var app = new App();
-            var playlistUI = new LightPlayer.Views.Playlist();
+            // Trigger the UI to bind to ObservableCollections (therefore init Files ObservableCollection from STA)
+            // and prevent their change from MTA threads
+            var binding = new Binding("Files");
+            binding.Source = folder;
+
+            var listView = new ListView();
+            listView.SetBinding(ListView.ItemsSourceProperty, binding);
+
+            var frame = new DispatcherFrame();
+
+            folder.Files.CollectionChanged += (s, e) =>
+            {
+                frame.Continue = false;
+            };
 
             var success = false;
             var task = new Task(() =>
@@ -183,9 +202,19 @@ namespace LightPlayerTests
                                 });
 
             task.Start();
-            task.Wait();
-            Assert.IsNull(task.Exception/*task.Exception.Flatten().InnerException.ToString()*/);
-            Assert.IsTrue(success);
+
+            Dispatcher.PushFrame(frame);
+
+            if (!task.Wait(TimeSpan.FromSeconds(100)))
+            {
+                Assert.Fail("Task did not finnish in a timely fashion");
+            }
+            else
+            {
+
+                Assert.IsNull(task.Exception/*task.Exception.Flatten().InnerException.ToString()*/);
+                Assert.IsTrue(success);
+            }
         }
 
         static public string RealTestPath
