@@ -13,11 +13,18 @@ namespace CouchBaseResearch.Tests
         [TestInitialize]
         public void Initialize()
         {
-            Kernel = new StandardKernel();
-            Kernel.Bind(x => x
+            Kernel = SetupKernel();
+        }
+
+        protected StandardKernel SetupKernel()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind(x => x
                 .FromAssembliesInPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .SelectAllClasses()
                 .BindDefaultInterfaces());
+
+            return kernel;
         }
     }
 }
