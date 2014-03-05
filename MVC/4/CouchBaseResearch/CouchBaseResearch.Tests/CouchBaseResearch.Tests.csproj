@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Objectives.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

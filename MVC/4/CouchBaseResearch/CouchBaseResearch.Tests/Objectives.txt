@@ -1,0 +1,9 @@
+﻿This research would be conducted relying on beer-sample bucket.
+
+Targets:
+
+- unique CouchbaseClient across app domain
+- CRUD operations
+- Concurrency
+- Performance tunning
+- Views
