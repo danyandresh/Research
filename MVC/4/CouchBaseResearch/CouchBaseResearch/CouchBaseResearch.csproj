@@ -117,6 +117,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Couchbase\BeerBucket.cs" />
+    <Compile Include="DAL\Couchbase\ICouchbaseBucket.cs" />
+    <Compile Include="DAL\IBeerBucket.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
