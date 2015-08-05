@@ -15,21 +15,16 @@ sxe ld sos
 .loadby sos clr
 lmv mclr
 ```
-Inspect the heap
-
-```
-REM dump heap by object type
-!DumpHeap -type Chapter_02_GarbageCollector.C
-
-!findroots -gen 0
-g
-REM this will take a while before breaking on next GC gen 0 collect
-
-```
 
 Note: I used `Windows SDK 8.1` as it has windbg versions for both `x86` and `x64` apps
 
 ###Useful commands
+
+####!DumpHeap
+```
+!DumpHeap -type Chapter_02_GarbageCollector.C
+```
+
 ####!findroots -gen 0
 ```
 REM dump the heap
