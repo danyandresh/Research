@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chapter_02_GarbageCollector
@@ -14,6 +15,16 @@ namespace Chapter_02_GarbageCollector
 
         static void Main(string[] args)
         {
+            var cancellationToken = new CancellationTokenSource();
+            Task.Run(() =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    Task.Delay(1000).Wait();
+                    GC.Collect(0);
+                }
+            });
+
             object[] localArray = new object[ArraySize];
 
             var rand = new Random();
@@ -29,6 +40,7 @@ namespace Chapter_02_GarbageCollector
             Console.WriteLine("Use PerfView to examine the heap now. Press any key to exit...");
             Console.ReadKey();
 
+            cancellationToken.Cancel();
             Console.WriteLine(staticArray.Length);
             Console.WriteLine(localArray.Length);
         }
