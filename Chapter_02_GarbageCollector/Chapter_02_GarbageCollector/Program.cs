@@ -17,9 +17,11 @@ namespace Chapter_02_GarbageCollector
             object[] localArray = new object[ArraySize];
 
             var rand = new Random();
-
+            Console.WriteLine("Allocating memory");
             for (int i = 0; i < ArraySize; i++)
             {
+                Console.Write("Line {0}", i);
+                Console.CursorLeft = 0;
                 staticArray[i] = GetNewObject(rand.Next(0, 4));
                 localArray[i] = GetNewObject(rand.Next(0, 4));
             }
@@ -45,15 +47,17 @@ namespace Chapter_02_GarbageCollector
             return obj;
         }
 
-        class Base
-        {
-            private byte[] memory;
-            protected Base(int size) { this.memory = new byte[size]; }
-        }
 
-        class A : Base { public A() : base(1000) { } }
-        class B : Base { public B() : base(10000) { } }
-        class C : Base { public C() : base(1000000) { } }
-        class D : Base { public D() : base(10000000) { } }
     }
+
+    public class Base
+    {
+        private byte[] memory;
+        protected Base(int size) { this.memory = new byte[size]; }
+    }
+
+    public class A : Base { public A() : base(1000) { } }
+    public class B : Base { public B() : base(10000) { } }
+    public class C : Base { public C() : base(1000000) { } }
+    public class D : Base { public D() : base(10000000) { } }
 }
