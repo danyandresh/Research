@@ -58,6 +58,6 @@ namespace Chapter_02_GarbageCollector
 
     public class A : Base { public A() : base(1000) { } }
     public class B : Base { public B() : base(10000) { } }
-    public class C : Base { public C() : base(1000000) { } }
-    public class D : Base { public D() : base(10000000) { } }
+    public class C : Base { public C() : base(100000) { } }
+    public class D : Base { public D() : base(1000000) { } }
 }
