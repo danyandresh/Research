@@ -25,7 +25,7 @@ Note: I used `Windows SDK 8.1` as it has windbg versions for both `x86` and `x64
 !DumpHeap -type Chapter_02_GarbageCollector.C
 ```
 
-####!findroots -gen 0
+####!findroots
 ```
 REM dump the heap
 !DumpHeap
@@ -38,7 +38,15 @@ REM use the address of an object dumped from the heap above
 REM output:
 REM Object 265ce2b0 will survive this collection:
 REM 	gen(0x265ce2b0) = 2 > 0 = condemned generation.
+```
 
+####!gchandles
+```
+REM Find handles and their type; this would display pinned object too
+!gchandles
+REM use !do to go through objects hierarchy and discover the source of a pinned object
+!do 0256521c
+```
 
 
 More information on `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
