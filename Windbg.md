@@ -30,7 +30,7 @@ Note: I used `Windows SDK 8.1` as it has windbg versions for both `x86` and `x64
 * `findroots` - set breakpoints before next GC collection; find information about particular objects
 
 ```
-!DumpHeap -type Chapter_02_GarbageCollector.C
+!DumpHeap -type CodeSandbox.C
 REm use gcroot to navigate to the root handle
 !gcroot 036a33a8
 ```

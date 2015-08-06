@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace Chapter_02_GarbageCollector
+namespace CodeSandbox
 {
     class AllocateAndRelease
     {
