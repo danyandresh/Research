@@ -64,4 +64,12 @@ REM observe the ephemeral segment allocation, dump it
 !address -f:Free
 ```
 
+####!gcwhere
+Find and objects' generation
+```
+REM Make sure to call this on the right thread
+!dso
+!gcwhere 027335fc
+```
+
 Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
