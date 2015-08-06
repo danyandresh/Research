@@ -99,4 +99,15 @@ REM notice the addresses of heaps changed
 REM
 ```
 
+#### Discover explicit GC.Collect calls
+
+* `bpmd` - set a _managed_ breakpoint
+
+```
+REM 
+!bpmd mscorlib.dll System.GC.Collect
+g
+!DumpStack
+```
+
 Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
