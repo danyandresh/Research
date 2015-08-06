@@ -72,4 +72,31 @@ REM Make sure to call this on the right thread
 !gcwhere 027335fc
 ```
 
+#### Determine objects that survived gen 0
+
+* `FindRoots`
+* `DumpHeap`
+* `eeheaps`
+* `bp`
+
+Generation 0 heap is at the end of the `ephemeral segment`, therefore discovering objects in that range requires discovering the heap segments addresses (end) and generations start addresses
+```
+REM Set breakpoint for first gen 0 collection
+!FindRoots -gen 0
+g
+!DumpHeap -stat
+REM discover address of the ephemeral segment (that is gen 1 and gen 0) as well as gen 0 start
+!eeheap -gc
+REM given gen 0 is at the end of the heap, dump heap for gen0 start and ephemeral segment end (to get the heap range for gen 0)
+!DumpHeap 0x027e56d8 029e56e8
+bp clr!WKS::GCHeap::RestartEE
+REM for server GC call bp clr!SRV::GCHeap::RestartEE
+REM also for server GC eeheap would print info for each heap
+g
+!eeheap -gc
+REM notice the addresses of heaps changed
+!DumpHeap 0x027e7018 027e7024
+REM
+```
+
 Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
