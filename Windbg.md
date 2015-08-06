@@ -48,5 +48,20 @@ REM use !do to go through objects hierarchy and discover the source of a pinned 
 !do 0256521c
 ```
 
+####!eeheap
+```
+REM Get the list of free blocks of memory
+!dumpheap -type Free
+REM Get the list of heap segments
+!eeheap -gc
+REM observe the ephemeral segment allocation, dump it
+!dumpheap 02731000  02c74df
+```
+
+####!address
+```
+!address -summary
+!address -f:Free
+```
 
 Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
