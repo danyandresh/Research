@@ -146,6 +146,24 @@ g
 !gchandles
 ```
 
+#### Inspect JIT Compilation
+
+* `sxe` set a breakpoint when the clrjit is loaded
+* `bpmd` set a breakpoint in managed code
+
+```
+REM set a breakpoint when clrjit is loaded
+sxe ld clrjit
+g
+.loadby sos clr
+REM set a breakpoint at the beginning of the main function
+!bpmd CodeSandbox JitCall.Main
+g
+REM Alt + 7 for disassembly
+REM Alt + 4 for registers
+
+```
+
 Additional materials:
 
 * [`SOS`](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
