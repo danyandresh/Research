@@ -110,4 +110,13 @@ g
 !DumpStack
 ```
 
+#### Weak references
+
+* `gchandles` - weak references are GC handles, discover using this method
+
+```
+!gchandles
+
+```
+
 Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
