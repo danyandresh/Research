@@ -1,7 +1,12 @@
-###Prerequisites
-On Windows 7 get Windows 7 SDK and .NET Framework 4
+This material is a shortlist of operations needed to inspect and understand your application's memory.
 
-###Start `WinDbg`
+Please refer to [Ben Watson's book `Writing High Performance .NET code`](http://www.writinghighperf.net/) for a more detailed discussion on this topic.
+
+####Prerequisites
+
+- On Windows 7 get `Windows 7 SDK and .NET Framework 4` or `Windows SDK 8.1`
+
+#### Getting started with `WinDbg` and SOS
 Use these instructions to get Windbg initialized (and `SOS` loaded)
 
 ```
@@ -18,17 +23,19 @@ lmv mclr
 
 Note: I used `Windows SDK 8.1` as it has windbg versions for both `x86` and `x64` apps
 
-###Useful commands
+#### Determine objects not garbage collected
 
-####!DumpHeap
+* `gcroot` - find the root of an object using it's address
+* `dumpheap` - dump the heap for a particular type of objects
+* `findroots` - set breakpoints before next GC collection; find information about particular objects
+
 ```
 !DumpHeap -type Chapter_02_GarbageCollector.C
+REm use gcroot to navigate to the root handle
+!gcroot 036a33a8
 ```
 
-####!findroots
 ```
-REM dump the heap
-!DumpHeap
 REM set breakpoint before next gen 0 collection
 !findroots -gen 0
 g
@@ -40,7 +47,11 @@ REM Object 265ce2b0 will survive this collection:
 REM 	gen(0x265ce2b0) = 2 > 0 = condemned generation.
 ```
 
-####!gchandles
+#### Determine pinned objects
+
+* `gchandles` - display handles and their type (use for pinned objects too)
+* `do` - explore objects hierarchy and discover source of a pinned object
+
 ```
 REM Find handles and their type; this would display pinned object too
 !gchandles
@@ -48,7 +59,16 @@ REM use !do to go through objects hierarchy and discover the source of a pinned 
 !do 0256521c
 ```
 
-####!eeheap
+##### Complementary/Additional tools:
+
+* `PerfView`
+
+#### Determine heap fragmentation
+
+* `dumpheap`
+* `eeheap` - inspect the structure of heap segments
+* `address` - insepct addresses of the objects from the heap
+
 ```
 REM Get the list of free blocks of memory
 !dumpheap -type Free
@@ -58,13 +78,21 @@ REM observe the ephemeral segment allocation, dump it
 !dumpheap 02731000  02c74df
 ```
 
-####!address
 ```
 !address -summary
 !address -f:Free
 ```
 
-####!gcwhere
+##### Complementary/Additional tools:
+
+* `VMMap`
+* `CLRProfiler`
+
+#### Determine the generation of an object
+
+* `gcwhere` - find objects generation
+* `dso` - equivalent to `DumpStackObjects`
+
 Find and objects' generation
 ```
 REM Make sure to call this on the right thread
@@ -116,7 +144,9 @@ g
 
 ```
 !gchandles
-
 ```
 
-Find more information about `SOS` [on msdn](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
+Additional materials:
+
+* [`SOS`](https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx)
+* [`Windbg` common commands](http://windbg.info/doc/1-common-cmds.html)

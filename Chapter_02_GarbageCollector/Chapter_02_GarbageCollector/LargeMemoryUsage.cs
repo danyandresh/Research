@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chapter_02_GarbageCollector
 {
-    class Program
+    class LargeMemoryUsage
     {
         const int ArraySize = 1000;
 
