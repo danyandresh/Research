@@ -27,3 +27,15 @@ ngen uninstall CodeSandbox.exe
 ngen display CodeSandbox.exe
 ```
 
+#### Optimized NGen images
+
+Before installing a native image use [`Managed Profile Guided Optimization (MPGO)`](https://msdn.microsoft.com/en-us/library/hh873180.aspx) to keep _reference locality_ (that is otherwise lost when using solely NGen). This is creating a profile for NGen to use later on when the native image is generated
+
+```
+mpgo -scenario CodeSnadbox.exe -assemblyList *.* -OutDir c:\CodeSandboxProfile\
+```
+
+Sure, now ngen has to be used with the new profile stored in `CodeSnadboxProfile` folder
+```
+ngen install c:\CodeSandboxProfile\CodeSandbox.exe
+```
