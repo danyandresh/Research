@@ -1,0 +1,32 @@
+### Tasks
+
+> The Task Parallel Library (TPL) is based on the concept of a task, which represents an asynchronous operation. In some ways, a task resembles a thread or ThreadPool work item, but at a higher level of abstraction. The term task parallelism refers to one or more independent tasks running concurrently
+
+[TPL on MSDN](https://msdn.microsoft.com/en-us/library/dd537609.aspx)
+
+#### `TaskCompletionSource`
+
+> Represents the producer side of a Task<TResult> unbound to a delegate, providing access to the consumer side through the Task property
+
+Very handy when _faking_ a task to return a value when a chain of tasks are completed
+
+```csharp
+public static Task<Stream> BufferStream(this Stream sourceStream, int chunkSize = 1024)
+{
+	var result = new TaskCompletionSource<Stream>();
+
+	var buffer = new byte[chunkSize];
+	var localStream = new MemoryStream
+	{
+		Capacity = chunkSize
+	};
+
+	ReadToBuffer(buffer, sourceStream, localStream, result);
+
+	return result.Task;
+}
+```
+
+In this example the result `tcs` is apssed down the recursive methods fro reading from source stream and writing to the local _buffering_ stream. It isn't necessarily good practice (to buffer a stream on the server) but can be used to cache locally resources that are repeatedly needed.
+
+See the rest of the implementation [here](CodeSandbox/CodeSandbox/Tpl.cs)
