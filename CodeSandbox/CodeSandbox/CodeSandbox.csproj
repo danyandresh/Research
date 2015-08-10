@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>CodeSandbox.JitOptimization</StartupObject>
+    <StartupObject>CodeSandbox.Partitioning.Tester</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,6 +43,8 @@
     <Compile Include="AllocateAndRelease.cs" />
     <Compile Include="JitCall.cs" />
     <Compile Include="JitOptimization.cs" />
+    <Compile Include="Partitioning\SingleItemListPartitioner.cs" />
+    <Compile Include="Partitioning\Tester.cs" />
     <Compile Include="Pinning.cs" />
     <Compile Include="LargeMemoryUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +52,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
