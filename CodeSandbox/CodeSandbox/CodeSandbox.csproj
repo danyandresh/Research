@@ -43,6 +43,7 @@
     <Compile Include="AllocateAndRelease.cs" />
     <Compile Include="JitCall.cs" />
     <Compile Include="JitOptimization.cs" />
+    <Compile Include="Partitioning\SingleItemEnumerablePartitioner.cs" />
     <Compile Include="Partitioning\SingleItemListPartitioner.cs" />
     <Compile Include="Partitioning\Tester.cs" />
     <Compile Include="Pinning.cs" />

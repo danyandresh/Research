@@ -67,3 +67,46 @@ This is leveraging `StrongBox` to create a strong reference to the current _iter
 
 Note: this is a load balanced partitioner and calling .ToList() on any individual partition would cause the other partitions to be become empty.
 
+#### [`SingleItemEnumerablePartitioner`](CodeSandbox/CodeSandbox/Partitioning/SingleItemEnumerablePartitioner.cs)
+
+Creating a partitioner on an enumerable source (that doesn't offer the luxury of _indexing_) is a bit trickier, especially when it come to disposing the enumerators
+
+Key to such implementation is `DynamicGenerator.GetEnumeratorCore()` listed below:
+```c#
+private IEnumerator<KeyValuePair<long, T>> GetEnumerableCore()
+{
+	try
+	{
+		while (true)
+		{
+			T nextItem;
+			long position;
+			lock (_sharedEnumerator)
+			{
+				if (_sharedEnumerator.MoveNext())
+				{
+					position = _nextAvailablePosition++;
+					nextItem = _sharedEnumerator.Current;
+				}
+				else
+				{
+					yield break;
+				}
+			}
+
+			yield return new KeyValuePair<long, T>(position, nextItem);
+		}
+	}
+	finally
+	{
+		if (Interlocked.Decrement(ref _remainingPartitions) == 0)
+		{
+			_sharedEnumerator.Dispose();
+		}
+	}
+}
+```
+
+As with `list` based implementation above, calling `ToList()` on any partition would _dry_ the rest of partitions (for it is a balanced partitioning)
+
+
