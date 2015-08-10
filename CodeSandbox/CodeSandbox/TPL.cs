@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CodeSandbox
@@ -13,10 +16,12 @@ namespace CodeSandbox
             var streamTask = httpClient.GetStreamAsync(@"https://raw.githubusercontent.com/danyandresh/Research/high_performance_net_apps/TPL.md");
             streamTask.Wait();
             var bufferingTask = streamTask.Result.BufferStreamToLocalStream();
-            bufferingTask.Wait();
+            var readStringContentTask = bufferingTask.ContinueWith(
+                t => t.Result.ReadStringContent()
+                    .Result);
+            readStringContentTask.Wait();
 
-            var streamReader = new StreamReader(bufferingTask.Result);
-            Console.WriteLine(streamReader.ReadToEnd());
+            Console.WriteLine(readStringContentTask.Result);
         }
     }
 
@@ -32,7 +37,30 @@ namespace CodeSandbox
                 Capacity = chunkSize
             };
 
-            ReadToBuffer(buffer, sourceStream, localStream, result);
+            ReadToDestinationStream(buffer, sourceStream, localStream, result);
+
+            return result.Task;
+        }
+
+        public static Task<string> ReadStringContent(this Stream sourceStream, int chunkSize = 512, Encoding encoding = null)
+        {
+            var byteArrayResult = new TaskCompletionSource<IEnumerable<byte>>();
+
+            var localBuffer = new byte[chunkSize];
+            var buffer = new List<byte>();
+            encoding = encoding ?? Encoding.UTF8;
+
+
+            ReadToDestinationBuffer(localBuffer, sourceStream, buffer, byteArrayResult);
+
+            var result = new TaskCompletionSource<string>();
+            byteArrayResult.Task.ContinueWith(
+                (t) =>
+                {
+                    var stringContent = encoding.GetString(t.Result.ToArray());
+
+                    result.TrySetResult(stringContent);
+                });
 
             return result.Task;
         }
@@ -48,7 +76,7 @@ namespace CodeSandbox
             destinationStream.Write(buffer, 0, bytesRead);
             if (bytesRead > 0)
             {
-                ReadToBuffer(buffer, sourceStream, destinationStream, taskCompletionSource);
+                ReadToDestinationStream(buffer, sourceStream, destinationStream, taskCompletionSource);
             }
             else
             {
@@ -58,11 +86,46 @@ namespace CodeSandbox
             }
         }
 
-        private static void ReadToBuffer(byte[] buffer, Stream sourceStream, Stream destinationStream, TaskCompletionSource<Stream> taskCompletionSource)
+        private static void ReadToDestinationStream(byte[] buffer, Stream sourceStream, Stream destinationStream, TaskCompletionSource<Stream> taskCompletionSource)
         {
             var t = sourceStream.ReadAsync(buffer, 0, buffer.Length);
             t.ContinueWith(
                 readTask => WriteToLocalStream(readTask, buffer, sourceStream, destinationStream, taskCompletionSource));
+        }
+
+        private static void WriteToBuffer(Task<int> readTask, byte[] buffer, Stream sourceStream, List<byte> buffers, TaskCompletionSource<IEnumerable<byte>> taskCompletionSource)
+        {
+            if (!readTask.IsCompleted)
+            {
+                return;
+            }
+
+            var bytesRead = readTask.Result;
+            buffers.AddRange(buffer.Take(bytesRead));
+            if (bytesRead > 0)
+            {
+                ReadToDestinationBuffer(buffer, sourceStream, buffers, taskCompletionSource);
+            }
+            else
+            {
+
+                taskCompletionSource.TrySetResult(buffers);
+                sourceStream.Dispose();
+            }
+        }
+
+        private static void ReadToDestinationBuffer(byte[] buffer, Stream sourceStream, List<byte> buffers, TaskCompletionSource<IEnumerable<byte>> taskCompletionSource)
+        {
+            var t = Task<int>.Factory.FromAsync(
+                sourceStream.BeginRead,
+                sourceStream.EndRead,
+                buffer,
+                0,
+                buffer.Length,
+                null);
+
+            t.ContinueWith(
+                readTask => WriteToBuffer(readTask, buffer, sourceStream, buffers, taskCompletionSource));
         }
     }
 }
