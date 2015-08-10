@@ -109,4 +109,9 @@ private IEnumerator<KeyValuePair<long, T>> GetEnumerableCore()
 
 As with `list` based implementation above, calling `ToList()` on any partition would _dry_ the rest of partitions (for it is a balanced partitioning)
 
+#### More info
+
+[Samples for Parallel Programming with the .NET Framework](http://code.msdn.microsoft.com/ParExtSamples)
+
+[Parallel Computing](http://msdn.com/concurrency)
 
