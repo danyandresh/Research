@@ -29,7 +29,7 @@ public static Task<Stream> BufferStream(this Stream sourceStream, int chunkSize 
 
 In this example the result `tcs` is apssed down the recursive methods fro reading from source stream and writing to the local _buffering_ stream. It isn't necessarily good practice (to buffer a stream on the server) but can be used to cache locally resources that are repeatedly needed.
 
-See the rest of the implementation [here](CodeSandbox/CodeSandbox/Tpl.cs)
+See the rest of the implementation [here](CodeSandbox/CodeSandbox/Parallelization.cs)
 
 #### `Task<T>.Factory.FromAsync` to convert APM model to Tasks
 
@@ -48,3 +48,14 @@ private static void ReadToDestinationBuffer(byte[] buffer, Stream sourceStream, 
 		readTask => WriteToBuffer(readTask, buffer, sourceStream, buffers, taskCompletionSource));
 }
 ```
+
+#### `Interlocked` **atomic** operations
+
+* `Add` - adds two integers, replacing the first one with the sum and returning that as the result;
+* `CompareExchange` - `CompareExchange(ref location, newValue, comparand)` -  compares `location` with `comparand` and if they are equal `location` is replaced with `newValue`; returns the old value
+* `Increment` - adds `1` to the value and returns the result
+* `Decrement` - substracts `1` from the value and returns the result
+* `Exchange` - replaces `location` with a new value and returns the old value
+
+[ECMA C# and Common Language Infrastructure Standards](https://msdn.microsoft.com/en-US/vstudio/aa569283.aspx)
+
