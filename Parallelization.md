@@ -59,3 +59,25 @@ private static void ReadToDestinationBuffer(byte[] buffer, Stream sourceStream, 
 
 [ECMA C# and Common Language Infrastructure Standards](https://msdn.microsoft.com/en-US/vstudio/aa569283.aspx)
 
+#### Locking
+
+##### `Monitor`/`lock` 
+
+Never lock on:
+
+- `MarshalByRefObject`, a proxy that doesn't protect the underlying source
+- `string` which is shared unpredictably
+- `value type` as they trigger a boxing each time lock is called, precluding synchronization entirely
+
+##### Asynchronous locks: `SehmaphoreSlim` 
+
+- returns a continuation task to execute once the semaphore permits it
+
+##### `SpinLock`
+
+- use if a lock is short-lived, it will spin a loop until the contention is done
+- `Monitor` is a better option as it _spins_ first then enters `wait`
+
+##### `Slim` synchronization 
+
+- prefer the `Slim` versions of synchronization objects, they are implemented to _sping_ first then _wait_ (entering Kernel transition which is much slower)
