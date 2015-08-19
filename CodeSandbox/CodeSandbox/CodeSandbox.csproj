@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>CodeSandbox.Parallelization</StartupObject>
+    <StartupObject>CodeSandbox.PerformanceDesign</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,6 +47,7 @@
     <Compile Include="Partitioning\SingleItemEnumerablePartitioner.cs" />
     <Compile Include="Partitioning\SingleItemListPartitioner.cs" />
     <Compile Include="Partitioning\Tester.cs" />
+    <Compile Include="PerformanceDesign.cs" />
     <Compile Include="Pinning.cs" />
     <Compile Include="LargeMemoryUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
