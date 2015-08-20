@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>CodeSandbox.PerformanceCounters</StartupObject>
+    <StartupObject>CodeSandbox.Etw</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllocateAndRelease.cs" />
+    <Compile Include="Etw.cs" />
     <Compile Include="JitCall.cs" />
     <Compile Include="JitOptimization.cs" />
     <Compile Include="Partitioning\SingleItemEnumerablePartitioner.cs" />
