@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>CodeSandbox.PerformanceDesign</StartupObject>
+    <StartupObject>CodeSandbox.PerformanceCounters</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,6 +47,9 @@
     <Compile Include="Partitioning\SingleItemEnumerablePartitioner.cs" />
     <Compile Include="Partitioning\SingleItemListPartitioner.cs" />
     <Compile Include="Partitioning\Tester.cs" />
+    <Compile Include="PerformanceCounters.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PerformanceDesign.cs" />
     <Compile Include="Pinning.cs" />
     <Compile Include="LargeMemoryUsage.cs" />
