@@ -31,8 +31,6 @@ namespace CodeSandbox
                     Events.Write.FoundPrime(i);
                 }
             }
-
-            Events.Write.FoundPrime(3);
             Events.Write.ProcessingFinish();
 
             consoleListener.Dispose();

@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSandbox", "CodeSandbox\CodeSandbox.csproj", "{9102755B-4793-4A41-8B28-E6C020E16789}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfViewExtensions", "PerfViewExtensions\PerfViewExtensions.csproj", "{C01F9587-78AC-4E6A-8538-5C4ADC6376FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9102755B-4793-4A41-8B28-E6C020E16789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9102755B-4793-4A41-8B28-E6C020E16789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9102755B-4793-4A41-8B28-E6C020E16789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C01F9587-78AC-4E6A-8538-5C4ADC6376FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C01F9587-78AC-4E6A-8538-5C4ADC6376FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C01F9587-78AC-4E6A-8538-5C4ADC6376FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C01F9587-78AC-4E6A-8538-5C4ADC6376FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
