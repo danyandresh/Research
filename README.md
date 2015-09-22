@@ -22,3 +22,4 @@ Some of the design patterns listed here were briefed based on [Allen Hollub's bo
 - [Proxy                ](Proxy.md                          )
 - [Singleton            ](Singleton.md                      )
 - [Observer             ](Observer.md                       )
+- [State                ](State.md                          )
