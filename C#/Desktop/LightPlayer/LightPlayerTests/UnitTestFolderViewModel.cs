@@ -176,18 +176,6 @@ namespace LightPlayerTests
         }
 
         [TestMethod]
-        public void TestFolderVMCanBeDisposed()
-        {
-            var vm = TransientFolderVM(WindsorContainer);
-            WindsorContainer.Release(vm);
-            Assert.IsFalse(WindsorContainer.Kernel.ReleasePolicy.HasTrack(vm));
-
-            var currentVm = TransientFolderVM(WindsorContainer);
-
-            Assert.AreNotEqual(vm, currentVm, "FolderVM should have been disposed");
-        }
-
-        [TestMethod]
         public void TestFolderVMCommandSelectFolder()
         {
             var realFolderPath = UnitTestFolder.RealTestPath;
@@ -207,20 +195,8 @@ namespace LightPlayerTests
 
         public static IFolderViewModel TransientFolderVM(IWindsorContainer windsorContainer, dynamic arguments = null)
         {
-            var container = new WindsorContainer();
-
-            container.Register(Component
-                .For<IFolderViewModel>()
-                .ImplementedBy<FolderViewModel>()
-                .DependsOn(Dependency.OnComponent(typeof(ISelectDialog), "folderSelectDialog"))
-                .DependsOn(Dependency.OnComponent(typeof(ApplicationState), "applicationState"))
-                .LifestyleTransient()
-            );
-
-            windsorContainer.AddChildContainer(container);
-            var result = container.Resolve<IFolderViewModel>(arguments ?? new { });
-            windsorContainer.RemoveChildContainer(container);
-            container.Dispose();
+            var result = windsorContainer.Resolve<IFolderViewModel>(arguments ?? new { });
+            
             return result;
         }
     }

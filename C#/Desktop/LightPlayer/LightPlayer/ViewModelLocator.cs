@@ -41,7 +41,9 @@ namespace LightPlayer
             container.Register(Component.For<IFolder>().ImplementedBy<Folder>().LifestyleTransient());
             container.Register(Component.For<ISelectDialog>().ImplementedBy<SelectDialog>().Named("folderSelectDialog"));
 
-            container.Register(Component.For<IApplicationState>().ImplementedBy<ApplicationState>().Named("applicationState"));
+            container.Register(Component.For<IApplicationState>().ImplementedBy<ApplicationState>()
+                .DependsOn(Dependency.OnConfigValue("nameOrConnectionString", "LightPlayer.ApplicationStateConnection"))
+                .Named("applicationState"));
 
             container.Register(Component
                 .For<IFolderViewModel>()

@@ -10,6 +10,10 @@ namespace LightPlayer
         {
         }
 
+        public ApplicationState(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        { }
+
         public DbSet<Folder> FolderSet { get; set; }
 
         public IEnumerable<IFolder> Folders { get { return FolderSet; } }

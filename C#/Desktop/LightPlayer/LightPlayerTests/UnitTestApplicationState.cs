@@ -10,18 +10,6 @@ namespace LightPlayerTests
     public class UnitTestApplicationState : TestContext
     {
         [TestMethod]
-        public void TestApplicationStateCanBeDisposed()
-        {
-            var appStateInitial = TransientApplicationState(WindsorContainer);
-            WindsorContainer.Release(appStateInitial);
-            Assert.IsFalse(WindsorContainer.Kernel.ReleasePolicy.HasTrack(appStateInitial));
-
-            var appStateCurrent = TransientApplicationState(WindsorContainer);
-
-            Assert.AreNotEqual(appStateInitial, appStateCurrent, "ApplicationState should have been disposed");
-        }
-
-        [TestMethod]
         public void TestApplicationStateStoresModelUniquely()
         {
             var testFolder = "whatever folder name";
@@ -86,18 +74,8 @@ namespace LightPlayerTests
 
         public static IApplicationState TransientApplicationState(IWindsorContainer windsorContainer)
         {
-            var container = new WindsorContainer();
-
-            container.Register(Component
-                .For<IApplicationState>()
-                .ImplementedBy<ApplicationState>()
-                .LifestyleTransient()
-            );
-
-            windsorContainer.AddChildContainer(container);
-            var result = container.Resolve<IApplicationState>();
-            windsorContainer.RemoveChildContainer(container);
-            //container.Dispose();
+            var result = windsorContainer.Resolve<IApplicationState>();
+            
             return result;
         }
     }
