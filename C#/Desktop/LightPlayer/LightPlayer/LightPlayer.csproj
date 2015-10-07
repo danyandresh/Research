@@ -64,6 +64,7 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell">
       <HintPath>..\packages\WindowsAPICodePack-Shell.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -79,6 +80,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Data.SQLite.1.0.91.3\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -111,6 +114,9 @@
     <Compile Include="IPlaylist.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />
+    <Compile Include="MediaButton.xaml.cs">
+      <DependentUpon>MediaButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MediaElementProxy.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="PlayListViewModel.cs" />
@@ -131,6 +137,10 @@
     <Compile Include="Views\Playlist.xaml.cs">
       <DependentUpon>Playlist.xaml</DependentUpon>
     </Compile>
+    <Page Include="MediaButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

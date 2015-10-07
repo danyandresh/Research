@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" VerticalAlignment="Center">Playlists</TextBlock>
-        <ListView Grid.Row="1" ItemsSource="{Binding Models}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Models}" Style="{DynamicResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                         <TextBlock Padding="10,5,10,5">
@@ -28,6 +28,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Add folder" Command="{Binding CommandAddFolder}"/>
+        <Button Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Add folder" Command="{Binding CommandAddFolder}" 
+                HorizontalContentAlignment="Center"/>
     </Grid>
 </Page>
