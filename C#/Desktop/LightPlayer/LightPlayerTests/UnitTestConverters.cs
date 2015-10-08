@@ -12,7 +12,7 @@ namespace LightPlayerTests
         [TestMethod]
         public void TestMethodMultiValueParamsConverterMediaElementConvertsToMediaElementProxy()
         {
-            var converter = WindsorContainer.Resolve<MultiValueParams>();
+            var converter = WindsorContainer.Resolve<MediaElementStringParamsTuple>();
 
             var mediaElement = new MediaElement();
             var file = string.Empty;

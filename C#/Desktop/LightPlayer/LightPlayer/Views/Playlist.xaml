@@ -24,21 +24,71 @@
                     <pinteractivity:InvokeCommandAction Command="{Binding CommandPlayNext}" 
                                                         CommandParameter="{Binding ElementName=media,Converter={StaticResource ResourceKey=MediaInteraction}}"/>
                 </interactivity:EventTrigger>
+                <interactivity:EventTrigger EventName="MediaOpened">
+                    <interactivity:InvokeCommandAction Command="{Binding CommandMediaOpened}"
+                                                       CommandParameter="{Binding ElementName=media,Converter={StaticResource ResourceKey=MediaInteraction}}" />
+                </interactivity:EventTrigger>
             </interactivity:Interaction.Triggers>
         </MediaElement>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="25">
-            <lightPlayer:MediaButton Content=">" Command="{Binding CommandPlay}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}" Style="{DynamicResource ButtonPlay}"/>
-            <lightPlayer:MediaButton Content="." Command="{Binding CommandStop}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}" Style="{DynamicResource ButtonPause}"/>
-            <lightPlayer:MediaButton Content="||" Command="{Binding CommandPause}" CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}" Style="{DynamicResource ButtonStop}"/>
-        </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Playlist.Folder.Files}" SelectedItem="{Binding CurrentlyPlaying}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Style="{DynamicResource ListViewStyle}">
+        <DockPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="25">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                <lightPlayer:MediaButton VerticalAlignment="Stretch" Content=">"
+                                         Command="{Binding CommandPlay}"
+                                         CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"
+                                         Style="{DynamicResource ButtonPlay}"/>
+                <lightPlayer:MediaButton VerticalAlignment="Stretch" Content="."
+                                         Command="{Binding CommandPause}"
+                                         CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"
+                                         Style="{DynamicResource ButtonPause}"/>
+                <lightPlayer:MediaButton VerticalAlignment="Stretch" Content="||"
+                                         Command="{Binding CommandStop}"
+                                         CommandParameter="{Binding ElementName=media, Converter={StaticResource ResourceKey=MediaInteraction}}"
+                                         Style="{DynamicResource ButtonStop}"/>
+            </StackPanel>
+
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Duration, Converter={StaticResource ResourceKey=TimeConverterFromSeconds}}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="{StaticResource ButtonMargin}" Background="{StaticResource ButtonBackgroundActiveBrush}"/>
+            <TextBlock DockPanel.Dock="Right" Text="/" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock DockPanel.Dock="Right" Text="{Binding Position, Converter={StaticResource ResourceKey=TimeConverterFromSeconds}}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="{StaticResource ButtonMargin}" Background="{StaticResource ButtonBackgroundActiveBrush}"/>
+            <Grid DockPanel.Dock="Right" Margin="{StaticResource ButtonMargin}">
+                <Slider Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TickFrequency="10" IsSnapToTickEnabled="True"  AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="0" x:Name="sliderSeek" Minimum="0" Maximum="{Binding Duration, Mode=OneWay}"
+                        
+                        Style="{DynamicResource SliderStyle}"
+                        Value="{Binding Position, Mode=OneWay}">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="ValueChanged">
+                            <lightPlayer:InvokeDelegateCommandAction Command="{Binding CommandSeek}">
+                                <lightPlayer:InvokeDelegateCommandAction.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource ResourceKey=MediaElementIntParamsTuple}">
+                                        <Binding ElementName="media"/>
+                                        <Binding RelativeSource="{RelativeSource Self}" Path="InvokeParameter"/>
+                                        <Binding ElementName="sliderSeek"/>
+                                    </MultiBinding>
+                                </lightPlayer:InvokeDelegateCommandAction.CommandParameter>
+                            </lightPlayer:InvokeDelegateCommandAction>
+                        </interactivity:EventTrigger>
+
+                        <interactivity:EventTrigger EventName="PreviewMouseUp">
+                            <pinteractivity:InvokeCommandAction Command="{Binding CommandToggleBackgroundOperations}" CommandParameter="{StaticResource True}"/>
+                        </interactivity:EventTrigger>
+
+                        <interactivity:EventTrigger EventName="PreviewMouseDown">
+                            <pinteractivity:InvokeCommandAction Command="{Binding CommandToggleBackgroundOperations}" CommandParameter="{StaticResource False}"/>
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
+                    <Slider.ToolTip>
+                        <ToolTip Content="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.Value}"/>
+                    </Slider.ToolTip>
+                </Slider>
+            </Grid>
+        </DockPanel>
+        <ListView  Grid.Row="1" ItemsSource="{Binding Playlist.Folder.Files}" SelectedItem="{Binding CurrentlyPlaying}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Style="{DynamicResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="20">
+                    <Grid Height="20" x:Name="itemGrid">
                         <TextBlock>
                             <Hyperlink Command="{Binding DataContext.CommandPlayFile,RelativeSource={RelativeSource AncestorType=Page}}">
                                 <Hyperlink.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource ResourceKey=MultiValueParams}">
+                                    <MultiBinding Converter="{StaticResource ResourceKey=MediaElementStringParamsTuple}">
                                         <Binding ElementName="media"/>
                                         <Binding Path="."/>
                                     </MultiBinding>

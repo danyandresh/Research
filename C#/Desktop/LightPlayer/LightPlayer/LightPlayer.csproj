@@ -104,13 +104,16 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationState.cs" />
     <Compile Include="Conventions\PlaylistDependencyResolver.cs" />
+    <Compile Include="Converters\MediaElementIntParamsTuple.cs" />
     <Compile Include="Converters\MediaInteractionConverter.cs" />
-    <Compile Include="Converters\MultiValueParams.cs" />
+    <Compile Include="Converters\MediaElementStringParamsTuple.cs" />
+    <Compile Include="Converters\TimeConverterFromSeconds.cs" />
     <Compile Include="DialogResult.cs" />
     <Compile Include="FileMask.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IFileMask.cs" />
     <Compile Include="IMediaElement.cs" />
+    <Compile Include="InvokeDelegateCommandAction.cs" />
     <Compile Include="IPlaylist.cs" />
     <Compile Include="IPlaylistViewModel.cs" />
     <Compile Include="ISelectDialog.cs" />

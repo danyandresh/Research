@@ -9,6 +9,10 @@ namespace LightPlayer
 
         string CurrentlyPlaying { get; set; }
 
+        int Duration { get; }
+
+        int Position { get; }
+
         ICommand CommandPlayFile { get; }
 
         ICommand CommandPlay { get; }
@@ -18,5 +22,11 @@ namespace LightPlayer
         ICommand CommandStop { get; }
 
         ICommand CommandPause { get; }
+
+        ICommand CommandSeek { get; }
+
+        ICommand CommandMediaOpened { get; }
+
+        ICommand CommandToggleBackgroundOperations { get; }
     }
 }

@@ -63,7 +63,7 @@ namespace LightPlayer
                 .ImplementedBy<PlaylistViewModel>()
                 .LifestyleTransient());
 
-            container.Register(Component.For<MultiValueParams>());
+            container.Register(Component.For<MediaElementStringParamsTuple>());
             container.Register(Component.For<MediaInteractionConverter>());
 
             container.Register(Component.For<IFileMask>().ImplementedBy<FileMask>());

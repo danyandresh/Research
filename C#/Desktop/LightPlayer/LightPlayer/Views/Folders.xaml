@@ -15,15 +15,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" VerticalAlignment="Center">Playlists</TextBlock>
+        <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="{StaticResource ButtonShapeMargin}" Background="{StaticResource ButtonBackgroundActiveBrush}">Playlists</TextBlock>
         <ListView Grid.Row="1" ItemsSource="{Binding Models}" Style="{DynamicResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                        <TextBlock Padding="10,5,10,5">
+                    <Grid Height="20">
+                        <TextBlock>
                             <Hyperlink Name="hypelink"  NavigateUri="Playlist.xaml" Command="{Binding DataContext.CommandSelectFolder,RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding .}">
                                 <TextBlock Text="{Binding Path}"/>
                             </Hyperlink>
                         </TextBlock>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
