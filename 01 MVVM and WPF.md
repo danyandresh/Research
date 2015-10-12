@@ -227,4 +227,224 @@ One example of binding `View`s to `ViewModel`s is to define a `ViewModel` proper
 <ContentControl Content="{Binding CurrentViewModel}" />
 ```
 The last thing needed is to define an _implicit_ `DataTemplate` for the `ViewModel` types as described above.
- 
+
+##View/ViewModel communication
+
+###`Command` pattern 
+
+1. `Invoker` - a UI control (from the `View`) or another piece of code
+2. `Receiver` - Action defined by `ViewModel`
+
+The above two are decoupled using an abstraction layer using a delegating command implementation (`ICommand`).
+The commands in WPF can enable/disable the `invoker` control (`ICommand.CanExecute()`); after binding, the `invoker` is automatically enabled/disabled through the `DelegateCommandBase.CanExecuteChanged` event
+
+####Input bindings
+
+```xaml
+<UserControl.InputBindings>
+    <KeyBinding Key="D" Modifiers="Control" Command="{binding DelegateCommand}"/>
+</UserControl.InputBindings>
+```
+
+The above command is called when `Ctrl`+`D` is pressed.
+
+###Attached Properties
+
+Can be defined in any class and applied to any object inheriting `DependencyObject`
+
+###Behaviours
+
+Can change properties, attach to event handlers; can be defined with `Attached Properties` or with `Blend SDK`
+
+####Blend SDK
+
+Uses attached properties to attach behaviours to elements.
+The `behaviour`s can communicate between `View` and `ViewModel` by wiring events/property changes from `View` into `ViewModel` and the other way around
+
+To turn an `Attached Property` into a `Behaviour` the `PropertyMetadata` must use a change event (as shown in property definition from [View-First: ViewModelLocator](#View-First: ViewModelLocator))
+The resulted attached property will be used like
+```xaml
+local:CustomBehaviours.CustomBehaviourProperty="Initialize"
+```
+```csharp
+public async void Initialize()
+{
+    if(DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+	{
+	    return;
+	}
+	
+	//do expensive async initialization stuff
+}
+```
+
+To achieve the same through Blend SDK behaviours:
+```XAML
+<i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+	    <ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize"/>
+	</i:EventTrigger>
+</i:Interaction.Triggers>
+```
+
+`{Binding}` is binding the `CallMethodAction` directly to the current `DataContext`
+
+###Property Change notifications
+
+A mechanism to trigger bindings to refresh
+
+1. `DependencyProperty`s have their own internal mechanism for change notifications
+2. `INotifypropertyChanged`, by defining an event and change code so property changes call that event (this is commonly used in MVVM)
+
+```c#
+public class CustomViewModel : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged = delegate { /* to avoid calling for null each time*/ };
+}
+```
+
+###Blend SDK Behaviour
+
+```c# 
+public class CustomBehaviour : Behaviour<ContentControl>
+{
+    
+    public static string Message
+	{
+	    get
+	    {
+    	    return (string)GetValue(MessageProperty)
+	    }
+	
+	    set
+	    {
+	        SetValue(MessageProperty, value);
+	    }
+	
+	public static readonly DependencyProperty MessageProperty =
+	    DependencyProperty.Register("Message", typeof(string), typeof(CustomBehaviour), new PropertyMetadata(0, OnMessageChanged));
+		
+	private static void OnMessageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+	    // cast d to CustomBehaviour
+		behaviour.AssociatedObject.Content = e.NewValue;
+		behaviour.AssociatedObject.Visibility = Visibility.Visible;
+	}
+	
+	protected override void OnAttached()
+	{
+	    //attach to various events from the AssociatedObject
+	} 
+}
+```
+
+Usage of this behaviour:
+```xaml
+<ContentControl>
+    <i:Interaction.Behaviours>
+	    <local:CustomBehaviour Message="{Binding <view model property>}"
+    </i:Interaction.Behaviours>
+</ContentControl>
+```
+
+##Naming conventions
+
+- "<Name>View"
+    * Only name it like this if there is a corresponding `ViewModel`
+    * Can suffix with _Window_, _Page_, _Dialog_ etc.
+- `ViewModels`:
+    - if `View` name ends in "_View_", suffix with "_Model_"
+	- if `View` name doesn't end in "_ViewModel_" suffix with "_ViewModel_"
+- `Model`s are mostly POCOs (entities) and should be named to reflect the domain objects
+
+Pair `View`s and `ViewModel`s in folders by _feature_.
+
+##Implementation guidelines
+
+- Have a base class for `ViewModel`s, to implement `INotifypropertyChanges`
+    * use `CallerMemberName` attribute to determine changed property name
+	* compare previous value with new value before triggering change notification
+- Navigation using _Event Aggregator_, _Strategy_  design patterns
+    1. Source `ViewModel` raises a NavigationPreparationEvent which is a _Strategy_ (strategy is decided by this `ViewModel`)
+	2. A **single** _event subscriber_ `ViewModel` should intercept this event (and read the data and store it for later use)
+	3. Latter `ViewModel` should raise a NavitagionRequestEvent
+	4. Main `ViewModel` (or the navigation root) should intercept this event and make the transition
+	
+ - Scaffold from Data Sources window in Visual Studio for add/edit templates
+ - `CollectionView` represents a view for grouping, sorting, filtering, and navigating a data collection.
+ - `ColelctionViewSource` is the (design time) XAML proxy of a `CollectionView`
+ - Converter instances can be defined as resources (and properties be added to them for more flexibility)
+     ```xaml
+	 <converters:NegatableCustomConverter x:Key="CustomConverter"/>
+	 <converters:NegatableCustomConverter x:Key="NegatedCustomConverter" Negate="True"/>	 
+	 ```
+ - Validation with:
+     * IDataErrorInfo
+	 * ValidationRules
+	 * **INotifyDataErrorInfo** introduced in Framework 4.5: Can query the object for validation errors, async validation, more than one error associated on a property
+	 ```C#
+	 //Method to be called on each property change (after NotifyPropertyChanged)
+	 void ValidateProperty<T>(string propertyname, T value)
+	 {
+	     var results = new List<ValidationResult>();
+		 var context = new ValidationContext(this);
+		 context.MemberName = propertyName;
+		 
+		 //Validate based on DataAnnotation attributes defined in `Model`
+		 Validator.TryValidateProperty(value, context, results);
+		 
+		 if(results.Any())
+		 {
+		     _errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+		 }
+		 else
+		 {
+		     _errors.Remove(propertyName);
+		 }
+		 
+		 ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+	 }
+	 
+	 //define DataAnnotation attrinutes inside model
+	 [Required]
+	 [EmailAddress]
+	 [Phone]
+	 ```
+	 ```XAML
+	 <TextBox Text="Binding FirstName, ValidatesOnNotifyDataErrors=True}"/>
+	 ```
+	     - To disable the command implement the CanExecute() method of the command to look at validation errors if any (on model property changed, ideally)
+		 - To define a style for errors:
+		 ```XAML
+		 <Style TargetType="<Validated control type, don't forget x:Type if it is custom>"
+		     <Style.Triggers>
+			     <Trigger Property="Validation.HasError" Value="true">
+				     <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+			     </Trigger>
+		     </Style.Triggers>
+		 </Style>
+		 ```
+
+- Dependency Injection/IoC Containers
+    * Responsible for:
+        - Constructing an object 
+		- Determine and constructing its dependencies
+	* WindsorCastle, Unity, AutoFac, Ninject, StructureMap
+- Automapper for copying object data
+
+##MVVM Toolkits
+
+- Prism
+    * MVVM pattern support
+	* Bindable base class
+	* ViewModel locator
+	* Modularity
+	* UI Composition/Regions
+	* Navigation + Navigation Stack
+	* Commands
+	* Publisher/Subscriber events (loosely coupled, much in the spirit of Event Aggregator design pattern)
+	
+- MVVM Light
+- Caliburn Micro
+
+		
