@@ -667,6 +667,216 @@ words.py http://sixty-north.com/c/t.txt
 
 More on PEP 397
 
+ ##Objects
+ 
+ All objects are reference objects in Python
+ 
+ `id()`
+ 
+- returns integer constant that is _unique_ and _constant_ for the lifetime of the object
+- debugging tool
+ 
+ ```python
+ >>> a = 123
+>>> id(a)
+1713233456
+ ```
+
+ `is`
+ 
+ - reference equality checker
+ 
+ ```python
+ >>> b = a
+>>> a is b
+True
+>>> a is None
+False
+ ```
+ 
+ ###Equality
+ 
+ * **Value** equality: equivalent contents - can be controller programatically
+ * **Identity** equality: same object reference
+ 
+ ```python
+ >>> a = [1, 2, 3]
+>>> b = [1, 2, 3]
+>>> a == b
+True
+>>> a is b
+False
+ ```
+
+##function arguments
+
+are passed by _object reference_
+
+###default function arguments
+
+```python
+>>> def banner(message, border='-'):
+...     line = border * len(message)
+...     print(line)
+...     print(message)
+...     print(line)
+...
+
+>>> banner("Function default argument '-' should be used")
+--------------------------------------------
+Function default argument '-' should be used
+--------------------------------------------
+
+>>> banner("Function custom argument '#' should be used", '#')
+###########################################
+Function custom argument '#' should be used
+###########################################
+
+>>> banner(border='*', message="Function custom argument '*' should be used")
+*******************************************
+Function custom argument '*' should be used
+*******************************************
+```
+
+####default arguments evaluation
+
+default arguments are evaluated only once, when the `def` statement is executed
+
+```python
+>>> import time
+>>> time.ctime()
+'Tue Oct 13 17:05:19 2015'
+
+>>> def show_default(arg=time.ctime()):
+...     print(arg)
+...
+>>> show_default()
+Tue Oct 13 17:06:13 2015
+>>> show_default()
+Tue Oct 13 17:06:13 2015
+
+>>> def add_spam(menu=[]):
+...     menu.append("spam")
+...     return menu
+...
+>>> breakfast = ['bacon', 'eggs']
+>>> add_spam(breakfast)
+['bacon', 'eggs', 'spam']
+>>> lunch = ['baked beans']
+>>> add_spam(lunch)
+['baked beans', 'spam']
+>>> add_spam()
+['spam']
+>>> add_spam()
+['spam', 'spam']
+```
+
+always assign _immutable_ objects as default argument values
+
+```python
+>>> def add_spam(menu=None):
+...     if menu is None:
+...         menu = []
+...     menu.append('spam')
+...     return menu
+...
+>>> add_spam()
+['spam']
+>>> add_spam()
+['spam']
+```
+
+##type system
+
+- dynamic: object types are only resolved at runtime
+```python
+>>> def add(a,b):
+...     return a + b
+...
+>>> add(1, 2)
+3
+>>> add('a', 'b')
+'ab'
+>>> add([1, 2, 3], [4, 5, 6])
+[1, 2, 3, 4, 5, 6]
+```
+- strong: the is no implicit type conversion
+```python
+>>> add(23, 'abc')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in add
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+```
+
+##variable scoping
+
+_scopes_ are _contexts_ in which named references can be looked up
+
+- `Local` scope: names inside the current function
+- `Enclosing` scope: any and all enclosing functions
+- `Global` scope: names in top-level module
+- `Build-in` scope: provided by the `builtins` module
+
+###change variable scoping
+
+use `global` to change scoping
+
+```python
+>>> count = 0
+>>> def show_count():
+...     print("count = ", count)
+...
+>>> def set_count(c):
+...     count = c
+...
+>>> show_count()
+count =  0
+>>> set_count(5)
+>>> show_count()
+count =  0
+
+#use global to resolve the count to the global scope
+>>> def set_count(c):
+...     global count
+...     count = c
+...
+>>> set_count(5)
+>>> show_count()
+count =  5
+```
+
+> Zen: Special cases aren't special enough to break the rules
+
+> Patterns are followed not to kill complexity but to master it
+
+in Python everything is an object
+
+- use `type()` to get the type of an object
+- use `dir()` to get the attributes of an object
+
+```python
+>>> import words
+>>> type(words)
+<class 'module'>
+>>> dir(words)
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'fetch_words'
+, 'main', 'print_items', 'sys', 'urlopen']
+
+>>> type(words.fetch_words)
+<class 'function'>
+>>> dir(words.fetch_words)
+['__annotations__', '__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__di
+r__', '__doc__', '__eq__', '__format__', '__ge__', '__get__', '__getattribute__', '__globals__', '__gt__', '__hash__', '
+__init__', '__kwdefaults__', '__le__', '__lt__', '__module__', '__name__', '__ne__', '__new__', '__qualname__', '__reduc
+e__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+>>> words.fetch_words.__name__
+'fetch_words'
+>>> words.fetch_words.__doc__
+' Fetch a list of words from a URL\n    \n    Args:\n        url: The URL of a UTF-8 text document\n    \n    Returns:\n
+        A list of strings containing the words from the document\n    \n    '
+```
+
 
 
 
