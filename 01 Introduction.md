@@ -275,5 +275,110 @@ UnicodeEncodeError: 'charmap' codec can't encode character '\xe5' in position 27
 ```
 #!To get back to this printing issue
 
+##bytes
 
+Immutable sequences of bytes that support almost the same operations as strings do
+
+```python
+>>> b'data'
+b'data'
+>>> b"data"
+b'data'
+
+>>> m = b'data'
+>>> m[0]
+100
+>>> print(m[0])
+100
+>>> print(m[1])
+97
+>>> m.split()
+[b'data']
+```
+Conversion between `str` and `bytes` requires the encoding of `bytes` to be known; [more on python encoding](http://docs.python.org/3/library/codecs.html#standard-encodings)
+
+```python
+>>> string = "String with hexadecimal \u00e5"
+>>> data = string.encode('utf-8')
+>>> convString = data.decode('utf-8')
+>>> string == convString
+True
+>>> convString
+'String with hexadecimal \xe5'
+>>> string
+'String with hexadecimal \xe5'
+```
+
+##list
+
+_Mutable_ sequences of objects
+
+```python
+>>> [1,'a', 3]
+[1, 'a', 3]
+>>> l = ['string 1', 'string 2', 'string 3']
+>>> lol = [l, l, l]
+>>> print(lol)
+[['string 1', 'string 2', 'string 3'], ['string 1', 'string 2', 'string 3'], ['string 1', 'string 2', 'string 3']]
+>>> l[0]
+'string 1'
+>>> l[0] = l
+>>> print(l)
+[[...], 'string 2', 'string 3']
+>>> print(l[0])
+[[...], 'string 2', 'string 3']
+>>> print(l[0][0])
+[[...], 'string 2', 'string 3']
+
+>>> [1,'a', 3]
+[1, 'a', 3]
+>>> l = ['string 1', 'string 2', 'string 3']
+>>> lol = [l, l, l]
+>>> print(lol)
+[['string 1', 'string 2', 'string 3'], ['string 1', 'string 2', 'string 3'], ['string 1', 'string 2', 'string 3']]
+>>> l[0]
+'string 1'
+>>> l[0] = l
+>>> print(l)
+[[...], 'string 2', 'string 3']
+>>> print(l[0])
+[[...], 'string 2', 'string 3']
+>>> print(l[0][0])
+[[...], 'string 2', 'string 3']
+>>> l.append(4.55)
+>>> l.append(l)
+>>> print(l)
+[[...], 'string 2', 'string 3', 4.55, [...]]
+>>> list('characters')
+['c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', 's']
+>>> l = ['bear',
+...      'bär',
+...      'mishka',
+...      'urs',]
+>>> l
+['bear', 'bär', 'mishka', 'urs']
+```
+
+##dictionaries
+
+mutable mappings of keys to values
+
+```python
+>>> bearTranslations = {'ro': 'urs',
+...                     'de': 'bär',
+...                     'en': 'bear',}
+>>> bearTranslations['ro']
+'urs'
+>>> bearTranslations['ro'] = 'ursul'
+>>> bearTranslations
+{'ro': 'ursul', 'en': 'bear', 'de': 'bär'}
+>>> bearTranslations['ru'] = 'mishka'
+>>> bearTranslations
+{'ro': 'ursul', 'en': 'bear', 'ru': 'mishka', 'de': 'bär'}
+>>> bearTranslations = {}
+>>> bearTranslations
+{}
+```
+
+entries order cannot be relied upon
 
