@@ -1745,3 +1745,445 @@ error codes are silent by default
 
 > Zen: Errors should never pass silently, unless explicitly silenced
 > Errors are like bells and if we make them silent they are of no use
+
+##iterables
+comprehensions are a concise syntax for describing lists, sets or dictionaries in a _declarative_ or _functional_ style
+they are _readable_, _expressive_ and _effective_
+###list comprehensions
+general form of list comprehensions
+```python
+[ expr(item) for item in iterable]
+```
+
+```python
+>>> words = 'Why sometimes I have believed as many as six impossible things before breakfast'.split()
+>>> words
+['Why', 'sometimes', 'I', 'have', 'believed', 'as', 'many', 'as', 'six', 'impossible', 'things', 'before', 'bre
+akfast']
+>>> [len(word) for word in words]
+[3, 9, 1, 4, 8, 2, 4, 2, 3, 10, 6, 6, 9]
+
+>>> from math import factorial
+>>> f = [len(str(factorial(x))) for x in range(20)]
+>>> for i, v in enumerate(f):
+...     print('{} {}'.format(str(i).zfill(2),str(v).zfill(2)))
+...
+00 01
+01 01
+02 01
+03 01
+04 02
+05 03
+06 03
+07 04
+08 05
+09 06
+10 07
+11 08
+12 09
+13 10
+14 11
+15 13
+16 14
+17 15
+18 16
+19 18
+```
+
+###set comprehensions
+general form
+```python
+{ expr(item) for item in iterable}
+```
+
+```python
+>>> s = {len(str(factorial(x))) for x in range(20)}
+>>> for i, v in enumerate(s):
+...     print('{} {}'.format(str(i).zfill(2),str(v).zfill(2)))
+...
+00 01
+01 02
+02 03
+03 04
+04 05
+05 06
+06 07
+07 08
+08 09
+09 10
+10 11
+11 13
+12 14
+13 15
+14 16
+15 18
+```
+
+###dictionary comprehensions
+general form
+```python
+{key: value for item in items}
+```
+
+```python
+>>> from pprint import pprint as pp
+>>>
+>>> country_to_capital = {'United Kingdom': 'London',
+...                      'Brazil': 'Brazilia',
+...                      'Morocco': 'Rabat',
+...                      'Sweden': 'Stockholm'}
+>>> capital_to_country = {capital: country for country, capital in country_to_capital.items()}
+>>> pp(capital_to_country)
+{'Brazilia': 'Brazil',
+ 'London': 'United Kingdom',
+ 'Rabat': 'Morocco',
+ 'Stockholm': 'Sweden'}
+ 
+ >>> words = ['hi', 'hello', 'foxtrot', 'hotel']
+>>> {x[0]: x for x in words}
+{'h': 'hotel', 'f': 'foxtrot'}
+```
+
+not to cram too much complexity into comprehensions
+```python
+>>> import os
+>>> import glob
+>>> file_sizes = {os.path.realpath(p): os.stat(p).st_size for p in glob.glob('*.py')}
+>>> pp(file_sizes)
+{'C:\\Users\\Daniel\\Documents\\GitHub\\Research\\pyfund\\exceptional.py': 436,
+ 'C:\\Users\\Daniel\\Documents\\GitHub\\Research\\pyfund\\keypress.py': 983,
+ 'C:\\Users\\Daniel\\Documents\\GitHub\\Research\\pyfund\\roots.py': 1027,
+ 'C:\\Users\\Daniel\\Documents\\GitHub\\Research\\pyfund\\words.py': 1122}
+```
+
+###filtering predicates
+appends an `if` at the end of comprehension
+
+```python
+>>> from math import sqrt
+
+>>> def is_prime(x):
+...     if(x<2):
+...             return False
+...     for i in range(2, int(sqrt(x)) + 1):
+...             if x % i ==0:
+...                     return False
+...     return True
+...
+>>> [x for x in range(101) if is_prime(x)]
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+
+#numbers with only three divisors mapped to those divisors
+>>> prime_square_divisors = {x*x:(1, x, x*x) for x in range(101) if is_prime(x)}
+>>> pp(prime_square_divisors)
+{4: (1, 2, 4),
+ 9: (1, 3, 9),
+ 25: (1, 5, 25),
+ 49: (1, 7, 49),
+ 121: (1, 11, 121),
+ 169: (1, 13, 169),
+ 289: (1, 17, 289),
+ 361: (1, 19, 361),
+ 529: (1, 23, 529),
+ 841: (1, 29, 841),
+ 961: (1, 31, 961),
+ 1369: (1, 37, 1369),
+ 1681: (1, 41, 1681),
+ 1849: (1, 43, 1849),
+ 2209: (1, 47, 2209),
+ 2809: (1, 53, 2809),
+ 3481: (1, 59, 3481),
+ 3721: (1, 61, 3721),
+ 4489: (1, 67, 4489),
+ 5041: (1, 71, 5041),
+ 5329: (1, 73, 5329),
+ 6241: (1, 79, 6241),
+ 6889: (1, 83, 6889),
+ 7921: (1, 89, 7921),
+ 9409: (1, 97, 9409)}
+```
+
+> Zen: Simple is better than complex
+> Code is written once but read over and over
+> Fewer is clearer
+
+###iteration protocols
+- _iterable_ protocol
+    * iterable objects can be passed to the built-in `iter()` function to get an iterator
+```python
+iterator = iter(iterable)
+```
+- _iterator_ protocol
+    * iterator objects can be passed to the built-in `next()` function to fetch the next item
+    * throws exception when the end of the iteration is encountered
+```python
+item = next(iterator)
+```
+
+```python
+>>> iterable = ['Spring', 'Summer', 'Autumn', 'Winter']
+>>> iterator = iter(iterable)
+>>> next(iterator)
+'Spring'
+>>> next(iterator)
+'Summer'
+>>> next(iterator)
+'Autumn'
+>>> next(iterator)
+'Winter'
+>>> next(iterator)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+
+>>> def first(iterable):
+...     iterator = iter(iterable)
+...     try:
+...             return next(iterator)
+...     except StopIteration:
+...             raise ValueError('iterable is empty')
+...
+>>> first(['first', 'second', 'third'])
+'first'
+>>> first({'first', 'second', 'third'})
+'first'
+>>> first(set())
+Traceback (most recent call last):
+  File "<stdin>", line 4, in first
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 6, in first
+ValueError: iterable is empty
+```
+
+###generators
+- specify iterable sequences
+    * all generators are iterators
+- are lazily evaluated
+    * the next value in the sequence is computed on demand
+- can model infinite sequences
+    * such as data streams with no definite end
+- are composable into pipelines
+    * for natural stream processing
+    
+functions that use `yield` are _generators_
+
+```python
+>>> def gen123():
+...     yield 1
+...     yield 2
+...     yield 3
+...
+>>> g = gen123()
+>>> g
+<generator object gen123 at 0x0000000000716A98>
+>>> next(g)
+1
+>>> next(g)
+2
+>>> next(g)
+3
+>>> next(g)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+>>>
+>>> for v in gen123():
+...     print(v)
+...
+1
+2
+3
+>>> h = gen123()
+>>> i = gen123()
+>>> next(h)
+1
+>>> next(h)
+2
+>>> next(i)
+1
+>>> h is i
+False
+>>> h
+<generator object gen123 at 0x0000000000716B48>
+>>> i
+<generator object gen123 at 0x00000000011AC938>
+```
+
+```python
+>>> def gen246():
+...     print('About to yield 2')
+...     yield 2
+...     print('About to yield 4')
+...     yield 4
+...     print('About to yield 6')
+...     yield 6
+...     print('About to return')
+...
+>>> g = gen246()
+>>> next(g)
+About to yield 2
+2
+>>> next(g)
+About to yield 4
+4
+>>> next(g)
+About to yield 6
+6
+>>> next(g)
+About to return
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+>>> next(gen246())
+About to yield 2
+2
+>>> next(gen246())
+About to yield 2
+2
+```
+
+###stateful generator functions
+- generators resume execution
+- can maintain state in local variables
+- complex control flow
+- lazy evaluation
+
+`continue` - continues the `for`/`while` iteration loops to the next item
+
+- just in time computation
+- infinite (or large) sequences
+    * sensor readings
+    * mathematical series
+    * massive files
+
+```python
+>>> def lucas():
+...     yield 2
+...     a = 2
+...     b = 1
+...     while b < 50: #use True to get a never ending sequence
+...             yield b
+...             a, b = b, a + b
+...
+>>> for x in lucas():
+...     print(x)
+...
+2
+1
+3
+4
+7
+11
+18
+29
+47
+```
+
+###generator comprehensions
+- similar syntax to list comprehensions
+- create a generator object
+- concise
+- lazy evaluation
+
+syntax
+```python
+( expr(item) for item in iterable)
+```
+
+```python
+>>> squares = (x*x for x in range(1, 11))
+>>> squares
+<generator object <genexpr> at 0x00000000011AC990>
+>>> list(squares)
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+>>> list(squares)
+[]
+
+#memory footprint is insignificant here
+>>> sum(x*x for x in range(1, 10000001))
+333333383333335000000
+```
+
+can have predicates too
+
+###iteration tools
+https://docs.python.org/3.5/library/itertools.html
+
+```python
+>>> from itertools import islice, count
+>>> islice(all_primes, 1000)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'all_primes' is not defined
+
+>>> thousand_primes = islice((x for x in count() if is_prime(x)), 50)
+>>> list(thousand_primes)
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107,
+ 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229]
+ 
+>>> sum(islice((x for x in count() if is_prime(x)), 50))
+5117
+```
+
+```python
+>>> any([False, False, True])
+True
+>>> all([False, False, True])
+False
+
+>>> any(is_prime(x) for x in range(1328, 1361))
+False
+>>> all(name == name.title() for name in ['London', 'New York', 'Sydney'])
+True
+```
+
+```python
+>>> a = [1, 2, 3, 4, 5, 6, 7, 8, ]
+>>> b = [1, 2, 3, 4, 5, 6, 7, 8, ]
+>>> for x in zip(a,b):
+...     print(x)
+...
+(1, 1)
+(2, 2)
+(3, 3)
+(4, 4)
+(5, 5)
+(6, 6)
+(7, 7)
+(8, 8)
+
+>>> b = [2, 3, 4, 5, 6, 7, 8, 9, ]
+>>> for ax, bx in zip(a,b):
+...     print('average = ', (ax + bx) /2)
+...
+average =  1.5
+average =  2.5
+average =  3.5
+average =  4.5
+average =  5.5
+average =  6.5
+average =  7.5
+average =  8.5
+```
+
+```python
+>>> from itertools import chain
+>>> l = chain(a, b)
+>>> all(x>0 for x in l)
+True
+
+>>> for x in (p for p in lucas() if is_prime(p)):
+...     print(x)
+...
+2
+3
+7
+11
+29
+47
+```
