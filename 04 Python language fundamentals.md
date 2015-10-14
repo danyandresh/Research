@@ -1699,3 +1699,49 @@ protocol          | implementing collections
     * `seq.index(item)`: find items by value
     * `seq.count(item)`: count items
     * `reversed(seq)`: produce a reversed sequence
+
+##exception handling
+is a mechanism for stopping normal program flow and continuing at some surrounding context or code block
+
+these exception types should not normally be catched:
+
+- `IndentationError`
+- `SyntaxError`
+- `NameError`
+
+`pass` - causes empty exception catch blocks to pass
+`as exception` - captures at exception catching level the thrown exception
+`str(exception)` - converts exception to string
+exceptions can't be ignored, but error codes can
+`raise`:
+    - without a parameter simply re-raises the exception currently being handled
+    - use with a new exception object, e.g. `ValueError`
+
+callers need to know what exceptions to expect and when
+avoid too tight scope for exception handling 
+use exceptions that users will anticipate
+standard exceptions are often the best choice
+exceptions are parts of families of related functions referred to as protocols
+use common or existing exception types when possible
+
+- `IndexError` integer index is out of range
+- `ValueError` object is of the right type, but contains an inappropriate value
+- `KeyError` look-up in a mapping fails
+
+avoid protecting against `TypeErrors`
+it's usually not worth checking types, this can limit functions unnecessarily
+
+LBYL (look before you leap) vs EAFP (it's easier to ask forgiveness than permission)
+
+Python is in favour of EAFP
+
+error codes require interspersed, local handling
+exceptions allow centralized non-local handling
+
+exceptions require explicit handling
+error codes are silent by default
+
+`finally` - is executed no matter how the try-block exits
+
+> Zen: Errors should never pass silently, unless explicitly silenced
+> Errors are like bells and if we make them silent they are of no use
