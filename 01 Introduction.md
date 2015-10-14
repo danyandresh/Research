@@ -877,6 +877,825 @@ e__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__su
         A list of strings containing the words from the document\n    \n    '
 ```
 
+##tuple
 
+heterogeneous immutable sequence, defined using parenthesis (which in some case are omitted)
+```python
+>>> t = ("Bear", 5, 2.31)
+>>> t
+('Bear', 5, 2.31)
+>>> t[1]
+5
+>>> len(t)
+3
+>>> for i in t:
+...     print(i)
+...
+Bear
+5
+2.31
+>>> t + ('fox', 'frog', '12')
+('Bear', 5, 2.31, 'fox', 'frog', '12')
+>>> t * 2
+('Bear', 5, 2.31, 'Bear', 5, 2.31)
+>>> t * 2.2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't multiply sequence by non-int of type 'float'
+>>> c = ((45, 44.1), (47, 46.4), 'latitude', 'longitude')
+>>> c
+((45, 44.1), (47, 46.4), 'latitude', 'longitude')
+>>> c[0][1]
+44.1
+>>> t = (123)
+>>> type(t)
+<class 'int'>
+>>> t = (123,)
+>>> type(t)
+<class 'tuple'>
+>>> t = ()
+>>> t
+()
+>>> type(t)
+<class 'tuple'>
+>>> t = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+>>> type(t)
+<class 'tuple'>
+>>> def minmax(items):
+...     return min(items), max(items)
+...
+>>> minmax(t)
+(0, 9)
+```
 
+###tuple unpacking
 
+can destructure directly into named references
+
+```python
+>>> lower, upper = minmax(t)
+>>> lower
+0
+>>> upper
+9
+
+>>> (a, (b, (c, d))) = (4, (3, (2, 1)))
+>>> print(a, b, c, d)
+4 3 2 1
+
+>>> a, b = b, a
+>>> print(a, b, c, d)
+3 4 2 1
+```
+
+###constructor
+```python
+>>> tuple([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+```
+
+###in/not in operators
+```python
+>>> 5 in (4, 5, 6,)
+True
+>>> 5 not in (4, 5, 6,)
+False
+```
+
+##str
+homogeneous immutable sequence of Unicode codepoints
+
+###`len()`
+```python
+>>> len("llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch")
+58
+```
+
+###concatenation
+```python
+>>> 'New' + 'found' + 'land'
+'Newfoundland'
+>>> s = 'New'
+>>> s += 'found'
+>>> s
+'Newfound'
+>>> s += 'land'
+>>> s
+'Newfoundland'
+```
+
+###`join()`
+```python
+>>> s = ' '.join(['New', 'found', 'land'])
+>>> s
+'New found land'
+>>> s.split(' ')
+['New', 'found', 'land']
+```
+
+> Zen: The way may not be obvious at first
+> To concatenate invoke join on empty text
+> Something for nothing
+
+###`partition()`
+
+`_` is for unused or dummy values
+
+```python
+>>> 'unforgetable'.partition('forget')
+('un', 'forget', 'able')
+
+>>> departure, separator, arrival = 'London:Edinburgh'.partition(':')
+>>> departure
+'London'
+>>> arrival
+'Edinburgh'
+
+>>> departure, _, arrival = 'London to Oxford'.partition(' to ')
+>>> departure
+'London'
+>>> arrival
+'Oxford'
+```
+
+###`format()`
+
+- replaces `{<number>}` fields with arguments according to their index
+- replaces empty `{}` fields in the order they are specified
+- replaces keyword `{<name>}` fields with the  named arguments
+```python
+>>> '{0} ist {1} Jahre alt; Geburtstag von {1} ist auf {2}'.format('Thomas', 30, 'September')
+'Thomas ist 30 Jahre alt; Geburtstag von 30 ist auf September'
+
+>>> 'Position is {} {}'.format(44.5, 32.5)
+'Position is 44.5 32.5'
+>>> 'Position is {longitude} {latitude}'.format(longitude = 44.5,
+...                                             latitude = 32.4)
+'Position is 44.5 32.4'
+```
+
+- access values through keys or indexes with square brackets in the replacement field
+```python
+>>> positions = ((43.8, 52.1), (43.4, 35.2))
+>>> 'Moving target at {p[0][1]} {p[1][0]}'.format(p = positions)
+'Moving target at 52.1 43.4'
+```
+
+- access object attributes using `.` in the replacement fields
+```python
+>>> import math
+>>> 'Math constants: pi={m.pi}, e={m.e}'.format(m=math)
+'Math constants: pi=3.141592653589793, e=2.718281828459045'
+```
+
+####python formatting mini-language
+```python
+>>> 'Math constants: pi={m.pi:.3f}, e={m.e:.3f}'.format(m=math)
+'Math constants: pi=3.142, e=2.718'
+```
+
+##range
+
+- it is a collection rather than a container
+- a type of sequence for representing an arithmetic progression of integers
+
+```python
+>>> range(5)
+range(0, 5)
+
+>>> for i in range(5):
+...     print(i)
+...
+0
+1
+2
+3
+4
+
+>>> range(5, 10)
+range(5, 10)
+
+>>> list(range(5, 10))
+[5, 6, 7, 8, 9]
+
+>>> list(range(10, 15))
+[10, 11, 12, 13, 14]
+
+>>> list(range(0, 10, 2))
+[0, 2, 4, 6, 8]
+```
+
+determines what arguments means by counting them
+
+1. _one_ argument - stop
+2. _two_ args - start, stop
+3. _three _ args - start, stop, step
+
+doesn't support keyword arguments
+
+it is un-pythonic to use range to iterate over lists
+
+```python
+#this is un-pythonic
+>>> s = [0, 10, 100, 1000, 10000, ]
+>>> for i in range(len(s)):
+...     print(s[i])
+...
+0
+10
+100
+1000
+10000
+
+#this is pythonic way of doing it
+>>> for i in s:
+...     print(i)
+...
+0
+10
+100
+1000
+10000
+```
+
+###`enumerate()`
+preferred for counters
+yields `(index, value)` tuples
+often combined with tuple unpacking
+```python
+>>> for i, v in enumerate(s):
+...     print("i = {}, v = {}".format(i, v))
+...
+i = 0, v = 0
+i = 1, v = 10
+i = 2, v = 100
+i = 3, v = 1000
+i = 4, v = 10000
+```
+
+##list
+heterogeneous mutable sequence
+
+```python
+>>> s = "show how to index into sequences".split()
+>>> s
+['show', 'how', 'to', 'index', 'into', 'sequences']
+>>> s[4]
+'into'
+```
+
+###negative indexing
+
+- starts from `-len()`
+- the last element is at `-1`
+- no difference between `-0` and `0`
+
+```python
+>>> s[-2]
+'into'
+```
+
+###list slices
+half-open ranges give complementary slices
+
+`s[:x] + s[x:] == s`
+
+```python
+>>> s
+['show', 'how', 'to', 'index', 'into', 'sequences']
+
+>>> s[1:4]
+['how', 'to', 'index']
+
+>>> s[1:-1]
+['how', 'to', 'index', 'into']
+
+>>> s[3:]
+['index', 'into', 'sequences']
+>>> s[:3]
+['show', 'how', 'to']
+```
+
+###copy a list
+shallow copy
+
+####slicing with `[:]`
+```python
+>>> l = s[:]
+>>> l is s
+False
+>>> l = s[:]
+>>> s
+['show', 'how', 'to', 'index', 'into', 'sequences']
+>>> l
+['show', 'how', 'to', 'index', 'into', 'sequences']
+
+>>> l is s
+False
+>>> l == s
+True
+```
+####`copy()`
+```python
+>>> l = s.copy()
+>>> l is s
+False
+>>> l == s
+True
+>>> l
+['show', 'how', 'to', 'index', 'into', 'sequences']
+>>> s
+['show', 'how', 'to', 'index', 'into', 'sequences']
+```
+
+####list constructor
+this is the preferred way as it works with any iterable series of the source
+```python
+>>> l = list(s)
+>>> l
+['show', 'how', 'to', 'index', 'into', 'sequences']
+>>> s
+['show', 'how', 'to', 'index', 'into', 'sequences']
+>>> l is s
+False
+>>> l == s
+```
+
+###repetition
+is shallow
+```python
+>>> [0] * 5
+[0, 0, 0, 0, 0]
+
+>>> s = [ [-1, +1] ] * 5
+>>> s
+[[-1, 1], [-1, 1], [-1, 1], [-1, 1], [-1, 1]]
+
+>>> s[3].append(7)
+>>> s
+[[-1, 1, 7], [-1, 1, 7], [-1, 1, 7], [-1, 1, 7], [-1, 1, 7]]
+```
+
+###find an element with `index()`
+
+- `index` returns the integer index of the first equivalent element
+- raises `ValueError` if not found
+```python
+>>> w = 'the quick brown fox jumps over the lazy dog'.split()
+>>> w
+['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
+
+>>> i = w.index('fox')
+>>> i
+3
+>>> w[i]
+'fox'
+
+>>> w.index('unicorn')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: 'unicorn' is not in list
+```
+###count elements matching with `count()`
+```python
+>>> w.count('the')
+2
+>>> w.count('unicorn')
+0
+```
+
+###test for membership with `in` and `not in`
+```python
+>>> 'dog' in w
+True
+>>> 'fox' not in w
+False
+```
+
+###remove elements
+####`del`
+```python
+>>> d = list(w)
+>>> d
+['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
+>>> del d[3]
+>>> d
+['the', 'quick', 'brown', 'jumps', 'over', 'the', 'lazy', 'dog']
+
+>>> d = list(w)
+>>> del d[d.index('jumps')]
+>>> d
+['the', 'quick', 'brown', 'fox', 'over', 'the', 'lazy', 'dog']
+>>> del d[d.index('jumps')]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: 'jumps' is not in list
+```
+
+####`remove()`
+```python
+>>> d = list(w)
+>>> d.remove('jumps')
+>>> d
+['the', 'quick', 'brown', 'fox', 'over', 'the', 'lazy', 'dog']
+
+>>> d.remove('unicorn')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: list.remove(x): x not in list
+```
+
+###`insert()`
+```python
+>>> d
+['the', 'quick', 'brown', 'fox', 'over', 'the', 'lazy', 'dog']
+>>> d.insert(4, 'jumps')
+>>> d
+['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
+```
+
+###extending a list
+these techniques (should) work with any iterable series as right operand
+####`+`
+creates a new list without altering the original
+```python
+>>> a = [1, 2, 3,]
+>>> b = [4, 5, 6,]
+>>> a + b
+[1, 2, 3, 4, 5, 6]
+>>> a
+[1, 2, 3]
+>>> b
+[4, 5, 6]
+```
+
+####`+=`
+modifies the first operand
+```python
+>>> a += b
+>>> a
+[1, 2, 3, 4, 5, 6]
+>>> b
+[4, 5, 6]
+```
+
+####`extend()`
+```python
+>>> a.extend('456')
+>>> a
+[1, 2, 3, '4', '5', '6']
+```
+
+#!Get back to this problem
+```python
+>>> a = ['a', 'b', 'c',]
+>>> a += 'def'
+>>> a
+['a', 'b', 'c', 'd', 'e', 'f']
+>>> a + 'ghi'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate list (not "str") to list
+```
+
+###`reverse()`
+reverses in place
+```python
+>>> a
+['a', 'b', 'c', 'd', 'e', 'f']
+>>> a.reverse()
+>>> a
+['f', 'e', 'd', 'c', 'b', 'a']
+```
+
+###`sort()`
+```python
+>>> a
+['f', 'e', 'd', 'c', 'b', 'a']
+
+>>> a.sort()
+>>> a
+['a', 'b', 'c', 'd', 'e', 'f']
+
+>>> a.sort(reverse=True)
+>>> a
+['f', 'e', 'd', 'c', 'b', 'a']
+```
+
+####sorting with `key` to callable object
+```python
+>>> a = 'not perplexing do handwriting family where I illegibly know doctors'.split()
+>>> a
+['not', 'perplexing', 'do', 'handwriting', 'family', 'where', 'I', 'illegibly', 'know', 'doctors']
+>>> a.sort(key=len)
+>>> a
+['I', 'do', 'not', 'know', 'where', 'family', 'doctors', 'illegibly', 'perplexing', 'handwriting']
+```
+
+####`sorted()`
+```python
+>>> a = ['d', 'f', 'e', 'a', 'b', 'c',]
+>>> b = sorted(a)
+>>> b
+['a', 'b', 'c', 'd', 'e', 'f']
+>>> a
+['d', 'f', 'e', 'a', 'b', 'c']
+```
+
+####`reversed()`
+
+```python
+>>> b = reversed(a)
+>>> b
+<list_reverseiterator object at 0x00000000008AF5F8>
+>>> list(b)
+['c', 'b', 'a', 'e', 'f', 'd']
+>>> a
+['d', 'f', 'e', 'a', 'b', 'c']
+```
+
+the last two functions work only on finite length, iterable sources
+
+##dict
+unordered mapping from unique, immutable keys to mutable values
+
+- `keys` must be immutable types
+- `value` objects can be mutable
+- never rely on order of items in the dictionary
+
+###`dict()`
+```python
+>>> d = [ ('A', '0041'), ('B', '0042'), ('C', '0043'), ('D', '0044'), ('F', '0046')]
+>>> chars = [ ('A', '0041'), ('B', '0042'), ('C', '0043'), ('D', '0044'), ('F', '0046')]
+>>> d = dict(chars)
+>>> d
+{'B': '0042', 'F': '0046', 'C': '0043', 'D': '0044', 'A': '0041'}
+
+>>> phonetic = dict(a='alfa', b='bravo', c='charlie', d='delta', e='echo', f='foxtrot')
+>>> phonetic
+{'d': 'delta', 'e': 'echo', 'a': 'alfa', 'f': 'foxtrot', 'b': 'bravo', 'c': 'charlie'}
+
+>>> d1 = dict(d)
+>>> d1
+{'B': '0042', 'A': '0041', 'C': '0043', 'D': '0044', 'F': '0046'}
+```
+
+###`update()`
+```python
+>>> d1.update(phonetic)
+>>> d1
+{'B': '0042', 'e': 'echo', 'C': '0043', 'b': 'bravo', 'c': 'charlie', 'd': 'delta', 'a': 'alfa', 'D': '0044', '
+F': '0046', 'f': 'foxtrot', 'A': '0041'}
+
+>>> e = dict(B='Bear')
+>>> d1.update(e)
+>>> d1
+{'B': 'Bear', 'e': 'echo', 'C': '0043', 'b': 'bravo', 'c': 'charlie', 'd': 'delta', 'a': 'alfa', 'D': '0044', '
+F': '0046', 'f': 'foxtrot', 'A': '0041'}
+```
+
+###`value()`
+gets the iterable sequence of values
+```python
+>>> d
+{'B': '0042', 'F': '0046', 'C': '0043', 'D': '0044', 'A': '0041'}
+>>> values = d.values()
+>>> values
+dict_values(['0042', '0046', '0043', '0044', '0041'])
+>>> d
+{'B': '0042', 'F': '0046', 'C': '0043', 'D': '0044', 'A': '0041'}
+>>> d['B'] = '0049'
+>>> values
+dict_values(['0049', '0046', '0043', '0044', '0041'])
+
+>>> for v in d.values():
+...     print(v)
+...
+0049
+0046
+0043
+0044
+0041
+```
+
+###`keys()`
+```python
+>>> for k in d.keys():
+...     print(k)
+...
+B
+F
+C
+D
+A
+```
+
+###`items()`
+tuples of keys and values
+```python
+>>> for k, v in d.items():
+...     print('{key} => {value}'.format(key=k, value=v))
+...
+B => 0049
+F => 0046
+C => 0043
+D => 0044
+A => 0041
+```
+
+###membership testing
+
+- works only with the keys
+- `in` and `not in`
+```python
+>>> 'C' in d
+True
+
+>>> 'E' not in d
+True
+```
+
+###`del`
+```python
+>>> d
+{'F': '0046', 'C': '0043', 'D': '0044', 'A': '0041'}
+>>> del d['F']
+>>> d
+{'C': '0043', 'D': '0044', 'A': '0041'}
+```
+
+###pretty print with `pprint`
+```python
+#it is important to import pprint as pp so the function won't override the module name
+>>> from pprint import pprint as pp
+
+>>> pp(d)
+{'A': '0041', 'C': '0043', 'D': '0044'}
+>>> d
+{'C': '0043', 'D': '0044', 'A': '0041'}
+```
+
+##set
+mutable unordered collection of unique, immutable objects
+
+- delimited by `{` and `}`
+- single comma separated items
+- `{}` creates an empty dictionary so for empty set use `set()` constructor
+- the order is arbitrary
+```python
+>>> p = {1,
+...      2,
+...      3,
+...      5,
+...      7,
+...      11,
+...      13,
+...      17,}
+
+>>> p
+{1, 2, 3, 5, 7, 11, 13, 17}
+
+>>> l = [1, 2, 4, 3, 5, 5, 2, ]
+>>> set(l)
+{1, 2, 3, 4, 5}
+
+>>> s = set()
+>>> s.add(3)
+>>> s.add(2)
+>>> s.add(1)
+>>> s.add(4)
+>>> s.add(32)
+>>> s
+{32, 1, 2, 3, 4}
+>>> for x in s:
+...     print(x)
+...
+32
+1
+2
+3
+4
+```
+
+###membership checking with `in` and `not in`
+```python
+>>> 3 in s
+True
+>>> 5 in s
+False
+>>> 7 not in s
+True
+```
+
+###`add()`
+doesn't produce side effect if the item already in the set
+
+###'update()'
+adds elements from another iterable sequence of immutable objects
+```python
+>>> s.update([4, 5, 6, 7, 8, 9, 10, ])
+>>> s
+{32, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+```
+
+###`remove()`
+requires element to be in the set
+```python
+>>> s
+{32, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+>>> s.remove(10)
+>>> s
+{32, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+>>> s.remove(100)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 100
+```
+
+###`discard()`
+discards the element if it is in the set
+
+###copying
+shallow copies
+```python
+>>> s1 = s.copy()
+>>> s1 == s
+True
+>>> s1 is s
+False
+
+>>> s2 = set(s)
+>>> s2 == s
+True
+>>> s2 is s
+False
+```
+
+###set algebra
+####`union()`
+
+- collects together elements that are in either or both sets
+- commutative
+
+####`intersection()`
+
+- collects together only the elements contained in both sets
+- commutative
+
+####`difference()`
+
+- all elements that are in the first set but not in the second
+- non-commutative
+
+####`symmetric_difference()`
+
+- all elements that are in the first or in the second, but not in both
+- commutative
+
+####`issubset()`
+
+- check whether elements from the first set are found in the second
+- non-commutative
+
+####`issuperset()`
+
+- check whether elements from the second set is are found in the first
+- non-commutative
+
+####`isdisjoint()`
+
+- test whether two sets have no members in common
+- commutative
+
+##collection protocols
+to implement a protocol , objects must support certain operations
+
+protocol          | implementing collections
+------------------|------------------------------------------
+`container`       | str, list, range, tuple, bytes, set, dict 
+`sized`           | str, list, range, tuple, bytes, set, dict 
+`iterable`        | str, list, range, tuple, bytes, set, dict 
+`sequence`        | str, list, range, tuple, bytes
+`mutable sequence`| list
+`mutable set`     | set
+`mutable mapping` | dict
+
+- `container`
+
+    * `in` and `not in` to be supported
+    
+- `sized`
+
+    * determine the number of elements with `len()`
+    
+- `iterable`
+
+    * can produce an iterator with `iter()`
+    * they can be used with `for` loops
+    
+- `sequence`
+
+    * `seq[index]`: retrieve elements by index
+    * `seq.index(item)`: find items by value
+    * `seq.count(item)`: count items
+    * `reversed(seq)`: produce a reversed sequence
