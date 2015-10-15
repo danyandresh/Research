@@ -2187,3 +2187,60 @@ True
 29
 47
 ```
+
+##classes and OOP
+classes define the structure and behaviour of objects
+an object's class controls its initialization
+
+###defining classes
+classes should be _CamelCase_
+
+```python
+class Flight:
+    pass
+```
+
+- _method_ a function defined in a class
+- _instance methods_ functions which can be called on objects
+- _self_ the first argument to all instance methods
+
+###initializers 
+always defined with `__init__`
+fields/variables/functions not intended for public consumption are prefixed with `_`
+no `private`/`public`/`protected` attributes
+
+###class invariants
+truths about an object that endure for its lifetime
+
+###Law of Demeter (principle of least knowledge)
+- each unit should only have limited knowledge about other units: only units _closely_ related to the current unit
+- each unit should only talk to its friends; don't talk to strangers
+- only talk to your immediate friends
+
+> Zen: Complex is better than complicated
+> Many moving parts combined in a clever box are now one good tool
+
+###Tell! Don't ask
+
+> Tell objects what to do
+> Don't ask for their state
+
+###Polymorphism
+Use objects of different types through a common interface
+
+###DuckTyping
+> When I see a bird that walks like a duck, swims like a duck and quack like a duck, I call that bird a duck
+> - James Whitcomb Riles
+
+Objects fitness for purpose is determined at the time of use
+
+###Inheritance
+a sub-class can derive from a base-class, inheriting its behaviour and making behaviour specific to the sub-class
+
+late binding 
+
+inheritance is most useful for sharing implementation
+
+specified using _paranthesis_
+
+`subclass(baseclass)`
