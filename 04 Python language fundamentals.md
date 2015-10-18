@@ -2347,3 +2347,142 @@ def tester():
         sc.method1()
         sc.method2()
 ```
+
+##Shipping working and maintainable code
+###testing
+`unittest` module
+- unit tests
+- integration tests
+- acceptance tests
+
+automated and repeatable
+
+####TestCase
+groups together related test functions
+basic unit of test organization in unittest
+
+####fixtures
+code run before and/or after each test function
+
+####assertions
+specific tests for conditions and behaviours
+
+###test class
+- imports `unittest`
+- inherits `unittest.TestCase`
+- defines test methods with `def`
+- defines setup fixtures with `setUp` before each test method
+- defines teardown fixtures with `tearDown`, executed after each test method
+- asserts with `self.assertEqual`
+- asserts with `self.assertRaises(<error type>)`
+- asserts with `self.assertTrue()`
+- asserts with `self.assertFalse()`
+- run all unit tests with `unittest.main()`
+
+```python
+import unittest
+
+class <classname>Tests(unittest.TestCase):
+    
+    def setUp(self):
+        pass
+        
+    def tearDown(self):
+        try:
+        
+        except:
+            pass
+
+    def test_<function name>(self):
+    
+if __name__ == '__main__':
+    unittest.main()
+```
+
+###debugging with `PDB`
+```python
+>>> import pdb
+>>> pdb.set_trace()
+
+(Pdb) help
+(Pdb) help continue
+
+```
+- setup debugger with `python -m pdb palindrome.py` or `import pdb; pdb.set_trace()`
+- `where` shows where is the current execution point
+- `next` moves to the next
+- `cont` continues execution until `Ctrl` + `c` is pressed or end of the program
+- `list` displays the currently executing source code
+- `return` allows the current execution to continue to the end (or `Ctrl` + `c` is pressed)
+- `quit` terminates the debugging session
+
+##virtual environment
+light-weight, self-contained Python installation
+create a new environment using `virtualenv <environment name>` 
+activate environment with `.\venv\Scripts\activate.ps1`
+
+```powershell
+PS C:\Users\Daniel> pip install virtualenv
+Collecting virtualenv
+  Downloading virtualenv-13.1.2-py2.py3-none-any.whl (1.7MB)
+    100% |################################| 1.7MB 251kB/s
+Installing collected packages: virtualenv
+Successfully installed virtualenv-13.1.2
+```
+
+###packaging and distribution
+`setup.py` setup file needed for packaging
+`distutils` package
+
+```python
+from distutils.core import setup
+
+(venv) PS C:\Users\Daniel\Documents\GitHub\Research\pyfund\palindrome> python setup.py install
+running install
+running build
+running build_py
+creating build
+creating build\lib
+copying palindrome.py -> build\lib
+running install_lib
+copying build\lib\palindrome.py -> C:\Users\Daniel\Documents\GitHub\Research\pyfund\palindrome\venv\Lib\site-pa
+ckages
+byte-compiling C:\Users\Daniel\Documents\GitHub\Research\pyfund\palindrome\venv\Lib\site-packages\palindrome.py
+ to palindrome.cpython-35.pyc
+running install_egg_info
+Writing C:\Users\Daniel\Documents\GitHub\Research\pyfund\palindrome\venv\Lib\site-packages\palindrome-1.0-py3.5
+.egg-info
+(venv) PS C:\Users\Daniel\Documents\GitHub\Research\pyfund\palindrome>
+```
+
+####`sdist`
+source distribution
+
+```python
+python setup.py sdist --format zip
+
+python setup.py sdist --help-formats
+```
+
+###installing third party modules
+####distutils
+`python setup.py install`
+####easy_install
+```powershell
+> easy_install eagertools
+
+> easy_install pip
+```
+####pip
+http://pypi.python.org/pypi
+
+`nosetests` discovers and runs tests automatically
+
+```powershell
+> pip install nose
+
+> nosetests palindrome.py
+```
+
+> Zen: In the face of ambiguity refuse the temptation to guess
+> To guess is to know that you have left something out. What are you missing?

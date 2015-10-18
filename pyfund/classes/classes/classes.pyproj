@@ -4,8 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a7fe6cfd-3d84-4748-a763-8d8fd3e2d881</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>classes.py</StartupFile>
+    <ProjectHome>.</ProjectHome>    
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +21,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="classes.py" />
+    <Compile Include="airtravel.py" />
+    <Compile Include="bmp.py"/>
+    <Compile Include="files.py" />
+    <Compile Include="fractal.py" />
+    <Compile Include="recaman.py" />
+    <Compile Include="series.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
