@@ -2244,3 +2244,106 @@ inheritance is most useful for sharing implementation
 specified using _paranthesis_
 
 `subclass(baseclass)`
+
+##Files and Resource management
+###Writing text files
+####`open()`
+- `r` - open for reading (default)
+- `w` - open for writing, truncating the file first
+- `x` - open for exclusive creation, failing if the file already exists
+- `a` - open file for writing, appending to the end of the file if it exists
+- `b` - binary mode
+- `t` - text mode (default)
+- `+` - open a disk file for updating (reading and writing)
+- `U` - universal newlines mode (for backwards compatibility; should not be used in new code)
+
+```python
+open(<filename>, mode='<options combination from above>', encoding= '<encoding>')
+
+f = open('somefile.txt', mode = 'wt', encoding = 'utf-8')
+```
+####`close()`
+closes the handle to a file, flushes in memory changes
+
+####`write()`
+return the number of bytes sent for writing, not the actual number of bytes written by the OS
+it is user's responsibility to provide the _universal_ line ending (`\n`)
+
+###Reading text files
+```python
+g = open('somefile.txt', mode = 'rt', encoding = 'utf-8')
+```
+####`read(int)`
+read the number of codepoints from the file:
+- characters if opened in _text_ mode
+- bytes if opened in _binary_ mode
+
+####`read()`
+read all the remaining data from the file
+
+####`seek(int)`
+seeks the file
+
+####`readline()`
+- returns a string that ends with `\n`
+- the last string from the file is no new lines
+- empty string if the end of the file has been reached
+
+####`readlines()`
+a list of strings (ended with `\n` as above or trailing string from a file)
+
+always close the file handle
+
+###appending to text files
+```python
+h = open('somefile.txt', mode = 'at', encoding = 'utf-8')
+```
+
+####`writelines()`
+writes a list of strings to the file
+line endings must be provided
+
+no `writeline()` method
+
+###context manages and `with` block
+resource cleanup with context managers
+```python
+with EXPR as VAR:
+    BLOCK
+```
+
+> Zen: Beautiful is better than ugly
+> Sugary syntax, fewer defects attained through sweet fidelity
+
+###Writing binary files
+####`tell()`
+gives the current cursor position in the file
+
+###bitwise operators
+- `&` - bitwise and
+- `>>` - bitwise shift
+
+###file-like objects
+loosely-defined set of behaviours for things that act like files
+
+###closing with context managers
+
+```python
+from contextlib import closing
+
+class SomeClass:
+    def method1(self):
+        pass
+        
+    def method2(self):
+        raise RuntimeError('Close method should be called after this')
+        
+    def close(self):
+        print('close executed')
+        
+
+def tester():
+    with closing(SomeClass()) as sc:
+        sc.method1()
+        sc.method2()
+```
