@@ -23,6 +23,10 @@ namespace AngularDemo
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
+                      "~/Scripts/angular.js",
+                      "~/Scripts/angular-mocks.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-cyborg.css",
                       "~/Content/site.css"));
