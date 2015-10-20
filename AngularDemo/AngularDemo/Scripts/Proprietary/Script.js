@@ -28,23 +28,32 @@
 
     var indexCtrl = function($scope, $http) {
 
-        var person = {
-            firstname: "Daniel"
+        
+        var onError = function (reason) {
+            $scope.error = 'Could not fetch the data';
         };
 
-        $scope.person = person;
+        var onRepos = function(response) {
+            $scope.repos = response.data;
+        };
 
-        var onUserComplete = function(response) {
+        var onUserComplete = function (response) {
+
             $scope.user = response.data;
+            $http.get($scope.user.repos_url)
+                .then(onRepos, onError);
         };
 
-        var onError = function(reason) {
-            $scope.error = 'Could not fetch the user';
+        $scope.search = function (username) {
+            $http
+                .get("https://api.github.com/users/" + username)
+                .then(onUserComplete, onError);
         };
 
-        $http
-            .get('https://api.github.com/users/danyandresh')
-            .then(onUserComplete, onError);
+        $scope.username = "angular";
+        $scope.message = "Github Viewer";
+        $scope.repoSortOrder = "-stargazers_count";
+        $scope.search($scope.username);
     };
 
     app.controller('indexCtrl', ['$scope', '$http', indexCtrl]);

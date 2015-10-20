@@ -87,3 +87,64 @@ var controllery = function($scope, $http){
 
 app.controller('controllery', ['$scope', '$http', controllery]);
 ```
+
+##directives
+directives are used to push data from the view back to the model
+
+- binding directives: {{binding expression}}
+- model directives: can move data back and forth between model and view; `ng-model`
+- event directives: `ng-submit`, `ng-click`
+- display directives: `ng-include`, `ng-show`, `ng-hide`
+
+###`ng-model`
+keeps data in sync between model and view
+```html
+<input type='search' placeholder='Search watermark' ng-model='username'/>
+```
+###`ng-click`
+binds action (click) to a function
+```html
+<input type='button' value='Search' ng-click='search(username)'/>
+```
+
+###`ng-submit`
+binds submit action to a function
+```html
+<form ng-submit='search(username)'>
+    <input type='submit' value='Search'/>
+</form>
+```
+
+###`ng-repeat`
+```html
+<htmltag ng-repeat="<element> in <list>"/>
+```
+
+###filters
+provides model data formatting
+_pipe_ data through a filter
+```
+expression | filtername:parameter
+```
+- `currency`
+- `date`
+- `filter`
+- `json`
+- `limitTo`
+- `lowercase`, `uppercase`
+- `number`
+- `orderBy`
+```html
+<tagname>{{element.property_count | number}}</tagname>
+```
+
+###`ng-show` and `ng-hide`
+work with _truthi_ properties
+
+```
+ng-show="user"
+ng-hide="!user"
+```
+
+###`ng-include`
+can import html from another source

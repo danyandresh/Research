@@ -36,4 +36,41 @@
 <div class="row" ng-controller="indexCtrl">
     <h1>Hello {{ person.firstname }}</h1>
     Your github account name is {{user.name}}
+
+    <div>
+        {{error}}
+    </div>
+
+    <form ng-submit="search(username)">
+        <input type="search" required placeholder="Search watermark" ng-model="username"/>
+        <input type="submit" value="Search"/>
+    </form>
+    <div ng-show="user">
+        <h2>{{user.name}}</h2>
+        <img ng-src="{{user.avatar_url}}"/>
+        <br/>
+        Sorting by:
+        <select ng-model="repoSortOrder">
+            <option value="+name">Name ascending</option>
+            <option value="-stargazers_count">Stars descending</option>
+            <option value="+language">Language</option>
+        </select>
+    </div>
+    <div>
+        <table ng-hide="!user">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>language</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
+                <td>{{repo.name}}</td>
+                <td>{{repo.stargazers_count | number}}</td>
+                <td>{{repo.language}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
