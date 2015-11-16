@@ -26,7 +26,7 @@
     worker.job1();
     worker.job2();
 
-    var indexCtrl = function($scope, $http) {
+    var indexCtrl = function($scope, $http, $interval, $log) {
 
         
         var onError = function (reason) {
@@ -44,7 +44,26 @@
                 .then(onRepos, onError);
         };
 
+        var decrementCountdown = function() {
+            $scope.countdown -= 1;
+            if ($scope.countdown < 1) {
+                $scope.search($scope.username);
+            }
+        };
+
+        var countdownInterval = null;
+        var startCountdown = function() {
+            countdownInterval = $interval(decrementCountdown, 1000, $scope.countdown);
+        }
+
         $scope.search = function (username) {
+            $log.info('Searching for: ' + username);
+            if (countdownInterval) {
+                $interval.cancel(countdownInterval);
+            };
+
+            $scope.user = null;
+            $scope.error = null;
             $http
                 .get("https://api.github.com/users/" + username)
                 .then(onUserComplete, onError);
@@ -53,8 +72,11 @@
         $scope.username = "angular";
         $scope.message = "Github Viewer";
         $scope.repoSortOrder = "-stargazers_count";
-        $scope.search($scope.username);
+
+        $scope.countdown = 5;
+        //$scope.search($scope.username);
+        startCountdown();
     };
 
-    app.controller('indexCtrl', ['$scope', '$http', indexCtrl]);
+    app.controller('indexCtrl', ['$scope', '$http', '$interval', '$log', indexCtrl]);
 }());

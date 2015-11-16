@@ -8,69 +8,44 @@
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a>
-        </p>
-    </div>
-</div>
-
 <div class="row" ng-controller="indexCtrl">
-    <h1>Hello {{ person.firstname }}</h1>
-    Your github account name is {{user.name}}
-
-    <div>
-        {{error}}
+    <div class="col-md-4">
+        <h2>Search user</h2>
+        <p>Countdown: {{countdown}}</p>
+        <form ng-submit="search(username)">
+            <input type="search" class="form-control" required placeholder="Search watermark" ng-model="username" />
+            <input type="submit" class="btn btn-default" value="Search" />
+        </form>
+        <div>
+            Sorting by:
+            <select ng-model="repoSortOrder" class="btn btn-default">
+                <option class="btn btn-default" value="+name">Name ascending</option>
+                <option class="btn btn-default" value="-stargazers_count">Stars descending</option>
+                <option class="btn btn-default" value="+language">Language</option>
+            </select>
+        </div>
     </div>
-
-    <form ng-submit="search(username)">
-        <input type="search" required placeholder="Search watermark" ng-model="username"/>
-        <input type="submit" value="Search"/>
-    </form>
-    <div ng-show="user">
+    <div class="col-md-4" ng-show="user" ng-hide="error">
         <h2>{{user.name}}</h2>
-        <img ng-src="{{user.avatar_url}}"/>
-        <br/>
-        Sorting by:
-        <select ng-model="repoSortOrder">
-            <option value="+name">Name ascending</option>
-            <option value="-stargazers_count">Stars descending</option>
-            <option value="+language">Language</option>
-        </select>
-    </div>
-    <div>
+        <img ng-src="{{user.avatar_url}}" />
         <table ng-hide="!user">
             <thead>
-            <tr>
-                <th>name</th>
-                <th>language</th>
-            </tr>
+                <tr>
+                    <th>name</th>
+                    <th>language</th>
+                </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
-                <td>{{repo.name}}</td>
-                <td>{{repo.stargazers_count | number}}</td>
-                <td>{{repo.language}}</td>
-            </tr>
+                <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
+                    <td>{{repo.name}}</td>
+                    <td>{{repo.stargazers_count | number}}</td>
+                    <td>{{repo.language}}</td>
+                </tr>
             </tbody>
         </table>
+    </div>
+    <div class="col-md-4" ng-show="error">
+        <h2>Error</h2>
+        <p>{{error}}</p>
     </div>
 </div>

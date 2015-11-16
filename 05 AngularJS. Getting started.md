@@ -25,6 +25,7 @@ encapsulate some code inside of a function, resembling a module
 ```
 
 ##controllers
+###`ng-controller`
 ```html
 <div ng-app>
     <div ng-controller="MainController">
@@ -56,6 +57,11 @@ var MainController = function($scope, $http){
         $scope.user = response.data;
     });
 };
+```
+
+####`then()`
+```javascript
+$http.get("url").then(onSuccess, onError);
 ```
 
 ###modules
@@ -148,3 +154,73 @@ ng-hide="!user"
 
 ###`ng-include`
 can import html from another source
+
+##services
+a component that performs a specific job (e.g. `$http`)
+
+_controllers_ setup the model
+_views_ consume the model
+_directives_ are intermediary between the above two
+_services_ are containers for logic that doesn't fit into controllers, models nor views
+
+###`$timeout`
+service for `setTimeout`
+
+###`$interval`
+service for `setInterval`
+
+###`$log` service
+writes messages into the developer tools, console window
+
+###UI services
+####`$anchorScroll`
+####`$location`
+```javascript
+$location.hash('userDetails');
+$anchorScroll();
+```
+
+angular has a single instance of each service
+
+###register new module
+use a model revealing service (as earlier discussed)
+```javascript
+var module = angular.module('girhubViewer'); //this is just retrieving this module, not registering it
+module.factory('github', github);
+```
+
+then use the module from the controller without `$`
+
+##Routing
+depends on angular-route.js
+configure route into `$routeProvider`
+```javascript
+$routeProvider
+    .when('/main', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+    })
+    .otherwise({redirectTo:'/main'});
+```
+
+setup a layout view
+
+```javascript
+app.config(function($routeprovider));
+```
+
+###`$routeParams`
+the url has to contain params in the routing table such as
+```
+/user/:username
+```
+```javascript
+$routeParams.username
+```
+
+change the client fragment to #/user/someuser
+```javascript
+$location.path('/user/' + username);
+```
+
+ 
