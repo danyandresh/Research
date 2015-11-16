@@ -26,5 +26,10 @@ namespace AngularDemo.Controllers
 
             return View();
         }
+
+        public ActionResult UserDetails()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "UserDetails";
+}
+
+<div class="col-md-4" id="userDetails">
+    <h2>{{user.name}}</h2>
+    <img ng-src="{{user.avatar_url}}" />
+</div>
+
+<table class="col-md-4">
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>stars</th>
+            <th>language</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
+            <td>{{repo.name}}</td>
+            <td>{{repo.stargazers_count | number}}</td>
+            <td>{{repo.language}}</td>
+        </tr>
+    </tbody>
+</table>
+

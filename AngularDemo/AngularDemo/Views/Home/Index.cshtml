@@ -25,25 +25,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4" ng-show="user" ng-hide="error">
-        <h2>{{user.name}}</h2>
-        <img ng-src="{{user.avatar_url}}" />
-        <table ng-hide="!user">
-            <thead>
-                <tr>
-                    <th>name</th>
-                    <th>language</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
-                    <td>{{repo.name}}</td>
-                    <td>{{repo.stargazers_count | number}}</td>
-                    <td>{{repo.language}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <div ng-include="'userdetails'" ng-show="user" ng-hide="error"/>
     <div class="col-md-4" ng-show="error">
         <h2>Error</h2>
         <p>{{error}}</p>

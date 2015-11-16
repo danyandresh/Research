@@ -182,7 +182,7 @@ $anchorScroll();
 
 angular has a single instance of each service
 
-###register new module
+###register new service
 use a model revealing service (as earlier discussed)
 ```javascript
 var module = angular.module('girhubViewer'); //this is just retrieving this module, not registering it

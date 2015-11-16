@@ -1,5 +1,5 @@
 ﻿(function () {
-    var app = angular.module('demoModule', []);
+    var app = angular.module('demoModule');
 
     var createWorker = function() {
 
@@ -26,21 +26,25 @@
     worker.job1();
     worker.job2();
 
-    var indexCtrl = function($scope, $http, $interval, $log) {
+    var indexCtrl = function (
+        $scope, githubService, $interval,
+        $log, $anchorScroll, $location) {
 
         
         var onError = function (reason) {
             $scope.error = 'Could not fetch the data';
         };
 
-        var onRepos = function(response) {
-            $scope.repos = response.data;
+        var onRepos = function(data) {
+            $scope.repos = data;
+            $location.hash("userDetails")
+            $anchorScroll();
         };
 
-        var onUserComplete = function (response) {
+        var onUserComplete = function (data) {
 
-            $scope.user = response.data;
-            $http.get($scope.user.repos_url)
+            $scope.user = data;
+            githubService.getRepos($scope.user)
                 .then(onRepos, onError);
         };
 
@@ -60,12 +64,12 @@
             $log.info('Searching for: ' + username);
             if (countdownInterval) {
                 $interval.cancel(countdownInterval);
+                $scope.countdown = null;
             };
 
             $scope.user = null;
             $scope.error = null;
-            $http
-                .get("https://api.github.com/users/" + username)
+            githubService.getUser(username)
                 .then(onUserComplete, onError);
         };
 
@@ -78,5 +82,6 @@
         startCountdown();
     };
 
-    app.controller('indexCtrl', ['$scope', '$http', '$interval', '$log', indexCtrl]);
+    //app.controller('indexCtrl', ['$scope', '$http', '$interval', '$log', indexCtrl]);
+    app.controller('indexCtrl', indexCtrl);
 }());
