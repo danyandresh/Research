@@ -255,25 +255,16 @@ All _code points_ of Unicode can be encoded in python strings, as its default **
 ```python
 >>> m = 'Can use hexadecimal representation like \u00e6 '
 >>> m
-'Can use hexadecimal representation like \xe6 '
+'Can use hexadecimal representation like æ '
 >>> print(m)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "C:\Users\Daniel\AppData\Local\Programs\Python\Python35\lib\encodings\cp852.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_map)[0]
-UnicodeEncodeError: 'charmap' codec can't encode character '\xe6' in position 40: character maps to <undefined>
+Can use hexadecimal representation like æ
 
 >>> m = 'Can use escaped octal like \345 '
 >>> m
-'Can use escaped octal like \xe5 '
+'Can use escaped octal like å '
 >>> print(m)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "C:\Users\Daniel\AppData\Local\Programs\Python\Python35\lib\encodings\cp852.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_map)[0]
-UnicodeEncodeError: 'charmap' codec can't encode character '\xe5' in position 27: character maps to <undefined>
+Can use escaped octal like å
 ```
-#!To get back to this printing issue
 
 ##bytes
 
@@ -560,8 +551,8 @@ module functions should have two blank lines in between
 
 to document the code
 
-module documentation is written on the first line
-function documentation is written on the first line after function header
+- module documentation is written on the first line
+- function documentation is written on the first line after function header
 
 docstring conventions in PEP 257
 
@@ -667,11 +658,11 @@ words.py http://sixty-north.com/c/t.txt
 
 More on PEP 397
 
- ##Objects
+##Objects
  
- All objects are reference objects in Python
+All objects are reference objects in Python
  
- `id()`
+`id()`
  
 - returns integer constant that is _unique_ and _constant_ for the lifetime of the object
 - debugging tool
@@ -994,7 +985,9 @@ homogeneous immutable sequence of Unicode codepoints
 ```
 
 > Zen: The way may not be obvious at first
+
 > To concatenate invoke join on empty text
+
 > Something for nothing
 
 ###`partition()`
@@ -1089,7 +1082,7 @@ determines what arguments means by counting them
 
 1. _one_ argument - stop
 2. _two_ args - start, stop
-3. _three _ args - start, stop, step
+3. _three_ args - start, stop, step
 
 doesn't support keyword arguments
 
@@ -1709,19 +1702,26 @@ these exception types should not normally be catched:
 - `SyntaxError`
 - `NameError`
 
-`pass` - causes empty exception catch blocks to pass
-`as exception` - captures at exception catching level the thrown exception
-`str(exception)` - converts exception to string
+* `pass` - causes empty exception catch blocks to pass
+* `as exception` - captures at exception catching level the thrown exception
+* `str(exception)` - converts exception to string
+
 exceptions can't be ignored, but error codes can
-`raise`:
+
+* `raise`:
     - without a parameter simply re-raises the exception currently being handled
     - use with a new exception object, e.g. `ValueError`
 
 callers need to know what exceptions to expect and when
+
 avoid too tight scope for exception handling 
+
 use exceptions that users will anticipate
+
 standard exceptions are often the best choice
+
 exceptions are parts of families of related functions referred to as protocols
+
 use common or existing exception types when possible
 
 - `IndexError` integer index is out of range
@@ -1744,6 +1744,7 @@ error codes are silent by default
 `finally` - is executed no matter how the try-block exits
 
 > Zen: Errors should never pass silently, unless explicitly silenced
+
 > Errors are like bells and if we make them silent they are of no use
 
 ##iterables
@@ -1904,7 +1905,9 @@ appends an `if` at the end of comprehension
 ```
 
 > Zen: Simple is better than complex
+
 > Code is written once but read over and over
+
 > Fewer is clearer
 
 ###iteration protocols
@@ -2218,6 +2221,7 @@ truths about an object that endure for its lifetime
 - only talk to your immediate friends
 
 > Zen: Complex is better than complicated
+
 > Many moving parts combined in a clever box are now one good tool
 
 ###Tell! Don't ask
@@ -2252,9 +2256,11 @@ specified using _paranthesis_
 - `w` - open for writing, truncating the file first
 - `x` - open for exclusive creation, failing if the file already exists
 - `a` - open file for writing, appending to the end of the file if it exists
+- `+` - open a disk file for updating (reading and writing)
+
 - `b` - binary mode
 - `t` - text mode (default)
-- `+` - open a disk file for updating (reading and writing)
+
 - `U` - universal newlines mode (for backwards compatibility; should not be used in new code)
 
 ```python
@@ -2313,20 +2319,20 @@ with EXPR as VAR:
 ```
 
 > Zen: Beautiful is better than ugly
+>
 > Sugary syntax, fewer defects attained through sweet fidelity
 
-###Writing binary files
 ####`tell()`
 gives the current cursor position in the file
 
-###bitwise operators
+####bitwise operators
 - `&` - bitwise and
 - `>>` - bitwise shift
 
-###file-like objects
+####file-like objects
 loosely-defined set of behaviours for things that act like files
 
-###closing with context managers
+####closing with context managers
 
 ```python
 from contextlib import closing
@@ -2359,6 +2365,7 @@ automated and repeatable
 
 ####TestCase
 groups together related test functions
+
 basic unit of test organization in unittest
 
 ####fixtures
@@ -2485,4 +2492,5 @@ http://pypi.python.org/pypi
 ```
 
 > Zen: In the face of ambiguity refuse the temptation to guess
+>
 > To guess is to know that you have left something out. What are you missing?
