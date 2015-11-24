@@ -41,3 +41,25 @@ puts res
 puts "Using system"
 res = system "time /t"
 puts res
+
+class Spaceship
+  def launch(destination)
+    @destination = destination
+    #go towards destination
+  end
+  
+  def destination()
+    @destination
+  end
+end
+
+ship = Spaceship.new
+ship.launch("Earth")
+puts ship.inspect
+p ship
+puts ship.destination
+
+puts case ship
+    when Spaceship then "ship is Spaceship"
+    else "ship is UFO"
+end
