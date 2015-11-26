@@ -782,9 +782,9 @@ b: b
 ```
 
 ###ranges
-`a..b` - [a, b]
+`a..b` - `[a, b]`
 
-`a...b` - [a, b)
+`a...b` - `[a, b)`
 
 `begin` - a
 
@@ -853,6 +853,173 @@ splat operator works on any class that has `to_a` method
 > [*h]
 => [[:a, "a"], [:b, "b"]]
 ```
+
+##methods
+- methods with the same name and different formal parameters are not allowed
+
+###default param values (optional params)
+- are calculated at the point of method call (not definition)
+
+- can call other methods to calculate default value
+
+- optional params doesn't have to come last in the definition
+
+- cannot mix optional and required parameters
+
+###variable length param list
+use _splat_ operator in method definition to declare an _array parameter_ (and works like the parallel assignment)
+
+```ruby
+def m(p1, *p2)
+end
+
+m(v1, v2, v3, v4) # p2 == [v2, v3, v4]
+```
+
+optional parameters have to come before array parameter
+
+optional parameters can't be omitted anymore when array parameters are used 
+
+can use splat operator when calling a method (to call `to_a` method on the object)
+
+###keyword arguments
+are defined using `:` instead of `=`; they have to have a default value
+
+can coexist with regular params, but regular params come first
+
+```ruby
+def keyword_args(p3= 1, p1: :a, p2: :b)
+    puts "Keyword args " + p3.to_s
+end
+
+keyword_args(5, p2: 2)
+```
+
+_double splat_ will collect any keyword arguments that aren't specified in the definition
+
+```ruby
+def keyword_double_splat_args(p3= 1, p1: :a, **p2)
+    puts "Double splat: "
+    p2.each { |k, v| puts "k: #{k} v: #{v}" }
+end
+
+keyword_double_splat_args(5, p2: 2, p4: 4, p5: 5, p6: 6)
+
+h = {a: :a, b: :b}
+keyword_double_splat_args(6, h)
+```
+
+###method aliasing
+`alias_method` creates copy of a method under a different name so it can be accessed under a different name when overridden
+
+```ruby
+class String
+
+    alias_method "original_size" "size"
+    
+    def size
+        original_size * 5
+    end
+end
+```
+
+###operators
+all operators are methods except:
+
+* _logical operators_: `&&`, `||`, `not`, `and`, `or`, `?:`
+* _assignment operators_: `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `&=`, `|=`, `^=`, `>>=`, `<<=`, `&&=`, `||=`
+
+```ruby
+class Operators
+    attr_reader :capacity
+    
+    def initialize()
+        @h = {}
+        @capacity = 0
+    end
+    
+    def [](index)
+        @h[index]
+    end
+    
+    def []=(index, value)
+        @h[index] = value
+    end
+    
+    def <=>(other)
+        h <=> other.h
+    end
+    
+    def +(capacity)
+        @capacity += capacity
+    end
+    
+    def +@
+        @capacity += 1
+    end
+    
+    def !
+        puts "Hash destructed"
+    end
+end
+
+op1 = Operators.new
+op1[:d] = :c
+puts op1[:d]
+
+puts "Capacity #{op1.capacity}"
+op1 + 10
+puts "Capacity #{op1.capacity}"
+
++op1
+puts "Capacity #{op1.capacity}"
+
+if !op1
+    puts "Operators class destructed"
+end
+```
+
+###method calls as messages
+
+can use `send` (or its alias `__send__`) to call a method
+
+```ruby
+class ReceiverObject
+    def m1
+        puts "Method 1 called"
+    end
+    
+    def m2
+        puts "Method 2 called"
+    end
+end
+
+h = {method1: :m1, method2: :m2}
+method = :method1
+receiver = ReceiverObject.new
+receiver.__send__(h[method])
+method = :method2
+receiver.__send__(h[method])
+```
+
+outside of any context `self` refers to main
+
+no _free_ methods (no methods that do not belong to an object)
+
+###method_missing
+when a an invoked method is not found on the object a `method_missing` method is called, that raises `NoMethodError`
+
+`responds_to?` - determine if the object has a particular method
+
+`const_missing` - equivalent to `method_missing` but for constants
+
+can add/remove method at runtime
+
+`inherited` - method executed when a subclass of this class is created
+
+
+
+
 
 
 
