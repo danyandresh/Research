@@ -63,3 +63,44 @@ puts case ship
     when Spaceship then "ship is Spaceship"
     else "ship is UFO"
 end
+
+# puts Encoding.public_methods.sort
+puts "encoding: " + Encoding.default_internal.to_s
+puts "abc".encoding
+
+result = 1000
+puts "Box count: #{result}"
+puts "Box count: #{result + 10}"
+puts %*"'*
+puts %q*"'*
+puts %Q*"'*
+
+puts "heredoc begins"
+puts <<-EOS
+    test
+        multiline
+    text
+EOS
+puts "heredoc ends"
+
+puts 'test string'['text'].nil?
+
+a = 'test string'
+puts a
+puts a.object_id
+a['test'] = 'text'
+puts a
+puts a.object_id
+
+a = a + ' asd'
+puts a
+puts a.object_id
+
+puts "%05d" % 23
+
+h = { a: "a", b: "b" }
+puts h
+
+
+
+

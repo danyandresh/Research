@@ -23,7 +23,7 @@ ruby -v
 
 `x.class` -> type of the object
 
-`String.public_method.sort`
+`String.public_methods.sort`
 
 ```ruby
 irb(main):007:0> def double(val); val * 2; end
@@ -588,4 +588,282 @@ similar to `goto`
 - classes and methods introduce scopes
 - if, begine/end, loops don't (variables defined within these constructs will still be in scope afterwards)
 - `{}` blocks do introduce scopes (variables defined inside these scopes won't be visible outside)
+
+##standard types
+###booleans
+`true` - instance of `TrueClass` (singleton)
+
+`false` - instance of `FalseClass` (singleton)
+
+these classes inherit from `Object` (therefore they expose `to_s`, `nil?`)
+
+###numbers
+####integers
+`Fixnum` and `Bignum` inherit from `Integer`
+
+- `0x` - hexadecimal
+- `0`, `0o` - octadecimal
+- `0d` or no prexif - decimal
+- `0b` - binary
+
+`_` can be used to group digits, ruby ignores them
+####floating point numbers
+`Float`, 15 digits of precision
+
+one digit required before point and one after (to avoid ambiguity with method calls)
+
+numbers are readonly objects
+
+###strings
+default strings encoding is `UTF-8`
+
+default encoding can be change by specifying `# encoding: <new encoding>` on the first line (or second, if the first is a _shebang_)
+
+new instances of strings are created when passed as method arguments
+
+can escape with `\` (backslash)
+
+can be defined with `'`, `"` `%q<delimiter>string here<delimiter>` (where `<delimiter>` can be any non-alphanumeric character;if the character comes in pairs like `<>`, `{}`, `[]`,`()` it must be used in pairs)
+
+```ruby
+%q('test' text)
+%q['test' text]
+%q{'test' text}
+%q<'test' text>
+
+%q*'test' text*
+%q/'test' text/
+```
+
+can use `\<number>`(octal) and `\x<number>` (hex) to insert chars by code
+
+can use `\u<number>`, `\u{number, number, number, number, ...}` to insert unicode codepoints
+
+double quotes allow _interpolation_
+```ruby
+result = 1000
+puts "Box count: #{result}"
+puts "Box count: #{result + 10}"
+```
+
+can use `%Q<delimiter>raw string<delimiter>` (as with `%q`) as well as `%<delimiter>raw string<delimiter>`
+
+strings separated by a space a concatenated into a single one
+
+multiple line string supported by _heredocs_: starting with `<<-EOS`(on new line) and ended with `EOS` (on new line)
+
+###string operators and methods
+####`[]` indexer
+`[index]` - returns element at _index_
+
+`[index, char_count]` - returns a _char_count_ sequence from specified _index_
+
+`["string sequence"]` - return the "string sequence" sequence if found in the string; `nil` otherwise
+
+`["string sequence"] = "new string sequence"` will replace the **first** string sequence with new string sequence
+
+####formatters
+`"%05d" %123` - padding of string '123' with to more zeros (to get 5 digits)
+
+`"%.8g" % 123.456567678789` - limits the total number of digits to 8
+
+`.chars` - returns array of chars in the string
+
+`.codepoints` - array character codes
+
+`.bytes` - array of bytes
+
+`.upcase` - returns uppercase (has the interpolating version too)
+
+`.downcase` - returns lowercase (has the interpolating version too)
+
+`.gsub("character to replace", "character to replace with")`
+
+`.split` - splits string (by default by space)
+
+###regular expressions
+`Regexp` - standard builtin type
+
+define regexp using `/<regular expression here>/` or `%r(<regular expression here>)`
+
+`=~` - test match on a string; returns the position (if matched) or `nil` (if not)
+
+`!~` - test if the regex _doesn't_ match; it only returns true or false
+
+`.match` - method on string and regex to get a matching object
+
+variables set on match:
+- `$` - pre-match
+- `$'` - post-match
+- `$&` - the match
+- `$1`, `$2` - submatches (groups)
+
+`scan` - an array of match substrings
+
+###symbols
+a special class of objects similar to enums
+
+are created using `:` and a string literal (supports interpolation too)
+```ruby
+direction = "west"
+:"turn_#{direction}" # :turn_west
+```
+
+`.to_s` - converts to symbol
+
+`.to_sym` - converst a string to symbol
+
+usage of symbols is more efficient than plain strings from memory usage perspective
+
+###arrays
+`Array`
+
+`[]`, `[1, 2, 3]` - will create a new array
+
+`Array.new(element_count, default_value)` - new array with the same instance of default value on all positions
+
+`Array.new(element_count) { default_value }` - new array with **different instances** of default value as elements
+
+`%w(<string>)` - creates an array of words by splitting the string by space; can escape a space to exempt it from splitting
+
+`%W(<string>)` - get the behaviour of double string quotes (including interpolation)
+
+`%i(<symbols text>)` - produce array of symbols
+
+`[<index>]` - provides indexing (including _negative_ indexing)
+
+`[start_position..end_position]` - slicing capability; values can be assigned too
+
+`<< new value` - will push new value at the end of array
+
+`+` - merge arrays
+
+`*` - duplicate arrays; if used with string as second operator will join elements into a single string
+
+`-` - removes elements in the second array from the first array
+
+###enumerable
+
+`map` - apply transformation to each element of the collection
+
+`reduce` - aggregates elements
+
+`sort`
+
+`select` - filter elements
+
+`each_cons` - iterate over subsets of elements
+
+```ruby
+a = [1, 2, 3]
+
+a.map { |v| v * 10 }
+=> [10, 20, 30]
+
+a.reduce(0) { |sum, v| sum + v }
+=> 6
+
+a.select { |n| n.even? }
+
+a.each_cons(2) { |v| p v }
+```
+
+###hashes
+`Hash` class
+
+_ordered_ (in the order they were added to the hash) key/value pairs, unique keys
+
+```ruby
+> h = { a: "a", b: "b" }
+
+> h.each { |k, v| puts "#{k}: #{v}"}
+a: a
+b: b
+```
+
+###ranges
+`a..b` - [a, b]
+
+`a...b` - [a, b)
+
+`begin` - a
+
+`end` 
+
+`include?` - test if an object is in the range
+
+can have ranges of integers, strings, floats(iteration is not allowed on these)
+
+can be used in a `case` statement
+```ruby
+case number
+    when 0..100 then "below 100"
+    when 101..150 then "between 101 and 150"
+    else "above 150"
+end
+```
+
+###parallel assignment and the splat operator
+parallel assignment unwraps the values to variables so can have `a, b = 1, 2`
+
+combines multiple variables into an array so `a = 1, 2, 3, 4, 5` turns a into an array: `a = [1, 2, 3, 4, 5]`
+
+discard values so `a, b = 1, 2, 3, 4` will discard 3 and 4
+
+can use `_` as _dummy_ variable: `a, _, _, b = 1, 2, 3, 4` will discard 2 and 3
+
+`*` - splat operator, accumulates elements (greedy)
+```ruby
+> a, *b = 1, 2, 3, 4
+> b
+=> [2, 3, 4]
+
+> a, *b, c = 1, 2, 3, 4
+> b
+=> [2, 3]
+
+> a, b, c = *1..3
+
+> a
+=> 1
+> c
+=> 3
+
+> first, _, _, _, last = 1, 2, *[3, 4, 5]
+> last
+=> 5
+
+> first, *, last = 1, 2, *[3, 4, 5]
+> last
+=> 5
+```
+
+splat operator also converts a range to an array
+
+```ruby
+> r = (3..5)
+> [1, 2, *r]
+=> [1, 2, 3, 4, 5]
+```
+
+splat operator works on any class that has `to_a` method
+
+```ruby
+> h = { a: "a", b: "b" }
+> [*h]
+=> [[:a, "a"], [:b, "b"]]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
