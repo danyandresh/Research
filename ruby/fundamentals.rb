@@ -197,3 +197,121 @@ receiver.__send__(h[method])
 
 puts self
 
+puts "Playing with blocks"
+
+def execute_block
+    return nil unless block_given?
+    
+    puts "Yielding to block"
+    
+    yield
+end    
+
+def execute_block_with_args
+    return nil unless block_given?
+    
+    puts "Yielding to block with arguments"
+    
+    yield :def, :splat1, :splat2, :splat3, p_keyed: :keyed, k1: :v1, k2: :v2, k3: :v3
+end    
+
+
+puts "Calling execute_block with no block to execute"
+execute_block
+puts "Call complete"
+
+puts "Calling execute_block with block to execute"
+execute_block do
+    puts "Running block"
+end
+puts "Call complete"
+
+puts "Calling execute_block with block and args to execute"
+execute_block_with_args do |p_default = :a, *p_splat, p_keyed: :b, **p_double_splat_hash|
+    puts "Running block"
+    puts "Args p_default= #{p_default}"
+    puts "Args p_splat= #{p_splat}"
+    puts "Args p_keyed= #{p_keyed}"
+    puts "Args p_double_splat_hash= #{p_double_splat_hash}"
+end
+puts "Call complete"
+
+puts "Block local variables"
+
+class BlockVariables
+    def initialize()    
+        @h1 = {k1: :a, k2: :b}
+    end
+
+    def exec_block
+        return nil unless block_given?
+        
+        yield @h1
+    end  
+
+    def local_variables
+        h2 = {k3: :c, k4: :d}
+        
+        exec_block do |h;h2|
+            h2 = {}
+            h2[:k5] = :e
+        end
+        
+        puts "@h1= #{@h1}"
+        puts "h2= #{h2}"        
+    end
+end
+
+bv = BlockVariables.new
+bv.local_variables
+
+
+puts "Block closures"
+
+class BlockClosures
+    attr_reader :v1
+    
+    def initialize()    
+        @v1 = :value1 
+    end
+
+    def exec_block
+        return nil unless block_given?
+        
+        yield
+    end      
+end
+
+bc = BlockClosures.new
+bc.exec_block do    
+    #return if bc.v1 == :value1 #this will fail as the block definition context is no longer available at execution point
+end
+
+puts "Procs"
+
+class Procs
+    attr_reader :v1
+    
+    def initialize()    
+        @v1 = :value1 
+    end
+
+    def exec_block(param = nil, &block)
+        return nil unless block_given?
+        
+        puts "Param class: #{param.class}"
+        puts "Block class: #{block.class}"
+        
+        yield
+    end      
+end
+
+bp = Procs.new
+p = proc { }#return if bp.v1 == :value1  #this will fail as the block definition context is no longer available at execution point
+bp.exec_block(&p)
+
+p = proc {|param| puts "Proc param is #{param}"}
+p.call "p.call"
+p.yield "p.yield"
+p.("p.()")
+p["p[]"]

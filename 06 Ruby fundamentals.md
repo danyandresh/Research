@@ -895,7 +895,7 @@ end
 keyword_args(5, p2: 2)
 ```
 
-_double splat_ will collect any keyword arguments that aren't specified in the definition
+`**` - _double splat_ will collect any keyword arguments that aren't specified in the definition
 
 ```ruby
 def keyword_double_splat_args(p3= 1, p1: :a, **p2)
@@ -1017,17 +1017,263 @@ can add/remove method at runtime
 
 `inherited` - method executed when a subclass of this class is created
 
+##blocks, constants, modules
+###blocks
+code between `do` - `end` (multiline blocks) or curly brackets (singleline blocks)
+
+can only pass blocks as an argument to a method
+
+block arguments are defined by `|<arguments>|` at the start of the block
+
+`yield` executes the block passed as parameter to the method
+
+block arguments can have default values, can be keyword arguments, can have array arguments (using splat)
+
+```ruby
+def execute_block
+    return nil unless block_given?
+    
+    puts "Yielding to block"
+    
+    yield
+end    
+
+def execute_block_with_args
+    return nil unless block_given?
+    
+    puts "Yielding to block with arguments"
+    
+    yield :def, :splat1, :splat2, :splat3, p_keyed: :keyed, k1: :v1, k2: :v2, k3: :v3
+end    
 
 
+puts "Calling execute_block with no block to execute"
+execute_block
+puts "Call complete"
 
+puts "Calling execute_block with block to execute"
+execute_block do
+    puts "Running block"
+end
+puts "Call complete"
 
+puts "Calling execute_block with block and args to execute"
+execute_block_with_args do |p_default = :a, *p_splat, p_keyed: :b, **p_double_splat_hash|
+    puts "Running block"
+    puts "Args p_default= #{p_default}"
+    puts "Args p_splat= #{p_splat}"
+    puts "Args p_keyed= #{p_keyed}"
+    puts "Args p_double_splat_hash= #{p_double_splat_hash}"
+end
+puts "Call complete"
+```
 
+###block local variables
+block variables shadow the variables defined in outscope
 
+can avoid fix the problem using `;` in block parameters
 
+```ruby
+exec_block do |h;h2|
+    h2 = {}
+    h2[:k5] = :e
+end
+```
 
+###using blocks
+if the block contains a return statement will execute in the context it was defined in, which could no longer exist at the time of block execution
 
+block closures cannot prevent GC collecting the objects while still referred by the block
 
+timing execution
 
+```ruby
+def measure_time
+    start = Time.now
+    if block_given?
+        yield
+        
+        puts "method took #{Time.now - start} seconds"
+    end
+end
+```
+
+transactional blocks
+```ruby
+def transactionally
+    start_transaction
+    begin
+        yield
+    rescue DBError => e
+        rollback_transaction
+        log_error e.message
+        return
+    end
+    commit_transaction
+end
+```
+
+block limitations:
+
+- can only pass one block to a method
+- blocks can't be passed around between methods
+- passing the same block to several methods isn't DRY
+- blocks are not objects
+
+###from block to proc
+prefixing a parameter with a `&` indicates that parameter is a block, not a regular parameter (this converts the block to a proc - which is an object)
+
+parameter on the callsite must be prefixed as well with `&`
+
+can use `Proc.new {<block>}` or `proc {<block>}` to create a proc
+
+invoking a proc:
+- `p.call`
+- `p.yield`
+- `p.()`
+- `p[]`
+
+###lambdas
+`lambda` is an instance of the `Proc` class, but behaves differently
+
+`lambda {(params) <block>}` - create a lambda
+
+`->(params) {<block>}` - create a _stabby_ lambda
+
+lambdas are like anonymous methods
+
+are strict about their arguments: too many or too few cause exceptions (unlike blocks and procs, which simply discard if too many or fill with nil if too few)
+
+`return` and `break` behave differently in procs and lambdas
+- `return` is executed in the scope defined for a proc
+- `break` is not allowed outside a loop (unlike with blocks)
+- should not use either in procs, and should avoid `return` in blocks
+- `return` and `break` in lambda simply returns control to the calling method
+
+###using lambdas and procs
+`arity` - returns the parameter count:
+ - the actual count if none of the params are optional
+ - negative (the number of non-optional params + 1) if any optional params
+
+procs implement `===` so can be used in `case` statements
+
+```ruby
+weekend = proc {|time| time.saturday? || time.sunday?}
+weekday = proc {|time| time.wday < 6}
+
+case Time.now
+    when weekend then puts "Weekend!"
+    when weekday puts puts "Weekday!"
+end
+```
+
+symbols can be converted into procs
+```ruby
+n = ["a", "b" , "c"]
+upper_n = n.map {|v| v.upcase}
+upper_n = n.map {&:upcase}
+```
+
+###constants
+constant names are all uppercase letters
+
+class names are constants too
+
+```irb
+irb(main):001:0> A = 1
+=> 1
+irb(main):002:0> A = 2
+(irb):2: warning: already initialized constant A
+(irb):1: warning: previous definition of A was here
+=> 2
+```
+
+`freeze` - to prevent runtime object changes (produces `RuntimeError`)
+
+can't un-freeze object
+
+`frozen?` - check whether the object is frozen
+
+freeze is shallow
+
+can access constants defined in a class by typing class name and `::` and then the constant name
+
+can add constants to a class or module the same way as accessing them
+
+method can't contain constants
+###modules
+modules are similar to classes, but can't be instantiated
+
+```ruby
+module <ModuleName>
+end
+```
+
+provide namespacing
+
+method defined a module level must be prefixed with `self.`
+
+classes from modules must use `::` same as constants
+
+```ruby
+SomeModule::SomeClass
+```
+
+modules can be nested
+
+_mixins_ help defining reusable code that can be mixed into classes later
+
+they contain instance methods (not prefixed with `self.`)
+```ruby
+module ReuseCodeMixin
+    def MethodToReuse
+    end
+end
+
+class ReusingClass
+    include ReuseCodeMixin
+end
+
+c = ReusingClass.new
+c.MethodToReuse
+```
+
+modules are part of the inheritance hierarchy
+
+```ruby
+class Class1
+    include Module1
+    include Module2
+end
+```
+has the following hierarchy: `Class1` inherits `Module2` inherits `Module1` inherits `Object`
+
+can incorporate (instance) module methods as (static) class methods by using `extend` instead of include
+
+can group methods intended to be class methods into a submodule and _extend_ the class with it while _including_ its parent module
+
+alternative to the above
+```ruby
+module Module1
+    module Module2
+        def Method2
+        end
+    end
+    
+    def self.included(base)
+        base.extend(Module2)
+    end
+    
+    def Method1
+    end
+end    
+
+class Class1
+    include Module1 #will call included() from above
+end
+```
+
+modules support attribute accessor definitions but no initialization (except the cases where methods are assigned to)
 
 
 
