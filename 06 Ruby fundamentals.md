@@ -1305,9 +1305,9 @@ can install them using `gem`
 > gem uninstall <gem name>
 ```
 
-[rubygems.org]
+[rubygems.org](http://rubygems.org)
 
-[ruby-toolbox.com] - categories for gems
+[ruby-toolbox.com](http://ruby-toolbox.com) - categories for gems
 
 `bundler` is a gem management gem
 
@@ -1375,7 +1375,7 @@ describe ClassToTest do
     end
 end
 ```
-    * `RSpec` - `gem install RSpec`; similar to descriptive minispec tests; [rspec.info]   
+    * `RSpec` - `gem install RSpec`; similar to descriptive minispec tests; [rspec.info](http://rspec.info)
     
 - behaviour driven development (BDD)
     * `Cucumber` - `gem install cucumber`: executable human readable spec
@@ -1390,7 +1390,7 @@ Given /I launch (\d+) probe(?:s*)/ do |n|
     n.to_i.times { @ship.launch_probe }
 end
 ```
-[cukes.info]
+[cukes.info](http://cukes.info)
 
 ###debugging
 `debug.rb`
@@ -1412,12 +1412,12 @@ end
     * `ocra` gem can help create an _exe_ gem
     
     ###resource
-    * [rubydoc.info] - standard library and gem documentation
-    * [rubygems.org] - gems documentation
-    * [ruby-lang.org]
-    * [ruby-toolbox.com]
-    * [rspec.info]
-    * [cukes.info]
+    * [rubydoc.info](http://rubydoc.info) - standard library and gem documentation
+    * [rubygems.org](http://rubygems.org) - gems documentation
+    * [ruby-lang.org](http://ruby-lang.org)
+    * [ruby-toolbox.com](http://ruby-toolbox.com)
+    * [rspec.info](http://rspec.info)
+    * [cukes.info](http://cukes.info)
     
 
     
