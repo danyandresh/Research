@@ -1275,6 +1275,155 @@ end
 
 modules support attribute accessor definitions but no initialization (except the cases where methods are assigned to)
 
+##more ruby
+###organizing sourcecode
+- a directory for each module(to contain classes) and corresponding `.rb` module file (to get classes together)
+- use `require absolute_path` to include a folder
+- current filder directory: `__dir__`
+
+```ruby
+require "#{__dir__}/module_name/class1"
+```
+
+- no `.rb` extension is required for classes
+
+- `require_relative` includes files relative to the current directory
+
+```ruby
+require_relative 'module_name/class1'
+```
+
+###gems
+are third party libraries
+
+can install them using `gem`
+
+```cmd
+> gem install 'wirble'
+> gem search -r log4r
+> gem list
+> gem uninstall <gem name>
+```
+
+[rubygems.org]
+
+[ruby-toolbox.com] - categories for gems
+
+`bundler` is a gem management gem
+
+gem file
+```ruby
+source 'https://rubygems.org'
+
+gem 'pg', '0.13.2'
+gem 'haml', '3.1.6'
+```
+
+`bundle install` will install the gems in the gem file
+
+###testing frameworks
+- test driven development (TDD)
+    * minitest
+```ruby
+require 'minitest/autorun'
+
+require_relative "../lib/module_to_test"
+include module_to_test
+
+class TestClassToTest < MiniTest::Unit::TestCase
+    def setup
+        @class = ClassToTest.new
+    end
+    
+    def test_method1
+        assert(@class.method1 == :value)
+    end
+    
+    def test_field
+        assert_equal(:value, @class.field1)
+    end
+    
+    def test_instance
+        assert_instance(ClassToTest, @class)
+    end
+    
+    def test_exception
+        assert_raises { nil.name }
+    end
+end
+``` 
+tests are ran automatically when rb file is ran
+
+`refute` assertions (instead of `assert`)
+ 
+spec style tests with ministest: 
+```ruby
+require 'minitest/autorun'
+
+require_relative "../lib/module_to_test"
+include module_to_test
+
+describe ClassToTest do
+    before do
+        @class = ClassToTest.new
+    end
+    
+    describe "when asked for a field" do
+        it "must provide a value" do
+            @class.field1.must_equal :value
+        end
+    end
+end
+```
+    * `RSpec` - `gem install RSpec`; similar to descriptive minispec tests; [rspec.info]   
+    
+- behaviour driven development (BDD)
+    * `Cucumber` - `gem install cucumber`: executable human readable spec
+```ruby
+Scenario: Try to launch more probes than the available number
+    Given I have 2 probes
+    And I launch 2 probes
+    When I launch 1 probe
+    Then I should be informed it isn't possible
+    
+Given /I launch (\d+) probe(?:s*)/ do |n|
+    n.to_i.times { @ship.launch_probe }
+end
+```
+[cukes.info]
+
+###debugging
+`debug.rb`
+
+`ruby -r debug class.rb`
+
+`next 1` - to step
+
+`p` - prints a variable
+
+`q` - quits
+
+###packaging
+- source control + bundler; app is hosted on a server
+- package as a gem: 
+    * `gem build <gemspec file>` - to build gem
+    * `gem install <gem file>` - install gem from file
+    * `gem server` - starts a gem server; use `gem install test_gem --source <gem server address>`
+    * `ocra` gem can help create an _exe_ gem
+    
+    ###resource
+    * [rubydoc.info] - standard library and gem documentation
+    * [rubygems.org] - gems documentation
+    * [ruby-lang.org]
+    * [ruby-toolbox.com]
+    * [rspec.info]
+    * [cukes.info]
+    
+
+    
+
+
+
 
 
 
