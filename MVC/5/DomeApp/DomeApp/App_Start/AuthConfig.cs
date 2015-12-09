@@ -26,7 +26,6 @@ namespace DomeApp
             //    appId: "",
             //    appSecret: "");
 
-            OAuthWebSecurity.RegisterGoogleClient();
             OAuthWebSecurity.RegisterYahooClient();
         }
     }
