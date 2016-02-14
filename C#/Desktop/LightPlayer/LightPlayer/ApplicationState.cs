@@ -12,7 +12,9 @@ namespace LightPlayer
 
         public ApplicationState(string nameOrConnectionString)
             : base(nameOrConnectionString)
-        { }
+        {
+            //Run 'SqlLocalDb create "v12.0" -s' to create the localDB instance
+        }
 
         public DbSet<Folder> FolderSet { get; set; }
 
