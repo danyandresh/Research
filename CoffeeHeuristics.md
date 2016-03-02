@@ -64,11 +64,3 @@ public interface CoffeeMakerAPI{
     public static final int VALVE_CLOSED = 1;
 }
 ```
-
-Exceptions:
-1. `TooMuchWaterException`, `NoWaterException`
-2. `NoFilterException`
-3. `TooMuchCoffeeException`, `NoCoffeeException`
-4. `NoFilterHolderException`, `EmptyHolderException`
-5. `BoilerEmptyException`, `ReceptacleEmptyException`
-6. ``
