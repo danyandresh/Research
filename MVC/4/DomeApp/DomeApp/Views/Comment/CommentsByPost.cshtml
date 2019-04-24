@@ -1,0 +1,54 @@
+﻿@model Tuple<BlogPost, PagedList<Comment>>
+
+@{var pagedList = Model.Item2;
+var post = Model.Item1;}
+
+<div class="clearfix"></div>
+
+@if (pagedList.TotalPages == 0)
+{
+    //TODO Move this to a resource
+    @*@: No comments just yet.*@
+}
+else
+{
+    <div id="comments">
+        <a href="#postComments">
+            <span class="glyphicon glyphicon-comment text-left"></span>
+            <span class="lead">@pagedList.Count() comments</span>
+        </a>
+        <div class="list-group">
+            @foreach (var item in pagedList)
+            {
+                <div id="comment-@item.Id" class="list-group-item">
+                    <div class="list-group-item-heading">
+                        <a href="#comment-@item.Id">
+                            <h4 class="list-group-item-heading">
+                                @item.Author.DisplayName <small>@item.CreatedDate</small>
+                            </h4>
+                        </a>
+                    </div>
+
+                    <div class="display-area list-group-item-text">
+                        @item.Content.ToSafeMarkdown()
+                    </div>
+
+                    <div class="pull-right">
+                        @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        }
+
+                        @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
+                        {
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+        </div>
+
+        @Html.Partial("Pager", new Tuple<IPagedList, string, string>(pagedList, "CommentsByPost", "comments"))
+    </div>
+}

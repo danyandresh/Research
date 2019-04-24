@@ -1,0 +1,46 @@
+﻿@model DomeApp.Models.BlogPost
+
+@{
+    ViewBag.Title = "Edit post";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+
+    <fieldset>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Html.LabelFor(model => model.Title)
+                @Html.TextAreaFor(model => model.Title, new { @class = "form-control", rows = 1 })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Html.LabelFor(model => model.Excerpt)
+                @Html.TextAreaFor(model => model.Excerpt, new { @class = "form-control", rows = 10 })
+                @Html.ValidationMessageFor(model => model.Excerpt)
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Html.LabelFor(model => model.Content)
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 30 })
+                @Html.ValidationMessageFor(model => model.Content)
+            </div>
+        </div>
+
+        <div class="pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default active" })
+            <input type="submit" value="Publish" class="btn btn-primary" />
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+}

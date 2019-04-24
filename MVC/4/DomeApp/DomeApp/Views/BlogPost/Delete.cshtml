@@ -1,0 +1,32 @@
+﻿@model DomeApp.Models.BlogPost
+
+@{
+    ViewBag.Title = "Delete a post";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Model.Title
+            </div>
+            <div class="panel-body">
+                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayFor(model => model.Excerpt)
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <span>Are you sure you want to delete his post?</span>
+            </div>
+        </div>
+
+        <div class="pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default active" })
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    </fieldset>
+}

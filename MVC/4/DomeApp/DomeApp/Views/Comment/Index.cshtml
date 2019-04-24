@@ -1,0 +1,44 @@
+﻿@model PagedList<Comment>
+
+@{
+    ViewBag.Title = "All comments";
+}
+
+<div id="comments">
+
+    <div class="page-header">
+        <h3>@ViewBag.Title</h3>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="comment">
+            <h4>
+                User /*todo: implement user*/ commented on @Html.ActionLink(@item.Post.Title, "Details", "BlogPost", new { id = item.Post.Id }, null) at @item.CreatedDate
+            </h4>
+
+            <div id="comment-@item.Id">
+                @item.Content.ToSafeMarkdown()
+            </div>
+
+            <div>
+                @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @:|
+                }
+
+                @if (@User.HasActionPermission(Request.RequestContext, "Delete"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+            </div>
+        </div>
+    }
+
+    <p>
+        Paging
+    </p>
+
+    @Html.Partial("Pager", new Tuple<IPagedList, string, string>(Model, "Index", "comments"))
+</div>

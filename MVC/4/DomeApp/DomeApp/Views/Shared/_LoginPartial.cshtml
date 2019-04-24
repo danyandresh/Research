@@ -1,0 +1,17 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <li>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            @User.Identity.Name <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu userActions">
+            @Html.Partial("_UserActions")
+        </ul>
+    </li>
+}
+else
+{
+    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </li>
+}

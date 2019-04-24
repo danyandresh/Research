@@ -1,0 +1,32 @@
+﻿@model ICollection<ExternalLogin>
+
+@if (Model.Count > 0)
+{
+
+    @*<div class="panel"></div>*@
+
+    <div class="pull-right">
+        @foreach (ExternalLogin externalLogin in Model)
+        {
+            @Html.Display(externalLogin.ProviderDisplayName)
+            if (ViewBag.ShowRemoveButton)
+            {
+                <a class="btn btn-warning" href="javascript:$('#@externalLogin.ProviderDisplayName').submit()">Remove @externalLogin.ProviderDisplayName login</a>
+            }
+        }
+    </div>
+    <div class="clearfix"></div>
+
+    foreach (ExternalLogin externalLogin in Model)
+    {
+        if (ViewBag.ShowRemoveButton)
+        {
+            using (Html.BeginForm("Disassociate", "Account", null, FormMethod.Post, new { id = externalLogin.ProviderDisplayName }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("provider", externalLogin.Provider)
+                @Html.Hidden("providerUserId", externalLogin.ProviderUserId)
+            }
+        }
+    }
+}

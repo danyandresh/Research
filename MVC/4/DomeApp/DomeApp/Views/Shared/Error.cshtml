@@ -1,0 +1,11 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error page";
+}
+
+<div class="page-header">
+    <h3>@ViewBag.Title</h3>
+</div>
+
+@Model.Exception.ToString()

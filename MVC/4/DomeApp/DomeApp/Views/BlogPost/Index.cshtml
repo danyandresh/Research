@@ -1,0 +1,27 @@
+﻿@model PagedList<BlogPost>
+@{
+    ViewBag.Title = "Posts";
+}
+<div>
+    <form method="get" action="@Url.Action("Index")"
+          data-dome-ajax="true" data-dome-target="#posts">
+        <div class="input-group">
+            <input type="text" name="search" data-dome-autocomplete="@Url.Action("Autocomplete")" class="form-control" placeholder="Search for some text" />
+            <span class="input-group-btn">
+                <input type="submit" value="@DomeApp.Views.Resources.search" class="btn btn-primary" />
+            </span>
+        </div>
+    </form>
+    <div class="clearfix">&nbsp;</div>
+    @if (@User.HasActionPermission(Request.RequestContext, "Create"))
+    {
+        <div class="pull-right">
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+        </div>
+        <div class="clearfix">&nbsp;</div>
+    }
+</div>
+
+<div>
+    @Html.Partial("PostSummary", Model)
+</div>

@@ -1,0 +1,37 @@
+﻿@model DomeApp.Models.BlogPost
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading page-header">
+        <a class="page-header">
+            <h3 class="panel-title">@Html.DisplayFor(m => m.Title)</h3>
+        </a>
+    </div>
+
+    <div class="panel-body">
+        @Model.Content.ToSafeMarkdown()
+    </div>
+
+    <div class="panel-footer pull-right">
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary active" })
+            @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+            }
+            @if (@User.HasActionPermission(Request.RequestContext, "Edit"))
+            {
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
+            }
+        </div>
+    </div>
+</div>
+<div id="postComments">
+    @Html.Action("CommentsByPost", "Comment", new { postId = Model.Id })
+
+    @Html.Action("Create", "Comment", new { postId = Model.Id })
+</div>
+
