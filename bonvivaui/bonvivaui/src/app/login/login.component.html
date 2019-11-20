@@ -1,14 +1,18 @@
-<div class="card-container">
-    <div class="card">
-        <label for="username">user</label>
-        <input id="username" type="text"/>
-    </div>
-    <div class="card">
-        <label for="password">password</label>
-        <input id="password" type="text"/>
-    </div>
-    <div class="card">        
-            <button (click)="firstClick()">login</button>
-            <!-- <a [routerLink]="['/network-size']" routerLinkActive="router-link-active" /> -->
-    </div>
+<div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="login">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput type="password" placeholder="password">
+    </mat-form-field>
+
+  </div>
+
+  <div>     
+    <button mat-raised-button  (click)="login()">
+      login
+    </button></div>
 </div>

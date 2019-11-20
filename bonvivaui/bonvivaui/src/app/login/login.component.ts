@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UsersessionService} from '../usersession.service'
 
 @Component({
   selector: 'app-login',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userSession: UsersessionService) { }
 
   ngOnInit() {
   }
 
-  firstClick() {
-    console.log('clicked');
+  login() {
+    this.userSession.login();
   }
 
 }

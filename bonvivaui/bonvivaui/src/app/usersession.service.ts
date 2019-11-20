@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class UsersessionService {
 
   constructor() { }
+  
+  login() {
+    return console.log('clicked');
+  }
 }
