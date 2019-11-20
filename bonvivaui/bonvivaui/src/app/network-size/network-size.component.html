@@ -1,3 +1,22 @@
-<div class="card card-small">
-    <span>current network size: <b>{{size}}</b></span>    
-</div>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>network</mat-card-title>
+        <mat-card-subtitle>network of friends who use bonviva</mat-card-subtitle>
+    </mat-card-header>
+    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+    <mat-card-content>
+
+        <span>current network size: <b>{{size}}</b></span>
+
+    </mat-card-content>
+    <mat-card-content>
+
+        your network of friends plays a central role in earning <> bonviva points<>. make sure your friends use it
+                to make the most of it
+
+    </mat-card-content>
+    <mat-card-actions>
+            <!-- <mat-icon class="mat-icon-rtl-mirror" svgIcon="thumb-up"></mat-icon> -->
+        <button mat-raised-button color='primary'>add more</button>
+    </mat-card-actions>
+</mat-card>
