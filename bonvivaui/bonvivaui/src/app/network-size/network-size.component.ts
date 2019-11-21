@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersessionService } from '../usersession.service'
 
 @Component({
   selector: 'app-network-size',
@@ -7,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NetworkSizeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userSession: UsersessionService) { }
 
   ngOnInit() {
+    this.userSession.getusers().then(data => {
+      data
+        console.log(data);
+        this._size = data.length;
+      
+    });
+
   }
 
-  size = 13;
+  _size = 0;
 }

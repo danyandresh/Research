@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { MatIconRegistry } from '@angular/material/icon';
     MatSortModule,
     MatButtonModule,
     MatCardModule,
+    HttpClientModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
