@@ -11,9 +11,10 @@ import { MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule } fro
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
+import { UsersessionService } from './usersession.service'
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     HttpClientModule,
     MatListModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

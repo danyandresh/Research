@@ -5,6 +5,7 @@ import { NetworkSizeComponent } from './network-size/network-size.component'
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'ns', component: NetworkSizeComponent },
 ];
 

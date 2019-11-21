@@ -14,7 +14,14 @@ export class UsersessionService {
   constructor(private router: Router, private http: HttpClient) { }
 
   _baseurl = 'http://52.169.255.164:4204/api/users/'
-  _username: String
+  public _username: String
+
+  ensureLogin() {
+    this._username = localStorage.getItem('user');
+    if (!this._username && this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
+  }
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,7 +29,7 @@ export class UsersessionService {
     })
   }
 
-  login(username: String) {
+  login(username: string) {
     this._username = username;
     console.log(username);
 
@@ -36,13 +43,15 @@ export class UsersessionService {
         catchError(this.errorHandl)
       ).subscribe(data => {
         console.log(data);
+
+        localStorage.setItem('user', this._username.toString());
         this.router.navigate(['/ns']);
       });
 
   }
 
- async getusers(): Promise<any[]> {
-
+  async getusers(): Promise<any[]> {
+    this.ensureLogin();
     // return this.http.post('http://localhost:8080/api/SaveUser/', payload)
     //   .map((response: Response) => response.json());
 
@@ -56,7 +65,7 @@ export class UsersessionService {
   }
 
   logdata(data) {
-    console.log(data);  
+    console.log(data);
   }
 
   // Error handling
