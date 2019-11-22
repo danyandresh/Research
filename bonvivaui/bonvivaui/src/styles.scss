@@ -143,3 +143,26 @@ section {
   }
 html, body { height: 100%; }
 
+.mat-card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.mat-card-content {
+  display: flex;
+  flex: 1;
+}
+
+.mat-raised-button,
+.mat-raised-button.mat-primary,
+.mat-stroked-button.mat-primary
+{
+  background-color: #000000;
+  color: aliceblue;
+  
+}
+
+.home-button{
+  width:225px;
+}

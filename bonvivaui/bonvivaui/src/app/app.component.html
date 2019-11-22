@@ -1,7 +1,9 @@
 <div class="toolbar" role="banner">
   <div class="spacer"></div>
-  <h2>{{ title }}</h2>
+  <!-- <h2>{{ title }}</h2> -->
+  <h3>myCreditSuisseCommunity</h3>
   <div class="spacer"></div>
+  <!-- <em>a Credit Suisse community</em> -->
 </div>
 
 <div class="content" role="main">
@@ -9,8 +11,15 @@
   <input type="hidden" #selection>
 
   <app-login></app-login> -->
-
-  <router-outlet></router-outlet>
+  <mat-card>
+    <router-outlet></router-outlet>
+  </mat-card>
+  <div style="margin: 5%;">
+    <button style="margin: 5px;" *ngIf="router.url != '/home' && router.url != '/' && router.url != '/login'" mat-stroked-button
+      routerLink="/home" color='primary' routerLinkActive="active"><mat-icon>home</mat-icon>home</button>
+    <button style="margin: 5px;" *ngIf="router.url != '/' && router.url != '/login'" mat-stroked-button color='primary' routerLink="/login"
+      routerLinkActive="active"><mat-icon>vpn_key</mat-icon>logout</button>
+  </div>
 </div>
 
 <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"

@@ -30,10 +30,10 @@ var Schema = mongo.Schema;
 var UsersSchema = new Schema({
     name: { type: String },
     address: { type: String },
-}, { 
+}, {
     versionKey: false,
     strict: false
- });
+});
 
 
 var model = mongo.model('users', UsersSchema, 'users');
@@ -74,7 +74,50 @@ app.get("/api/users", function (req, res) {
 })
 
 
+app.delete("/api/users", function (req, res) {
+    model.updateMany({}, { 'points': 0.0 }, (err, data) => {
+        console.log(data);
+    });
+
+    model.deleteMany({ "username": null }, (err, data) => {
+        console.log(data);
+    });
+});
+
+app.put("/api/users", function (req, res) {
+    var mod = new model(req.body);
+
+    model.updateMany({ "points": { "$exists": false } }, { 'points': 0.0 }, (err, data) => {
+
+        console.log(data);
+        model.updateMany({}, { $inc: { 'points': 1 } }, (err, data) => {
+
+            console.log(data);
+            model.updateOne({ 'username': req.body.username }, { $inc: { 'points': 5 } }, (err, data) => {
+                if (err) {
+                    res.send(err);
+                }
+                else {
+                    console.log(data);
+
+                    model.findOne({ 'username': req.body.username }, function (err, data) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        else {
+                            console.log(data);
+                            res.send(data);
+                        }
+                    });
+                }
+            });
+
+        });
+
+    });
+})
+
 app.listen(4204, "0.0.0.0", function () {
 
-    console.log('Example app listening on port 4204')
+    console.log('bonviva server app listening on port 4204')
 })  

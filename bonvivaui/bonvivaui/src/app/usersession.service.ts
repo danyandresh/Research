@@ -34,8 +34,6 @@ export class UsersessionService {
     console.log(username);
 
     var payload = JSON.stringify({ 'username': username });
-    // return this.http.post('http://localhost:8080/api/SaveUser/', payload)
-    //   .map((response: Response) => response.json());
 
     return this.http.post(this._baseurl, payload, this.httpOptions)
       .pipe(
@@ -45,19 +43,42 @@ export class UsersessionService {
         console.log(data);
 
         localStorage.setItem('user', this._username.toString());
-        this.router.navigate(['/ns']);
+        this.router.navigate(['/home']);
       });
 
   }
 
   async getusers(): Promise<any[]> {
     this.ensureLogin();
-    // return this.http.post('http://localhost:8080/api/SaveUser/', payload)
-    //   .map((response: Response) => response.json());
 
     return this.http.get<any[]>(this._baseurl, this.httpOptions)
       .pipe(
         map(item => item),
+        retry(1),
+        catchError(this.errorHandl)
+      ).toPromise();
+
+  }
+
+  async addPoints(): Promise<any> {
+    this.ensureLogin();
+
+    var payload = JSON.stringify({ 'username': this._username });
+
+    return this.http.put<any>(this._baseurl, payload, this.httpOptions)
+      .pipe(
+        map(item => item),
+        retry(1),
+        catchError(this.errorHandl)
+      ).toPromise();
+
+  }
+
+  async reset(): Promise<any> {
+    this.ensureLogin();
+
+    return this.http.delete(this._baseurl, this.httpOptions)
+      .pipe(
         retry(1),
         catchError(this.errorHandl)
       ).toPromise();

@@ -14,13 +14,17 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
-import { UsersessionService } from './usersession.service'
+import { UsersessionService } from './usersession.service';
+import { PointsComponent } from './points/points.component';
+import { HomeComponent } from './home/home.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     NetworkSizeComponent,
-    LoginComponent
+    LoginComponent,
+    PointsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
