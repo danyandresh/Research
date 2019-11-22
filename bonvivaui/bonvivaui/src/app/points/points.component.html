@@ -1,16 +1,16 @@
 
     <mat-card-header>
         
-            <mat-card-title><mat-icon>money</mat-icon>loyalty points</mat-card-title>
-            <mat-card-subtitle>points earned directly or through the network</mat-card-subtitle>
+            <mat-card-title><mat-icon>money</mat-icon>loyalty</mat-card-title>
+            <mat-card-subtitle>earned directly or through the community</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
     
-            <span>current balance: <b>{{_points}}</b></span>
+            <span>loyalty index: <b>{{_points}}</b></span>
     
         </mat-card-content>
         <mat-card-actions>
             <!-- <mat-icon class="mat-icon-rtl-mirror" svgIcon="thumb-up"></mat-icon> -->
-            <button mat-raised-button color='primary' (click)='addPoints()'><mat-icon >add</mat-icon>add more</button>
+            <button mat-raised-button color='primary' (click)='addPoints()'><mat-icon >add</mat-icon>increase</button>
             <button mat-raised-button color='primary' (click)='reset()' disabled><mat-icon >warning</mat-icon>reset</button>
         </mat-card-actions>

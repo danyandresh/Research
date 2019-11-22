@@ -16,7 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
 import { UsersessionService } from './usersession.service';
 import { PointsComponent } from './points/points.component';
-import { HomeComponent } from './home/home.component'
+import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
+import { InvestmentsComponent } from './investments/investments.component';
+import { QaComponent } from './qa/qa.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { HomeComponent } from './home/home.component'
     NetworkSizeComponent,
     LoginComponent,
     PointsComponent,
-    HomeComponent
+    HomeComponent,
+    ProductsComponent,
+    InvestmentsComponent,
+    QaComponent
   ],
   imports: [
     BrowserModule,
