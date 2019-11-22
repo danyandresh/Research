@@ -1,24 +1,28 @@
 
     <mat-card-header>
         
-        <mat-card-title><mat-icon mat-card-icon>people</mat-icon> network</mat-card-title>
-        <mat-card-subtitle>network of friends who use bonviva</mat-card-subtitle>
+        <mat-card-title><mat-icon mat-card-icon>people</mat-icon> community</mat-card-title>
+        <!-- <mat-card-subtitle>community peers who use bonviva</mat-card-subtitle> -->
     </mat-card-header>
     <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
     <mat-card-content>
 
-        <span>current network size: <b>{{_size}}</b></span>
+        <p>the community plays a central role in earning <b>loyalty points</b> and enabling <b>benefits</b> and <b>bigger opportunities</b>.
+        </p>
+
 
     </mat-card-content>
     <mat-card-content>
-
-        your network of friends plays a central role in earning <b>bonviva points</b>. make sure your friends use it
-        to make the most of it
+<!-- 
+        <span>community peers: <b>{{_size}}</b></span> -->
 
     </mat-card-content>
     <mat-card-content>
         <mat-list>
-            <h3 mat-subheader>your bonviva network</h3>
+            <!-- <h3 mat-subheader>my community peers:</h3> -->
+            
+        <h3 mat-subheader>community peers: <b>{{_size}}</b></h3>
+
             <mat-list-item *ngFor="let user of _users">
                 <mat-icon mat-list-icon>account_circle</mat-icon>
                 <h4 mat-line>{{user.username}}</h4>
