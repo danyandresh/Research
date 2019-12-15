@@ -22,3 +22,5 @@ mongodb://yell:abcsda@52.169.255.164:27017/local?authSource=admin
 
 
 "C:\Program Files\MongoDB\Server\3.2.22\bin\mongod.cfg"
+
+node server.js
